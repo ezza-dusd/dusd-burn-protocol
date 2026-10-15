@@ -8,7 +8,7 @@
 4. Official Verified Builds registration requires verification metadata and a successful remote build, not just a public repository or a local checksum.
 5. Explorer IDL metadata is a separate publication, not a program upgrade.
 
-Until the final two publications are confirmed, do not describe explorer visibility as complete. The public upgrade authority remains active; no revocation is part of this release. [Actual build results](../verification/BUILD-RESULTS.md): the fresh Windows rebuild matches, but the successful Linux Docker compilation does not match the existing executable. Official registration is blocked, not completed.
+The IDL publication is finalized; official Verified Builds registration is not complete. Do not infer explorer-specific decoding support from metadata publication alone. The public upgrade authority remains active; no revocation is part of this release. [Actual build results](../verification/BUILD-RESULTS.md): the fresh Windows rebuild matches, but the successful Linux Docker compilation does not match the existing executable. Official registration is blocked, not completed.
 
 ## Official Verified Builds
 
@@ -44,3 +44,11 @@ npx --yes @solana-program/program-metadata@0.10.1 write idl \
 ```
 
 This is an export/review command, **not authorization to broadcast**. Neither metadata authority removal/immutability nor program upgrade-authority revocation is part of this publication request. Verification/IDL registration and their exact costs must be approved separately before signing or spending mainnet SOL.
+
+### Finalized IDL publication
+
+On 15 October 2026, following explicit spending approval, four metadata-only transactions published the checked Codama IDL from commit `036282de4e7524349d1918bb18d271a1a440b2dc`: allocation/first write, second write, final write, and canonical initialization. The transactions are discoverable in the [metadata account's public history](https://explorer.solana.com/address/AwcUwoCEP2fWBwtLZwfsU9FAQE15ZVA3zM3JG9G4bhUy).
+
+Independent finalized RPC verification at slot `457316498` confirmed all four succeeded. The Program Metadata account is `AwcUwoCEP2fWBwtLZwfsU9FAQE15ZVA3zM3JG9G4bhUy`: 2,030 bytes, canonical `idl`, mutable, direct JSON/UTF-8 with zlib compression. Decompression exactly matches the public Codama JSON (SHA-256 `ab5af062a0850c79ac08536a6c147385e5b88461f4f0c064c0ec479832ac4d6e`). Its optional stored metadata authority is `None`; the program upgrade authority remains present and unchanged. No metadata-authority removal instruction was submitted.
+
+Actual cost: **0.010982640 SOL**, comprising 0.010962640 SOL deposited as metadata rent and 0.000020000 SOL in network fees. Program account bytes, ProgramData bytes (including executable and upgrade authority), and Pump sharing-configuration bytes were unchanged across publication. No burn-program call, program upgrade or creator-fee migration was submitted. Metadata availability is verified; a particular explorer's decoding UI is not guaranteed.

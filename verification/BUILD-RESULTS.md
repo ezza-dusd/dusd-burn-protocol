@@ -25,10 +25,10 @@ There is a directly observable host-dependent difference in embedded diagnostic 
 
 The string-pool layout also differs. This is a concrete Windows-versus-Linux compiler-input/output difference, not just trailing ELF zero padding. **It has not been proved that every machine-code difference is caused solely by those path strings, or that the binaries are functionally equivalent.** Hash mismatches must not be dismissed as metadata-only.
 
-No ELF byte patching, production program upgrade, changed Rust source, changed dependency lock, fee migration, verification-metadata transaction, IDL-metadata transaction or upgrade-authority revocation was performed to make verification pass.
+No ELF byte patching, production program upgrade, changed Rust source, changed dependency lock, fee migration, verification-metadata transaction or upgrade-authority revocation was performed to make verification pass. A separately approved IDL publication was subsequently finalized; see [its transaction evidence](../docs/VERIFICATION.md#finalized-idl-publication). It does not resolve the executable mismatch.
 
 ## Remaining work
 
 Investigate a fully reproducible, reviewable build environment capable of producing the existing Windows-built executable under the accepted verification workflow, including Windows target-library path conventions and compiler-host effects. A custom environment is not automatically supported by the remote verifier. Preserve the existing program; any proposal to change it requires a separate review and authorization.
 
-The official status API reported `is_verified=false` during this release. Do not upload a claim that the Linux build matches, submit a misleading remote verification job, or describe explorer verification as achieved. Separately publishing a checked IDL through Program Metadata can improve decoding without changing executable code, but requires its own reviewed transactions and approval.
+The official status API reported `is_verified=false` during this release. Do not upload a claim that the Linux build matches, submit a misleading remote verification job, or describe explorer verification as achieved. The separately approved checked IDL is now published through Program Metadata; this does not change executable code or constitute Verified Builds registration.

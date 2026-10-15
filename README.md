@@ -49,6 +49,8 @@ Pump/PumpSwap availability, supported fees/accounts, upgrade and platform powers
 - `idl/dusd_burn.json` describes the deployed three-instruction interface, errors and events. It is maintained separately and validated against source, instruction builders and finalized receipts. `idl/dusd_burn.codama.json` is the Codama representation, converted with `@codama/nodes-from-anchor` 1.5.6 for metadata consumers. The program's default **`no-idl` remains unchanged**; its legacy Anchor IDL-management handlers are disabled.
 - `verification/release.json` records source, toolchain and executable fingerprints, plus the retained public upgrade authority. It contains no signing material.
 
+The canonical Program Metadata IDL is now published on mainnet at [`AwcUwoCEP2fWBwtLZwfsU9FAQE15ZVA3zM3JG9G4bhUy`](https://explorer.solana.com/address/AwcUwoCEP2fWBwtLZwfsU9FAQE15ZVA3zM3JG9G4bhUy). Its finalized contents match the checked Codama interface. This is **not** official Verified Builds registration; that remains blocked by the Linux build mismatch. See [publication evidence](docs/VERIFICATION.md#finalized-idl-publication).
+
 ## Reproduction and inspection
 
 See [BUILD.md](BUILD.md) for pinned build inputs and [docs/VERIFICATION.md](docs/VERIFICATION.md) for the official verification workflow and publication status. With Node.js 22 or later:
