@@ -1,5 +1,7 @@
 # Verification and explorer metadata
 
+Start with [VERIFY.md](../VERIFY.md) for clean public-source Windows compilation and direct finalized-mainnet comparison. Source-manifest checks alone are not source-to-bytecode verification. This page covers the distinct official registration and IDL metadata workflows.
+
 ## Distinct claims
 
 1. The four release input hashes identify the intended mainnet source, not a devnet variant.

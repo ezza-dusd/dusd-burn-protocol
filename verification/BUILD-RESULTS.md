@@ -4,10 +4,13 @@
 
 ## Actual comparisons
 
+The historical Windows result below used the original machine's tools and registry cache. It is not independent clean-machine proof. The new public-download recipe, runner instructions and current evidence are tracked in [VERIFY.md](../VERIFY.md).
+
 | Artifact | Bytes | Full-file SHA-256 | `solana-verify` normalized hash |
 | --- | ---: | --- | --- |
 | Existing mainnet executable / retained release | 196,664 | `0d91e31a4c5bdbeec0a664be7ce3c2cc8a6e50ac6c0d09eb3bd7409cafd92774` | `a46632264d0fb2aa453db1b9573f0ec2f398a2112441ab34610252d82b9f4093` |
-| Fresh Windows rebuild from public Git commit | 196,664 | `0d91e31a4c5bdbeec0a664be7ce3c2cc8a6e50ac6c0d09eb3bd7409cafd92774` | `a46632264d0fb2aa453db1b9573f0ec2f398a2112441ab34610252d82b9f4093` |
+| Developer-machine Windows rebuild from public Git commit | 196,664 | `0d91e31a4c5bdbeec0a664be7ce3c2cc8a6e50ac6c0d09eb3bd7409cafd92774` | `a46632264d0fb2aa453db1b9573f0ec2f398a2112441ab34610252d82b9f4093` |
+| Public-download Windows recipe, fresh compiler/dependency/target directories, original PC | 196,664 | `0d91e31a4c5bdbeec0a664be7ce3c2cc8a6e50ac6c0d09eb3bd7409cafd92774` | `a46632264d0fb2aa453db1b9573f0ec2f398a2112441ab34610252d82b9f4093` |
 | Official Linux Docker source build | 196,664 | `1bc99d37bb6a21a5c6975ea74d9fe44e2edfb7ed9bc5011b9afc0c242d4270c4` | `e7f4b3cb9b936c2631b03ecb3b897b1f91baba3bfb9f0e33e91b38eb16d39e9c` |
 
 The fresh Windows build used the four production inputs extracted directly from public commit `a3f0750d53eebfd9e213317aab992e8d15c9b395`, in a new directory with the pinned offline compiler/dependencies. Later documentation-only commits retain the same four source hashes. This is real fresh compilation, not copying an earlier ELF into a build output directory.
@@ -15,6 +18,8 @@ The fresh Windows build used the four production inputs extracted directly from 
 The Linux build used official `solana-verify` 0.5.2, the pinned Agave 4.3.0 Docker image and platform-tools v1.57, architecture v0, two jobs and `no-idl`. It compiled successfully. A local HTTP-only Cargo configuration disabled HTTP multiplexing after a crates.io fetch timeout; no economic source or dependency lock was changed. The verifier supplies `--locked` itself. The exact working command is in `BUILD.md`.
 
 ## Concrete cross-platform difference
+
+The public-download recipe matched freshly fetched finalized mainnet bytes at slot `457340208`. It obtained public Agave/platform-tools/Microsoft payloads with pinned checksums; setup retries reused only those tool archives, never old Rust dependencies or compiled objects. GitHub Windows CI remains a separate, pending unrelated-machine demonstration; see [VERIFY.md](../VERIFY.md).
 
 Both executables have identical overall and section sizes, but **25,297 byte positions differ**, across `.text`, `.rodata`, `.data.rel.ro` and `.rel.dyn`.
 

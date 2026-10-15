@@ -1,5 +1,7 @@
 # Reproduce the production executable
 
+For a clean Windows setup from public downloads and a direct compiled-bytecode comparison with mainnet, follow [VERIFY.md](VERIFY.md). The command is `node scripts/verify-windows.mjs`; no private developer toolchain or dependency cache is required. Its observed result must be checked before claiming a match.
+
 The four files fingerprinted in `verification/release.json` are the **exact production build inputs**. Do not regenerate `Cargo.lock`, update dependencies, change the release profile, change the program ID, add Cargo workspace metadata, or remove `no-idl` when attempting to reproduce them.
 
 ## Pinned inputs
@@ -49,4 +51,4 @@ cargo build-sbf --manifest-path programs/dusd_burn/Cargo.toml \
   --tools-version v1.57 --features no-idl -- --locked
 ```
 
-Windows builds additionally require a compatible host MSVC linker and import libraries for procedural macros, with host-target configuration kept outside the public tree. That host setup does not alter these Rust sources or dependency lock. The original host configuration is not published because it contains machine-specific paths; do not copy operational environment files to recreate it. Compare the **stripped exported** `target/deploy/dusd_burn.so`, not the intermediate unstripped ELF. Do not deploy or upgrade any program as part of build reproduction.
+Windows builds additionally require a compatible host MSVC linker and import libraries for procedural macros. The public Windows verifier obtains pinned public tools, prepares isolated host-target configuration and generates system import libraries without copying operational files. Compare the **stripped exported** `target/deploy/dusd_burn.so`, not the intermediate unstripped ELF. Do not deploy or upgrade any program as part of build reproduction.
