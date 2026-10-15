@@ -46,7 +46,7 @@ Pump/PumpSwap availability, supported fees/accounts, upgrade and platform powers
 
 - `programs/dusd_burn/src/lib.rs` is preserved byte-for-byte from the mainnet release, including its historical development warning. That comment is not a statement about current deployment status.
 - Both Cargo manifests and `Cargo.lock` are the exact release inputs. The lock matters: some Anchor transitive macro dependencies resolve to 0.32.2 even though Anchor's direct dependencies are pinned to 0.32.1.
-- `idl/dusd_burn.json` describes the deployed three-instruction interface, errors and events. It is maintained separately and validated against source, instruction builders and finalized receipts. The program's default **`no-idl` remains unchanged**; its legacy Anchor IDL-management handlers are disabled.
+- `idl/dusd_burn.json` describes the deployed three-instruction interface, errors and events. It is maintained separately and validated against source, instruction builders and finalized receipts. `idl/dusd_burn.codama.json` is the Codama representation, converted with `@codama/nodes-from-anchor` 1.5.6 for metadata consumers. The program's default **`no-idl` remains unchanged**; its legacy Anchor IDL-management handlers are disabled.
 - `verification/release.json` records source, toolchain and executable fingerprints, plus the retained public upgrade authority. It contains no signing material.
 
 ## Reproduction and inspection
