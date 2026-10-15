@@ -2,7 +2,11 @@
 
 ## Status
 
-Official Solana Verified Builds registration is **pending**. On 15 October 2026 the public-download recipe compiled the fixed public source in a fresh source/target/Cargo-cache directory and matched finalized mainnet at slot `457340208`, on both full-file and normalized hashes. This setup used newly downloaded checksum-pinned public tools rather than the original installed toolchain; setup retries reused only those verified public archives. It still ran on the original PC, so it is not an unrelated-machine result. The GitHub Windows workflow is prepared locally but has not run: publishing it requires the repository owner's GitHub workflow-scope sign-in. No deployment or signing is part of verification.
+**Independent-host Windows reproduction succeeded.** On 15 October 2026, a fresh GitHub-hosted `windows-2022` runner compiled the fixed public Rust source using checksum-pinned public tools, a fresh Cargo registry and a fresh target directory. The [successful public run](https://github.com/ezza-dusd/dusd-burn-protocol/actions/runs/38791076864) matched independently fetched finalized mainnet ProgramData at slot `457348665`: all 196,664 bytes, full-file SHA-256 and normalized Solana executable hash. No original developer files, precompiled final ELF, private toolchain, cache, wallet or signing secrets were supplied. See the [recorded result](verification/windows-ci-result.json) and the run's `windows-verification-evidence` artifact for the raw result and compiler log.
+
+The workflow/verifier ran from public commit `57728df05d023266e9668c95363ecce09031d179`; it independently checked out compiler inputs from `72f34f97b8540066f1c84aa91d776e49a86b7479`. GitHub's Windows Server build `10.0.20348` differs from the original development machine. Two additional fresh public-tool builds on the original PC matched at slots `457340208` and `457340889`.
+
+Official Solana Verified Builds registration is **pending**. Independently hosted Windows source reproduction is now demonstrated; the official Linux/Docker remote pipeline has not reproduced this existing executable. These are distinct claims. No deployment or signing was part of verification.
 
 ## One verification command
 
@@ -58,7 +62,7 @@ See [BUILD.md](BUILD.md) for the pinned official Linux/Docker command and [verif
 
 Eight investigated Linux configurations did not match mainnet. Windows/Linux precompiled SBF standard libraries differ; aligning their diagnostic paths and constant-data sections still left code layout and relocation differences. This is not solely a README, metadata or uploader problem.
 
-A matching native Windows Actions run would establish public reproduction, but would **not by itself** complete official remote verification. The official service uses Linux/Docker. Its public API accepts a custom base image; no tested Windows-compatible image has yet reproduced this binary through that service. Official verification without an upgrade remains a possible research path, not a demonstrated result.
+The matching native Windows Actions run establishes independently hosted public reproduction, but does **not by itself** complete official remote verification. The official service uses Linux/Docker. Its public API accepts a custom base image; no tested Windows-compatible image has yet reproduced this binary through that service. Official verification without an upgrade remains a possible research path, not a demonstrated result.
 
 An in-place upgrade to the reproducible standard Linux result is a separate possible path. It would preserve the exact Rust source, Cargo inputs, instruction ABI, program ID, PDA seeds, treasury, fixed mint/pool and economic rules. It would nevertheless replace deployed executable bytes and change code layout. Functional equivalence and safety must be retested rather than inferred from unchanged source. See the [upgrade assessment](verification/LINUX-ALTERNATIVE.md).
 
