@@ -20,8 +20,8 @@ solana-verify verify-from-repo \
   --program-id 6gEeY5c75itbSwtBVszzqnvvAi2vNScMf6fN5YETvAWm \
   --commit-hash PUBLIC_COMMIT_SHA --library-name dusd_burn --mount-path . \
   --base-image solanafoundation/solana-verifiable-build@sha256:12fd4c0a0790f0fc41ef74b0cdb6bccc167ba6137eb1adb749bac649481c86bd \
-  --arch v0 --cargo-build-sbf-args="--tools-version v1.57 --features no-idl" \
-  https://github.com/ezza-dusd/dusd-burn-protocol -- --locked
+  --arch v0 --cargo-build-sbf-args="--tools-version v1.57 --features no-idl --jobs 2" \
+  https://github.com/ezza-dusd/dusd-burn-protocol
 ```
 
 **Answer NO to any request to upload on-chain verification metadata until separately authorized.** Do not use `--skip-prompt`, default signing files or an upgrade-authority key during a read-only build comparison. After a matching build, use the supported unsigned `export-pda-tx` workflow to review account creation, uploader, repository/commit/build arguments and exact fees/rent before approval. Only following finalized metadata publication should the corresponding remote verification job be submitted. A failed Docker comparison is not justification to upgrade the running program.
