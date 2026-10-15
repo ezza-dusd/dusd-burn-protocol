@@ -1,0 +1,343 @@
+{
+  "address": "6gEeY5c75itbSwtBVszzqnvvAi2vNScMf6fN5YETvAWm",
+  "metadata": {
+    "name": "dusd_burn",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Mainnet DUSD monetary program; interface transcribed from the exact deployed source and checked against instruction builders and finalized receipts. no-idl remains enabled."
+  },
+  "instructions": [
+    {
+      "name": "execute_buy_and_burn",
+      "discriminator": [
+        9,
+        157,
+        158,
+        110,
+        253,
+        32,
+        114,
+        85
+      ],
+      "accounts": [
+        {
+          "name": "caller",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "treasury",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  114,
+                  101,
+                  97,
+                  115,
+                  117,
+                  114,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "pool",
+          "writable": true,
+          "address": "2z2uBDXaAFishs6XRz2atV2Ro7jL8hfdUcKxTTfhjHDw"
+        },
+        {
+          "name": "global_config",
+          "address": "ADyA8hdefvWN2dbGGWFotbzWxrAvLW83WG6QCVXvJKqw"
+        },
+        {
+          "name": "base_mint",
+          "writable": true,
+          "address": "B8RHrVBxSjBGKqAbn1tXo6CWjvt5jFkkqjbCZtuDpump"
+        },
+        {
+          "name": "quote_mint",
+          "address": "So11111111111111111111111111111111111111112"
+        },
+        {
+          "name": "base_ata",
+          "writable": true
+        },
+        {
+          "name": "quote_ata",
+          "writable": true
+        },
+        {
+          "name": "base_vault",
+          "writable": true,
+          "address": "F65BeadRvnfMwfTK1f6VRfRagLvNVYXDBkDpRZvJVZ8u"
+        },
+        {
+          "name": "quote_vault",
+          "writable": true,
+          "address": "39S8HHKyLXw99LVD9t7kFmaJu935h9GDDaa65yGWF9YP"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "user_volume_accumulator",
+          "writable": true
+        },
+        {
+          "name": "fee_config",
+          "address": "5PHirr8joyTMp9JMm6nW7hNDVyEYdkzDqazxPD7RaTjx"
+        },
+        {
+          "name": "buyback_fee_recipient",
+          "writable": true
+        },
+        {
+          "name": "event_authority"
+        },
+        {
+          "name": "amm_program",
+          "address": "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA"
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "burn_dusd",
+      "discriminator": [
+        193,
+        234,
+        232,
+        240,
+        52,
+        87,
+        167,
+        207
+      ],
+      "accounts": [
+        {
+          "name": "caller",
+          "signer": true
+        },
+        {
+          "name": "treasury",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  114,
+                  101,
+                  97,
+                  115,
+                  117,
+                  114,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "base_mint",
+          "writable": true,
+          "address": "B8RHrVBxSjBGKqAbn1tXo6CWjvt5jFkkqjbCZtuDpump"
+        },
+        {
+          "name": "base_ata",
+          "writable": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "unwrap_quote",
+      "discriminator": [
+        228,
+        164,
+        235,
+        228,
+        105,
+        188,
+        144,
+        168
+      ],
+      "accounts": [
+        {
+          "name": "caller",
+          "signer": true
+        },
+        {
+          "name": "treasury",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  114,
+                  101,
+                  97,
+                  115,
+                  117,
+                  114,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "quote_mint",
+          "address": "So11111111111111111111111111111111111111112"
+        },
+        {
+          "name": "quote_ata",
+          "writable": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": []
+    }
+  ],
+  "events": [
+    {
+      "name": "BurnReceipt",
+      "discriminator": [
+        145,
+        99,
+        44,
+        155,
+        240,
+        87,
+        188,
+        52
+      ]
+    },
+    {
+      "name": "DusdBurnReceipt",
+      "discriminator": [
+        73,
+        142,
+        32,
+        58,
+        64,
+        225,
+        160,
+        95
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "UnexpectedAccounts",
+      "msg": "Unexpected remaining accounts"
+    },
+    {
+      "code": 6001,
+      "name": "BadMint",
+      "msg": "Wrong or unsafe mint"
+    },
+    {
+      "code": 6002,
+      "name": "BadVault",
+      "msg": "Unsafe token account"
+    },
+    {
+      "code": 6003,
+      "name": "BadAccumulator",
+      "msg": "Wrong user accumulator owner"
+    },
+    {
+      "code": 6004,
+      "name": "BelowThreshold",
+      "msg": "Less than 0.01 SOL spendable above rent"
+    },
+    {
+      "code": 6005,
+      "name": "OutputInvariant",
+      "msg": "Swap output invariant failed"
+    },
+    {
+      "code": 6006,
+      "name": "BurnInvariant",
+      "msg": "Atomic burn invariant failed"
+    },
+    {
+      "code": 6007,
+      "name": "ReserveInvariant",
+      "msg": "Treasury reserve invariant failed"
+    },
+    {
+      "code": 6008,
+      "name": "BadDiscriminator",
+      "msg": "Wrong account discriminator"
+    }
+  ],
+  "types": [
+    {
+      "name": "BurnReceipt",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "caller",
+            "type": "pubkey"
+          },
+          {
+            "name": "input_lamports",
+            "type": "u64"
+          },
+          {
+            "name": "acquired_raw",
+            "type": "u64"
+          },
+          {
+            "name": "burned_raw",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DusdBurnReceipt",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "caller",
+            "type": "pubkey"
+          },
+          {
+            "name": "burned_raw",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ]
+}

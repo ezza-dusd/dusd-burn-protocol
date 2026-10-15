@@ -1,0 +1,16 @@
+/target/
+/.cargo/
+/node_modules/
+/.local/
+*.keypair.json
+*-keypair.json
+*.env
+.env*
+*.pem
+*.key
+*.cred
+*.dpapi
+*.zip
+*.tar.gz
+*.log
+*.so

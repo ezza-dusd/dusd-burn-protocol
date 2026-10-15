@@ -1,0 +1,8 @@
+[toolchain]
+anchor_version = "0.32.1"
+
+[programs.mainnet]
+dusd_burn = "6gEeY5c75itbSwtBVszzqnvvAi2vNScMf6fN5YETvAWm"
+
+[provider]
+cluster = "mainnet"

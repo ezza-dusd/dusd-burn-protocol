@@ -1,0 +1,2 @@
+# Preserve the exact byte hashes of the deployed release inputs on every OS.
+* -text
