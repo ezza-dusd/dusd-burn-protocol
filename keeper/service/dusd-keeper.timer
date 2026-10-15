@@ -1,0 +1,11 @@
+[Unit]
+Description=Schedule independent DUSD keeper cycles
+
+[Timer]
+OnBootSec=60s
+OnUnitInactiveSec=60s
+AccuracySec=5s
+Unit=dusd-keeper.service
+
+[Install]
+WantedBy=timers.target

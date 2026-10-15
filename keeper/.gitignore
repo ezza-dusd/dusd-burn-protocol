@@ -1,0 +1,8 @@
+node_modules/
+state/
+*.log
+*keypair*.json
+keeper-gas.json
+gas.json
+.env*
+rpc.env

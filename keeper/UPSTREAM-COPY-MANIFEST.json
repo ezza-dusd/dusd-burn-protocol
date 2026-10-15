@@ -1,0 +1,45 @@
+{
+  "description": "Public protocol client modules copied without alteration; deployment-specific CLI and credentials excluded",
+  "files": [
+    {
+      "file": "builders.mjs",
+      "sha256": "de82ad90ccb0615d805176639b12548f9f3da31e14993e130c823c88bc08536a"
+    },
+    {
+      "file": "codec.mjs",
+      "sha256": "3e0865c2093e814a4f697b42a35d281262166e664b2845753beb38177d565917"
+    },
+    {
+      "file": "deps.mjs",
+      "sha256": "68daa13c641f9dc2f905c28c464f404951087b3213d75017762f62a872eaac5c"
+    },
+    {
+      "file": "state.mjs",
+      "sha256": "bada3c6f47d34a4ccc275599a2fe35e62b6e9244016f1f15911e7ee625b81ba9"
+    },
+    {
+      "file": "runner.mjs",
+      "sha256": "44e4c7cb5f68cd3ff1a3b6b89f51c41b7389ea1da777cba4c89a6b86559f97b2"
+    },
+    {
+      "file": "package.json",
+      "sha256": "d3087f83525ac14ef640a34f6239d148ae1b413ae7a076e35410a24413482818"
+    },
+    {
+      "file": "package-lock.json",
+      "sha256": "1b87cb1e0e28f9b0731d285570d345ca081fa70ac95cf46685daee6e75e9f47a"
+    },
+    {
+      "file": "idl/pump.json",
+      "sha256": "7616681ea557975f9f623ac211080f22a93060781eaf4765b0a488d980997207"
+    },
+    {
+      "file": "idl/pump_amm.json",
+      "sha256": "b7d8c57a4d9c4dd0109a9ab893052352333252d4eedced10ac091d4d66cab89b"
+    },
+    {
+      "file": "idl/pump_fees.json",
+      "sha256": "6b9fa3eccc6e06273076a47b581f9fcb9e531bb7c3c88acbcd44db55a4002b29"
+    }
+  ]
+}

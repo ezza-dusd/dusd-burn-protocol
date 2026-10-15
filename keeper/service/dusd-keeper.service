@@ -1,0 +1,28 @@
+[Unit]
+Description=DUSD permissionless keeper cycle
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=dusd-keeper
+Group=dusd-keeper
+WorkingDirectory=/opt/dusd-keeper/keeper
+Environment=KEEPER_KEYPAIR=/var/lib/dusd-keeper/gas.json
+Environment=DUSD_KEEPER_STATE=/var/lib/dusd-keeper/state
+EnvironmentFile=-/var/lib/dusd-keeper/rpc.env
+ExecStart=/usr/bin/node /opt/dusd-keeper/keeper/cli.mjs --execute
+TimeoutStartSec=5min
+UMask=0077
+LimitCORE=0
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/dusd-keeper
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+CapabilityBoundingSet=

@@ -9,6 +9,14 @@ A permissionless, on-chain monetary mechanism that converts DUSD creator revenue
 
 **[Read the Rust contract](programs/dusd_burn/src/lib.rs)** · **[Verify the deployed code](VERIFY.md)** · [Instruction interface](idl/dusd_burn.json) · [Security model](docs/SECURITY.md)
 
+## Choose your starting point
+
+- **[Run a keeper](KEEPER.md):** give your agent one public guide to inspect the client, prepare a server and use only its own gas wallet.
+- [Understand the protocol](https://dusd.fun/docs/burn-protocol): monetary policy and decentralized custody.
+- [Browse verification evidence](verification/README.md): a short index of build records and current limitations.
+
+The public keeper source lives in [`keeper/`](keeper/), separate from contract and verification material. No website archive or Rust compilation is needed to run it.
+
 ## How it works
 
 1. Public Pump and PumpSwap instructions collect DUSD creator fees and distribute native SOL to the treasury. DUSD's V2 fee-sharing configuration allocates 100% to that PDA; its ordinary fee-sharing administrator is revoked.

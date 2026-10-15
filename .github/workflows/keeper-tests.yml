@@ -1,0 +1,32 @@
+name: Public keeper tests
+on:
+  push:
+    paths:
+      - 'keeper/**'
+      - 'KEEPER.md'
+      - '.github/workflows/keeper-tests.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-24.04, windows-2022]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: keeper
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.20.0'
+      - run: npm ci --omit=dev --ignore-scripts
+      - run: npm test
+      - name: Validate example service units
+        if: runner.os == 'Linux'
+        run: systemd-analyze verify service/dusd-keeper.service service/dusd-keeper.timer
