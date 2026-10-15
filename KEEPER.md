@@ -55,7 +55,7 @@ sudo -u dusd-keeper /usr/bin/node /opt/dusd-keeper/keeper/cli.mjs \
   --new-wallet /var/lib/dusd-keeper/gas.json
 ```
 
-Verify `command -v node` resolves to `/usr/bin/node`; otherwise use its actual absolute path in the commands and service. Inspect `/opt/dusd-keeper/keeper/cli.mjs` before continuing. Code is root-owned; the service user can write only its own data directory.
+Verify `command -v node` resolves to `/usr/bin/node` before those commands; otherwise use its actual absolute path in the commands and service. Node must be installed system-wide, outside a personal home directory: the hardened service cannot access home directories. Inspect `/opt/dusd-keeper/keeper/cli.mjs` before continuing. Code is root-owned; the service user can write only its own data directory.
 
 Wallet creation is local and unfunded. It prints only the public address, writes mode 600 and refuses overwrite. Protect and back up the gas key according to your own policy. Never use creator, upgrade, production or savings keys. Keep the data directory away from public hosting and shared sync folders.
 
