@@ -4,7 +4,7 @@ Source for the operating DUSD buy-and-burn program on Solana mainnet:
 
 **`6gEeY5c75itbSwtBVszzqnvvAi2vNScMf6fN5YETvAWm`**
 
-**The program upgrade authority is retained. This program is not yet immutable.** Publishing source or matching executable bytes does not replace independent security review. Official explorer verification and metadata publication are separate steps; see [verification](docs/VERIFICATION.md).
+**The program upgrade authority is retained. This program is not yet immutable.** Publishing source or matching executable bytes does not replace independent security review. The fresh Windows source rebuild matches the mainnet executable; the successful official Linux Docker build does not. Official explorer verification is therefore **pending**, not achieved. See [actual build results](verification/BUILD-RESULTS.md) and [verification](docs/VERIFICATION.md).
 
 ## Monetary rules
 

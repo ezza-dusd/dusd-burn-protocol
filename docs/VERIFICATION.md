@@ -8,7 +8,7 @@
 4. Official Verified Builds registration requires verification metadata and a successful remote build, not just a public repository or a local checksum.
 5. Explorer IDL metadata is a separate publication, not a program upgrade.
 
-Until the final two publications are confirmed, do not describe explorer visibility as complete. The public upgrade authority remains active; no revocation is part of this release.
+Until the final two publications are confirmed, do not describe explorer visibility as complete. The public upgrade authority remains active; no revocation is part of this release. [Actual build results](../verification/BUILD-RESULTS.md): the fresh Windows rebuild matches, but the successful Linux Docker compilation does not match the existing executable. Official registration is blocked, not completed.
 
 ## Official Verified Builds
 
@@ -35,9 +35,9 @@ Publish only the checked interface. Explorer support varies with IDL format; an 
 The CLI supports unsigned export:
 
 ```sh
-program-metadata write idl \
+npx --yes @solana-program/program-metadata@0.10.1 write idl \
   6gEeY5c75itbSwtBVszzqnvvAi2vNScMf6fN5YETvAWm \
-  ./idl/dusd_burn.json \
+  ./idl/dusd_burn.codama.json \
   --rpc https://api.mainnet-beta.solana.com \
   --export FzPw22y8fMnsFYBnXh2p6sfsFzTHYLtLMWybS9d2RS2q \
   --export-encoding instruction-list --priority-fees 0
