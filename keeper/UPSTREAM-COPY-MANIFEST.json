@@ -1,5 +1,5 @@
 {
-  "description": "Public protocol client modules copied without alteration; deployment-specific CLI and credentials excluded",
+  "description": "Baseline provenance and current public hashes; runner has reviewed offchain hardening changes. Contract source is unchanged.",
   "files": [
     {
       "file": "builders.mjs",
@@ -19,7 +19,8 @@
     },
     {
       "file": "runner.mjs",
-      "sha256": "44e4c7cb5f68cd3ff1a3b6b89f51c41b7389ea1da777cba4c89a6b86559f97b2"
+      "sha256": "00530d95edd2f434f316716a4195cd18898e89fc06d6043df670eee231be8709",
+      "upstreamSha256": "44e4c7cb5f68cd3ff1a3b6b89f51c41b7389ea1da777cba4c89a6b86559f97b2"
     },
     {
       "file": "package.json",

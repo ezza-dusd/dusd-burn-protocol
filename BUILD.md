@@ -9,7 +9,7 @@ The four files fingerprinted in `verification/release.json` are the **exact prod
 - `cargo-build-sbf` **4.3.0**, platform-tools **v1.57**.
 - SBF Rust `1.95.0-dev`, commit `ae660768afd467d131776918a1627e18920b230c`.
 - Architecture **v0**; release profile; fat LTO; overflow checks; one codegen unit.
-- Anchor direct dependencies **0.32.1**; transitive versions are fixed by the supplied lock.
+- Anchor direct dependencies **0.32.1**; the locked `anchor-attribute-*`, `anchor-derive-*` and `anchor-syn` crates resolve to **0.32.2**. The supplied lockfile, not a blanket version label, fixes the complete build.
 - Library name **`dusd_burn`**; workspace root and verifier mount path **`.`**.
 - `no-idl` is both a default feature and an explicit release flag.
 

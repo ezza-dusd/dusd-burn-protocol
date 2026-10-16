@@ -12,7 +12,7 @@ node cli.mjs --check
 
 Node.js 22+ required. These commands send no transactions and open no wallet. `--execute` is a separate explicit mainnet action requiring the wallet owner's approval. There is no keeper reward.
 
-Builders, decoding, public-state checks and the durable coordinator were copied unchanged from the tested keeper. [The manifest](UPSTREAM-COPY-MANIFEST.json) records their original hashes. The portable CLI supplies gas-wallet loading and an exclusive lock. [Tests](tests/portable.test.mjs) exercise guards, receipt handling, ambiguous submissions and mocked complete cycles without live spending.
+Builders, decoding and public-state checks retain the tested baseline. The coordinator and CLI add unsigned simulation, durable signing order, dual-provider expiry recovery, explicit health status and crash-released kernel locks. [The manifest](UPSTREAM-COPY-MANIFEST.json) records baseline provenance and current hashes. Tests exercise guards, receipt handling, expiry disagreements, abrupt process death and mocked complete cycles without live spending.
 
 [Agent instructions](AGENTS.md) · [Linux service](service/dusd-keeper.service) · [Timer](service/dusd-keeper.timer) · [Contract verification](../VERIFY.md)
 

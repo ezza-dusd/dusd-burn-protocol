@@ -25,7 +25,7 @@ npm test
 node cli.mjs --check
 ```
 
-Inspect `cli.mjs`, `runner.mjs`, `builders.mjs`, `state.mjs`, `codec.mjs`, the lockfile and tests. The [copy manifest](keeper/UPSTREAM-COPY-MANIFEST.json) records the original tested module hashes. No wallets or state are shipped. Dependency lifecycle scripts are disabled, but pinned dependencies have known transitive npm advisories. Review `npm audit --omit=dev` independently; do not force major upgrades without regression testing.
+Inspect `cli.mjs`, `lock.mjs`, `runner.mjs`, `builders.mjs`, `state.mjs`, `codec.mjs`, the lockfile and tests. The [copy manifest](keeper/UPSTREAM-COPY-MANIFEST.json) records baseline provenance and the current coordinator hash. No wallets or state are shipped. Dependency lifecycle scripts are disabled, but pinned dependencies have known transitive npm advisories. Review `npm audit --omit=dev` independently; do not force major upgrades without regression testing.
 
 The check reads public mainnet state without opening a wallet. Expect `keyAccessed: false`, matching executable bytes, fixed mint and canonical pool, and revoked ordinary fee-sharing administration with 100% allocated to the treasury. A failed check is a stop condition. See [addresses](README.md#fixed-accounts) and [verification](VERIFY.md). Official Verified Builds remains pending; executable pinning is separate from that service.
 
@@ -47,15 +47,15 @@ For a new installation, create a system user without a login shell. Run the foll
 sudo useradd --system --user-group --home-dir /var/lib/dusd-keeper \
   --shell /usr/sbin/nologin dusd-keeper
 sudo install -d -o dusd-keeper -g dusd-keeper -m 700 /var/lib/dusd-keeper
-sudo cp -a ./.. /opt/dusd-keeper
-sudo chown -R root:root /opt/dusd-keeper
-sudo chmod -R a+rX,go-w /opt/dusd-keeper
+sudo /usr/bin/node scripts/install-runtime.mjs /opt/dusd-keeper
+cd /opt/dusd-keeper/keeper
+sudo /bin/sh -c 'umask 022; npm ci --omit=dev --omit=optional --ignore-scripts'
 sudo -u dusd-keeper /usr/bin/node /opt/dusd-keeper/keeper/cli.mjs --check
 sudo -u dusd-keeper /usr/bin/node /opt/dusd-keeper/keeper/cli.mjs \
   --new-wallet /var/lib/dusd-keeper/gas.json
 ```
 
-Verify `command -v node` resolves to `/usr/bin/node` before those commands; otherwise use its actual absolute path in the commands and service. Node must be installed system-wide, outside a personal home directory: the hardened service cannot access home directories. Inspect `/opt/dusd-keeper/keeper/cli.mjs` before continuing. Code is root-owned; the service user can write only its own data directory.
+Verify `command -v node` resolves to `/usr/bin/node` before those commands; otherwise use its actual absolute path in the commands and service. Node must be installed system-wide, outside a personal home directory: the hardened service cannot access home directories. The root-run installer refuses an existing destination, symlinks and untracked private/state files, then copies only an explicit public runtime allowlist. It never copies dependencies, wallet files, journals or the full checkout, and never recursively broadens file permissions. Dependencies are installed fresh with lifecycle scripts and optional native tooling disabled. Inspect `/opt/dusd-keeper/keeper/cli.mjs` before continuing. Code is root-owned; the service user can write only its own data directory.
 
 Wallet creation is local and unfunded. It prints only the public address, writes mode 600 and refuses overwrite. Protect and back up the gas key according to your own policy. Never use creator, upgrade, production or savings keys. Keep the data directory away from public hosting and shared sync folders.
 
@@ -76,7 +76,9 @@ This submits real mainnet transactions only when eligible work exists. `no-eligi
 
 The client can unwrap qualifying WSOL, collect and distribute fees, execute the purchase/full burn, or burn DUSD donations without treasury SOL. To avoid dust claims, it collects when pending fees plus native spendable treasury SOL reach 0.01 SOL. Purchase eligibility excludes required treasury rent. These scheduling choices are offchain; the contract has no cooldown.
 
-Only successful finalized receipts count. Failed simulations send nothing; failed onchain transactions roll back account changes but still cost gas. The client refuses submissions below 0.0005 SOL of caller gas, which is not a guaranteed rent allowance or a spending limit. The funded gas balance is the practical expenditure ceiling. No automatic top-ups occur.
+Only successful finalized receipts count. Simulation receives unsigned wire. After successful simulation the client signs and durably records the pending transaction before sending it anywhere. Failed onchain transactions roll back account changes but still cost gas. The client refuses submissions below 0.0005 SOL of caller gas, which is not a guaranteed rent allowance. No automatic top-ups occur.
+
+The default simulation budget is 5,000,000 lamports (0.005 SOL) of caller debit per transaction, including fees and setup rent. `KEEPER_MAX_DEBIT_LAMPORTS` changes that local budget. Priority price defaults to 1,000 micro-lamports per CU, or 400 lamports at the requested 400,000 CU limit; `KEEPER_PRIORITY_MICROLAMPORTS` accepts 0 through 25,000. A send permits at most three RPC retries of the SAME wire; future cycles reconcile it before signing a replacement. These checks are offchain, trust simulation/RPC responses, and cannot stop a lying RPC or a later hostile upstream change. Keep only a limited gas float regardless.
 
 ## 4. Enable a conservative timer
 
@@ -95,9 +97,9 @@ journalctl -u dusd-keeper.service -n 40 --no-pager
 
 The timer runs about a minute after each cycle finishes, with no overlapping service runs or aggressive automatic retries, and returns after reboot. An inactive oneshot service between runs is normal: check the timer and latest exit result. Observe one scheduled run and verify its next scheduled time. No DUSD production service is changed.
 
-Optional provider configuration goes in `/var/lib/dusd-keeper/rpc.env`, owned by the service user, mode 600, containing `SOLANA_RPC_URL=...`. The service reads it if present. Public default RPC needs no file. Do not include credential-bearing contents in reports.
+Optional provider configuration goes in `/var/lib/dusd-keeper/rpc.env`, owned by the service user, mode 600, containing `SOLANA_RPC_URL=...`. The service reads it if present. Public default RPC needs no file. `SOLANA_RECOVERY_RPC_URL` selects a second provider for expired-signature recovery and defaults to PublicNode's public mainnet endpoint. Recovery refuses the same hostname as the primary. Different hostnames do not prove independent operation: choose providers you trust. Do not include credential-bearing contents in reports.
 
-Windows/macOS can use the same CLI with a persistent scheduler and no overlapping instances; supplied service units are Linux-specific. In PowerShell set `$env:KEEPER_KEYPAIR` and `$env:DUSD_KEEPER_STATE` before `node cli.mjs --execute`. Protect Windows keys with ACLs, not Unix chmod.
+Linux and Windows are supported for live execution. They use kernel-managed IPC exclusion, automatically released on crash or reboot; `run.lock` contains diagnostic metadata only. No inbound TCP port is opened. Other operating systems may use read-only checks but must not bypass the execution lock. In PowerShell set `$env:KEEPER_KEYPAIR` and `$env:DUSD_KEEPER_STATE` before `node cli.mjs --execute`. Protect Windows keys with ACLs, not Unix chmod.
 
 ## 5. Monitor, stop and recover
 
@@ -114,11 +116,23 @@ Monitor gas balance, finalized signatures, RPC failures and `/var/lib/dusd-keepe
 | `no-eligible-work` | Healthy. Wait for the next run; another keeper may have acted first. |
 | Low gas | Ask for an external top-up within the agreed budget. Never use treasury funds. |
 | Simulation failure | No submission occurred. Inspect state and errors; do not tighten the retry loop. |
-| `awaiting-signature-review` | Preserve the journal. Inspect the exact signature at finalized commitment. Later runs reconcile it; unknown expired signatures are not automatically replaced. |
-| `EEXIST` / `run.lock` | Inspect its PID and service state. Only after confirming no keeper is running may you remove the stale lock. Never erase a pending journal. |
+| `awaiting-signature-review` | Unhealthy; exit code 2. Preserve the journal. Later runs reconcile finalized receipts or expiry using both configured providers. Errors, lagging history or disagreement retain pending state. |
+| `expired-unobserved` in the journal | Both providers reported expiry and no historical receipt. Evidence is archived, not counted as a burn. Fresh finalized protocol state is read before deciding new work. This relies on those providers, not a proof of nonexecution. |
+| `EEXIST` / already running | A kernel lock is held. Do not delete diagnostic metadata to bypass it. New-format metadata left by a crash is automatically replaced once the OS lock is free. |
 | Hash, pool, ownership or shares mismatch | Stop scheduling and investigate. Do not disable guards or accept an unexplained new hash. |
 
-A network error after submission does not prove failure. Preserve the signed pending transaction and finalized ledger across reboots and updates. Rotate logs without discarding unresolved state; do not publish journals containing pending signed transactions. Forced shutdown can leave a stale lock that intentionally requires review.
+A network error after submission does not prove failure. Preserve the signed pending transaction and finalized ledger across reboots and updates. Rotate logs without discarding unresolved state; do not publish journals containing pending signed transactions. Graceful SIGTERM/SIGINT aborts in-flight requests and stops before any next signing/submission; cleanup waits for the running cycle to unwind. Kernel locks also release on forced termination. An old pre-hardening lock with a potentially live PID requires inspection before upgrading, never blind deletion.
+
+Inspect local journal health without a key or RPC, or run explicit reconciliation without loading a wallet or sending transactions:
+
+```sh
+sudo -u dusd-keeper env DUSD_KEEPER_STATE=/var/lib/dusd-keeper/state \
+  /usr/bin/node /opt/dusd-keeper/keeper/cli.mjs --status
+sudo -u dusd-keeper env DUSD_KEEPER_STATE=/var/lib/dusd-keeper/state \
+  /usr/bin/node /opt/dusd-keeper/keeper/cli.mjs --reconcile
+```
+
+`--status` summarizes the journal, not service uptime or current chain state. Check the service's latest exit result and next timer run too. If reconciliation cannot agree, stop scheduling, check the exact signature using independent finalized RPC/explorer history, and select reliable history-capable providers before re-running `--reconcile`. Do not manually erase pending records. Normal idle execution reuses its pre-key safety snapshot instead of downloading it twice; no account-validation or executable-hash check is removed.
 
 For updates, stop scheduling, wait for the active cycle, preserve data, inspect a new pinned commit and repeat tests/checks. Do not run unattended `git pull` or automatically replace dependencies.
 

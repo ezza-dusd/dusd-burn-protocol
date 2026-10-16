@@ -15,7 +15,7 @@ test('timer schedules after completion rather than overlapping cycles', () => {
 });
 test('runbook has executable setup, approval and recovery steps', () => {
   const guide = read('../../KEEPER.md');
-  for (const text of ['git checkout --detach PINNED_COMMIT','npm ci --omit=dev --ignore-scripts','npm test','node cli.mjs --check','Approval checkpoint','--new-wallet /var/lib/dusd-keeper/gas.json','systemd-analyze verify','enable --now dusd-keeper.timer','state/journal.json','run.lock','unknown expired signatures','Handover checklist']) assert.ok(guide.includes(text), text);
+  for (const text of ['git checkout --detach PINNED_COMMIT','npm ci --omit=dev --ignore-scripts','npm test','node cli.mjs --check','Approval checkpoint','--new-wallet /var/lib/dusd-keeper/gas.json','systemd-analyze verify','enable --now dusd-keeper.timer','state/journal.json','run.lock','--reconcile','install-runtime.mjs','Handover checklist']) assert.ok(guide.includes(text), text);
   assert.ok(guide.indexOf('Approval checkpoint') < guide.indexOf('## 3. After approval'));
   assert.doesNotMatch(guide, /curl[^\n]*\|\s*(?:sh|bash)/);
 });
