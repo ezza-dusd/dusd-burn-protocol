@@ -10,7 +10,8 @@ export function installRuntime(source,destination,{requireRoot=true}={}){
   if(requireRoot)assert.equal(process.getuid?.(),0,'Run the installer with administrative approval on Linux');
   assert.ok(path.isAbsolute(destination),'Destination must be absolute');
   assert.ok(!fs.existsSync(destination),'Destination already exists; inspect it instead of overwriting');
-  const root=execFileSync('git',['rev-parse','--show-toplevel'],{cwd:source,encoding:'utf8'}).trim();
+  source=fs.realpathSync.native(source);
+  const root=fs.realpathSync.native(execFileSync('git',['rev-parse','--show-toplevel'],{cwd:source,encoding:'utf8'}).trim());
   const relative=path.relative(root,source).replaceAll('\\','/');
   assert.equal(relative,'keeper','Use the reviewed public repository keeper directory');
   const tracked=new Set(execFileSync('git',['ls-files','--','keeper'],{cwd:root,encoding:'utf8'}).trim().split(/\r?\n/).map(f=>f.slice(7)));
