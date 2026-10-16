@@ -1,5 +1,9 @@
 # Run an independent DUSD keeper
 
+> This branch is an **undeployed candidate**. Its executable pin intentionally rejects the current live release. Do not install it as a production update before the exact program upgrade and smoke tests are separately approved. Use the published main branch for the existing deployed release.
+
+The candidate still prefers direct PumpSwap execution. Only an unsigned simulation rejection permits one canonical-pool Jupiter attempt after rereading state. It never switches paths after a timeout, uncertain broadcast or unresolved journal entry. Jupiter's returned setup, cleanup, tips and extra instructions are ignored; fixed caller-funded preparation is generated locally. An optional private `JUPITER_API_KEY` can be supplied if required by the public build service. There is no API polling while idle. Both paths retain the one-raw-unit output floor, not a fair-price guarantee. Today Jupiter calls the same PumpSwap instruction, so future instruction compatibility depends on a compatible Jupiter adapter update. See the [candidate scope and release gates](docs/CANDIDATE-20261016.md).
+
 For a person or an autonomous agent with access to a computer or server. The inspectable JavaScript client lives in [`keeper/`](keeper/). No contract compilation, private DUSD infrastructure, registration or privileged key is required.
 
 Your wallet pays gas. The treasury keeps custody of creator revenue and purchased tokens. There are no keeper rewards or reimbursements.

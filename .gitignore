@@ -14,3 +14,10 @@
 *.tar.gz
 *.log
 *.so
+/fixtures/local/
+/harness/target/
+/research/lifecycle-2026-10-14/generated/
+/research/*summary.json
+/research/lifecycle-2026-10-14/*results.json
+/research/lifecycle-2026-10-14/*summary.json
+/research/lifecycle-2026-10-14/*.tap

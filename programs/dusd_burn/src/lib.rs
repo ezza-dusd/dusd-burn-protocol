@@ -13,12 +13,107 @@ pub const FEE_CONFIG: Pubkey = pubkey!("5PHirr8joyTMp9JMm6nW7hNDVyEYdkzDqazxPD7R
 pub const BASE_VAULT: Pubkey = pubkey!("F65BeadRvnfMwfTK1f6VRfRagLvNVYXDBkDpRZvJVZ8u");
 pub const QUOTE_VAULT: Pubkey = pubkey!("39S8HHKyLXw99LVD9t7kFmaJu935h9GDDaa65yGWF9YP");
 pub const MIN_SPEND: u64 = 10_000_000;
+pub const JUPITER: Pubkey = pubkey!("JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4");
 // PumpSwap rejects zero; one is the smallest positive raw DUSD amount.
 const MIN_BASE_OUTPUT: u64 = 1;
 
 #[program]
 pub mod dusd_burn {
     use super::*;
+    /// Permissionless alternative, not an administrator-controlled failover.
+    /// All route pools are fixed. Jupiter chooses execution/fees, not custody.
+    pub fn execute_jupiter_buy_and_burn<'info>(
+        ctx: Context<'_, '_, '_, 'info, JupiterBuyBurn<'info>>, route_data: Vec<u8>
+    ) -> Result<()> {
+        let mut route_data = route_data;
+        let a = ctx.accounts;
+        require!(a.treasury.data_is_empty(), BurnError::ReserveInvariant);
+        require!(a.base_mint.decimals == 6 && a.base_mint.mint_authority.is_none()
+            && a.base_mint.freeze_authority.is_none(), BurnError::BadMint);
+        check_protocol_token(&a.base_ata, a.treasury.key())?;
+        check_protocol_token(&a.quote_ata, a.treasury.key())?;
+        let floor = Rent::get()?.minimum_balance(0);
+        let treasury_before = a.treasury.lamports();
+        let input = treasury_before.checked_sub(floor).ok_or(BurnError::BelowThreshold)?;
+        require!(input >= MIN_SPEND, BurnError::BelowThreshold);
+        // Stable route_v2 header; route-plan enum bytes remain opaque to us.
+        // No local market-cap fees, AMM quote calculation, oracle or impact cap.
+        require!(route_data.len() >= 34 && route_data[..8] == [187,100,250,204,49,196,175,20], BurnError::BadRoute);
+        let quoted_input = u64::from_le_bytes(route_data[8..16].try_into().map_err(|_| BurnError::BadRoute)?);
+        require!(quoted_input == input, BurnError::BadRoute);
+        require!(route_data[26..30] == [0,0,0,0], BurnError::BadRoute); // No platform or surplus fee.
+        // Exactly one full-input hop, WSOL -> DUSD. No caller-selected
+        // intermediate assets, split routes, repeated swaps or extra pools.
+        require!(route_data.len() >= 39 && route_data[30..34] == [1,0,0,0]
+            && route_data[route_data.len()-4..] == [16,39,0,1], BurnError::BadRoute);
+        // Preserve the existing immutable one-raw-unit output floor. RTSE may
+        // guide offchain route selection, but is not an onchain price oracle.
+        route_data[16..24].copy_from_slice(&MIN_BASE_OUTPUT.to_le_bytes());
+        route_data[24..26].copy_from_slice(&0u16.to_le_bytes());
+        let remaining = ctx.remaining_accounts;
+        let required = [a.treasury.key(), a.quote_ata.key(), a.base_ata.key(), NATIVE, DUSD,
+            token::ID, token::ID, a.base_ata.key(),
+            pubkey!("D8cy77BBepLMngZx6ZukaTff5hCt1HrWyKk3Hnd9oitf"), JUPITER];
+        require!(remaining.len() >= required.len(), BurnError::BadRoute);
+        for (info, expected) in remaining.iter().zip(required) {
+            require_keys_eq!(*info.key, expected, BurnError::BadRoute);
+        }
+        let mut pool_count = 0;
+        for info in remaining {
+            require_keys_neq!(*info.key, a.caller.key(), BurnError::BadRoute);
+            if info.executable {
+                require!([JUPITER,AMM,FEES,token::ID,anchor_lang::system_program::ID,
+                    anchor_spl::associated_token::ID].contains(info.key), BurnError::BadRoute);
+            }
+            if *info.owner == AMM {
+                let data = info.try_borrow_data()?;
+                if data.len() >= 8 && data[..8] == [241,154,109,4,17,177,109,188] {
+                    require_keys_eq!(*info.key, POOL, BurnError::UnapprovedPool);
+                    pool_count += 1;
+                }
+            }
+            if *info.owner == token::ID {
+                let data = info.try_borrow_data()?;
+                if data.len() == 165 {
+                    let state = TokenAccount::try_deserialize(&mut data.as_ref())?;
+                    if state.owner == a.treasury.key() {
+                        check_protocol_token(&state, a.treasury.key())?;
+                        require!([DUSD,NATIVE].contains(&state.mint), BurnError::BadRoute);
+                        require_keys_eq!(*info.key, anchor_spl::associated_token::get_associated_token_address(
+                            &a.treasury.key(), &state.mint), BurnError::BadRoute);
+                    }
+                }
+            }
+        }
+        require!(pool_count > 0, BurnError::UnapprovedPool);
+        let before_base = a.base_ata.amount;
+        let before_quote = a.quote_ata.amount;
+        let bump = [ctx.bumps.treasury];
+        let seeds: &[&[u8]] = &[b"treasury", &bump];
+        invoke_signed(&system_instruction::transfer(&a.treasury.key(), &a.quote_ata.key(), input),
+            &[a.treasury.to_account_info(), a.quote_ata.to_account_info(), a.system_program.to_account_info()], &[seeds])?;
+        token::sync_native(CpiContext::new(a.token_program.to_account_info(), SyncNative { account: a.quote_ata.to_account_info() }))?;
+        let metas = remaining.iter().map(|info| {
+            let signer = *info.key == a.treasury.key();
+            if info.is_writable { AccountMeta::new(*info.key, signer) }
+            else { AccountMeta::new_readonly(*info.key, signer) }
+        }).collect();
+        let mut infos = remaining.to_vec();
+        infos.push(a.jupiter_program.to_account_info());
+        invoke_signed(&Instruction { program_id:JUPITER, accounts:metas, data:route_data }, &infos, &[seeds])?;
+        a.base_ata.reload()?;a.quote_ata.reload()?;
+        require_keys_eq!(*a.treasury.owner, anchor_lang::system_program::ID, BurnError::ReserveInvariant);
+        require!(a.treasury.data_is_empty(), BurnError::ReserveInvariant);
+        check_protocol_token(&a.base_ata, a.treasury.key())?;
+        check_protocol_token(&a.quote_ata, a.treasury.key())?;
+        let acquired = a.base_ata.amount.checked_sub(before_base).ok_or(BurnError::OutputInvariant)?;
+        require!(acquired >= MIN_BASE_OUTPUT && a.quote_ata.amount >= before_quote, BurnError::OutputInvariant);
+        let burned = burn_entire_dusd(&mut a.base_mint, &mut a.base_ata,
+            a.treasury.to_account_info(), a.token_program.to_account_info(), ctx.bumps.treasury)?;
+        require!(a.treasury.lamports() == treasury_before-input && a.treasury.lamports() >= floor, BurnError::ReserveInvariant);
+        emit!(BurnReceipt {caller:a.caller.key(),input_lamports:input,acquired_raw:acquired,burned_raw:burned});
+        Ok(())
+    }
     pub fn execute_buy_and_burn(mut ctx: Context<BuyBurn>) -> Result<()> {
         require!(ctx.remaining_accounts.is_empty(), BurnError::UnexpectedAccounts);
         let a = &mut ctx.accounts;
@@ -77,6 +172,12 @@ pub mod dusd_burn {
         data.extend_from_slice(&input.to_le_bytes());data.extend_from_slice(&MIN_BASE_OUTPUT.to_le_bytes());
         invoke_signed(&Instruction {program_id:AMM,accounts:metas,data}, &infos, &[seeds])?;
         a.base_ata.reload()?;a.quote_ata.reload()?;
+        // Local review candidate only: protect protocol-owned custody after CPI.
+        require_keys_eq!(*a.treasury.owner, anchor_lang::system_program::ID, BurnError::ReserveInvariant);
+        require!(a.treasury.data_is_empty(), BurnError::ReserveInvariant);
+        require!(a.base_ata.owner == a.treasury.key() && a.quote_ata.owner == a.treasury.key(), BurnError::BadVault);
+        require!(a.base_ata.delegate.is_none() && a.base_ata.close_authority.is_none()
+            && a.quote_ata.delegate.is_none() && a.quote_ata.close_authority.is_none(), BurnError::BadVault);
         let acquired=a.base_ata.amount.checked_sub(before_base).ok_or(BurnError::OutputInvariant)?;
         require!(acquired >= MIN_BASE_OUTPUT && a.quote_ata.amount >= before_quote, BurnError::OutputInvariant);
         // All DUSD in this designated account is protocol burn inventory,
@@ -109,6 +210,29 @@ pub mod dusd_burn {
             account:ctx.accounts.quote_ata.to_account_info(), destination:ctx.accounts.treasury.to_account_info(),
             authority:ctx.accounts.treasury.to_account_info()}, &[seeds]))
     }
+}
+
+fn check_protocol_token(account: &TokenAccount, authority: Pubkey) -> Result<()> {
+    require_keys_eq!(account.owner, authority, BurnError::BadVault);
+    require!(account.delegate.is_none() && account.close_authority.is_none(), BurnError::BadVault);
+    Ok(())
+}
+
+#[derive(Accounts)]
+pub struct JupiterBuyBurn<'info> {
+    #[account(mut)] pub caller: Signer<'info>,
+    #[account(mut,seeds=[b"treasury"],bump)] pub treasury: SystemAccount<'info>,
+    #[account(mut,address=DUSD)] pub base_mint: Box<Account<'info,Mint>>,
+    #[account(address=NATIVE)] pub quote_mint: Box<Account<'info,Mint>>,
+    #[account(init_if_needed,payer=caller,associated_token::mint=base_mint,associated_token::authority=treasury)]
+    pub base_ata: Box<Account<'info,TokenAccount>>,
+    #[account(init_if_needed,payer=caller,associated_token::mint=quote_mint,associated_token::authority=treasury)]
+    pub quote_ata: Box<Account<'info,TokenAccount>>,
+    pub token_program: Program<'info,Token>,
+    pub system_program: Program<'info,System>,
+    pub associated_token_program: Program<'info,AssociatedToken>,
+    /// CHECK: fixed executable router, never caller-selected.
+    #[account(address=JUPITER,executable)] pub jupiter_program: UncheckedAccount<'info>,
 }
 
 // Shared policy: zero is a harmless no-op; positive balance is burned in full.
@@ -195,4 +319,6 @@ pub enum BurnError {
     #[msg("Atomic burn invariant failed")] BurnInvariant,
     #[msg("Treasury reserve invariant failed")] ReserveInvariant,
     #[msg("Wrong account discriminator")] BadDiscriminator,
+    #[msg("Invalid Jupiter route or account privileges")] BadRoute,
+    #[msg("Route contains a pool outside the immutable allowlist")] UnapprovedPool,
 }

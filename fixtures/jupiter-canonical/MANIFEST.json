@@ -1,0 +1,30 @@
+{
+  "at": "2026-10-16T20:47:23.822Z",
+  "slot": 457775786,
+  "programs": [
+    {
+      "address": "JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4",
+      "file": "JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4.so",
+      "programData": "4Ec7ZxZS6Sbdg5UGSLHbAnM7GQHp2eFd4KYWRexAipQT",
+      "sha256": "099da3a26d336aa7174960f057546f192fc1ccda8e3e9d1b4aa5c69fa8a79a5f",
+      "bytes": 2892224,
+      "readSlot": 457775787
+    }
+  ],
+  "url": "https://api.jup.ag/swap/v2/build?inputMint=So11111111111111111111111111111111111111112&outputMint=B8RHrVBxSjBGKqAbn1tXo6CWjvt5jFkkqjbCZtuDpump&amount=10000000&taker=HDwArc1qjz8AQt6J2fDcqoBc3MCxWh5whGYusnBxr3di&destinationTokenAccount=EycdnyeQjfoSvbTEhsA8oGNfDhAmMDg3KUSAGVgrLr89&dexes=Pump.fun+Amm&onlyDirectRoutes=true&slippageBps=100&platformFeeBps=0&maxAccounts=64",
+  "route": [
+    {
+      "percent": 100,
+      "bps": 10000,
+      "swapInfo": {
+        "ammKey": "2z2uBDXaAFishs6XRz2atV2Ro7jL8hfdUcKxTTfhjHDw",
+        "label": "Pump.fun Amm",
+        "inputMint": "So11111111111111111111111111111111111111112",
+        "outputMint": "B8RHrVBxSjBGKqAbn1tXo6CWjvt5jFkkqjbCZtuDpump",
+        "inAmount": "10000000",
+        "outAmount": "5354412101"
+      }
+    }
+  ],
+  "transactionsSubmitted": 0
+}

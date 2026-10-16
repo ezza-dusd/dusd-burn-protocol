@@ -1,0 +1,14 @@
+{
+  "status": "UNDEPLOYED CANDIDATE; not the live mainnet release",
+  "programId": "6gEeY5c75itbSwtBVszzqnvvAi2vNScMf6fN5YETvAWm",
+  "sourceHashes": {
+    "programs/dusd_burn/src/lib.rs": "e8bf25b626a490d8dd89fdb8e76feea12b295e05cae9189a2b79c1422a579ea7",
+    "programs/dusd_burn/Cargo.toml": "5abae2b6ed4f0ce074cab43c86a00851c32b0e61ba9f83fd30ac6a3a3fc93065",
+    "Cargo.toml": "d70f36b77f1c63e13962d310c0ed76997f4b712aff3d0ac63eaadf039773beb0",
+    "Cargo.lock": "eeaf52a2aee06f3edda3d9b53365f2218ff76b8227279f83dc9c150b56cb244a"
+  },
+  "binarySha256": "39cccb5c353c4b519aec1f2397c7dc068b3e492c83a3cdfc5a309cddaf8f9659",
+  "binaryBytes": 230456,
+  "authorityChanges": 0,
+  "mainnetTransactions": 0
+}

@@ -6,12 +6,15 @@ import {setTimeout as pause} from 'node:timers/promises';
 import {web3,bs58} from './deps.mjs';
 import {ids,MIN,assertMigrated,collection,buyBurn,burn,unwrap} from './builders.mjs';
 import {snapshot,chooseBuyback} from './state.mjs';
+import {canonicalAlternative} from './jupiter.mjs';
+export class SimulationRejected extends Error {}
 const MAINNET='5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d';
 const stringify=v=>JSON.stringify(v,(_,x)=>typeof x==='bigint'?x.toString():x,2);
 
 export class Keeper {
-  constructor({connection, recoveryConnection, signer, stateDirectory, inspect=snapshot, feeRecipient=chooseBuyback, signal, priorityMicroLamports=1000, maxDebitLamports=5000000}) {
+  constructor({connection, recoveryConnection, signer, stateDirectory, inspect=snapshot, feeRecipient=chooseBuyback, alternative=canonicalAlternative, signal, priorityMicroLamports=1000, maxDebitLamports=5000000}) {
     Object.assign(this,{c:connection,recoveryConnection,signer,dir:stateDirectory,inspect,feeRecipient,signal,priorityMicroLamports,maxDebitLamports});
+    this.alternative=alternative;
     assert.ok(Number.isSafeInteger(priorityMicroLamports)&&priorityMicroLamports>=0&&priorityMicroLamports<=25000,'Priority price must be 0..25000 micro-lamports/CU');
     assert.ok(Number.isSafeInteger(maxDebitLamports)&&maxDebitLamports>=5000,'Invalid maximum caller debit');
     this.file=path.join(this.dir,'journal.json');
@@ -86,7 +89,7 @@ export class Keeper {
     const before=await this.c.getBalance(this.signer.publicKey,'confirmed');
     const sim=await this.c.simulateTransaction(web3.VersionedTransaction.deserialize(unsigned),{
       sigVerify:false,commitment:'confirmed',accounts:{encoding:'base64',addresses:[this.signer.publicKey.toBase58()]}});
-    this.checkAbort();if(sim.value.err)throw Error('Simulation rejected '+kind+' '+JSON.stringify(sim.value.err));
+    this.checkAbort();if(sim.value.err)throw new SimulationRejected('Simulation rejected '+kind+' '+JSON.stringify(sim.value.err));
     const after=sim.value.accounts?.[0];
     assert.ok(after&&Number.isSafeInteger(before)&&Number.isSafeInteger(after.lamports),'Simulation missing caller balance');
     assert.ok(after.owner===web3.SystemProgram.programId.toBase58(),'Simulation changes gas-wallet ownership');
@@ -116,7 +119,16 @@ export class Keeper {
     if(s.wsol>=MIN)await run('unwrap',[unwrap(this.signer.publicKey)]);
     const spendable=()=>s.native>s.rent?s.native-s.rent:0n;
     if(s.fees>0n&&spendable()+s.fees>=MIN)await run('collect',collection(this.signer.publicKey));
-    if(spendable()>=MIN)await run('buy-and-full-burn',[buyBurn(this.signer.publicKey,await this.feeRecipient(this.c,s))]);
+    if(spendable()>=MIN){
+      try{await run('buy-and-full-burn',[buyBurn(this.signer.publicKey,await this.feeRecipient(this.c,s))]);}
+      catch(e){
+        // Only a rejected UNSIGNED simulation permits a second path. A send,
+        // timeout, finalized failure or uncertain signature never enters here.
+        if(!(e instanceof SimulationRejected)||j.pending||this.read().pending)throw e;
+        sent--;s=await this.inspect(this.c);assertMigrated(s.sharing);this.checkAbort();
+        if(spendable()>=MIN)await run('jupiter-canonical-buy-and-full-burn',await this.alternative(this.c,s,this.signer.publicKey,{signal:this.signal}));
+      }
+    }
     else if(s.dusd>0n)await run('standalone-full-burn',[burn(this.signer.publicKey)]);
     delete j.lastWait;j.lastRun={at:new Date().toISOString(),slot:s.slot,transactions:sent,remainingCreatorFees:s.fees.toString(),nativeTreasury:s.native.toString(),dusd:s.dusd.toString()};
     this.save(j);return {outcome:sent?'completed':'no-eligible-work',healthy:true,...j.lastRun};

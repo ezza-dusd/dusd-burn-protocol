@@ -1,0 +1,20 @@
+[package]
+name = "dusd-svm-harness"
+version = "0.1.0"
+edition = "2021"
+autobins = false
+[[bin]]
+name = "dusd-svm-harness"
+path = "src/main.rs"
+[workspace]
+[dependencies]
+litesvm = { version = "=0.18.0", features = ["serde"] }
+solana-account = "4"
+solana-address = "2.7"
+solana-transaction = { version = "4", features = ["verify"] }
+solana-rent = "4"
+solana-clock = "=3.2.1"
+serde_json = "1"
+base64 = "0.22"
+wincode = "=0.6.1"
+blake3 = { version = "1", features = ["pure"] }

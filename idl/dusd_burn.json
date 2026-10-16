@@ -4,7 +4,7 @@
     "name": "dusd_burn",
     "version": "0.1.0",
     "spec": "0.1.0",
-    "description": "Mainnet DUSD monetary program; interface transcribed from the exact deployed source and checked against instruction builders and finalized receipts. no-idl remains enabled."
+    "description": "UNDEPLOYED candidate interface. Historical mainnet release remains separately pinned. Hand-transcribed interface checked against local execution."
   },
   "instructions": [
     {
@@ -221,6 +221,63 @@
         }
       ],
       "args": []
+    },
+    {
+      "name": "execute_jupiter_buy_and_burn",
+      "discriminator": [
+        12,
+        38,
+        36,
+        203,
+        12,
+        133,
+        23,
+        47
+      ],
+      "accounts": [
+        {
+          "name": "caller",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "treasury",
+          "writable": true
+        },
+        {
+          "name": "base_mint",
+          "writable": true
+        },
+        {
+          "name": "quote_mint"
+        },
+        {
+          "name": "base_ata",
+          "writable": true
+        },
+        {
+          "name": "quote_ata",
+          "writable": true
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "system_program"
+        },
+        {
+          "name": "associated_token_program"
+        },
+        {
+          "name": "jupiter_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "route_data",
+          "type": "bytes"
+        }
+      ]
     }
   ],
   "events": [
@@ -296,6 +353,16 @@
       "code": 6008,
       "name": "BadDiscriminator",
       "msg": "Wrong account discriminator"
+    },
+    {
+      "code": 6009,
+      "name": "BadRoute",
+      "msg": "Invalid Jupiter route or account privileges"
+    },
+    {
+      "code": 6010,
+      "name": "UnapprovedPool",
+      "msg": "Route contains a pool outside the immutable allowlist"
     }
   ],
   "types": [

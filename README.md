@@ -1,5 +1,7 @@
 # DUSD Burn Protocol
 
+> **Undeployed review candidate (16 October 2026).** This branch adds canonical-pool-only Jupiter execution and post-CPI custody checks. It is not the current mainnet binary and must not be used as evidence of a deployed upgrade. See [candidate specification and readiness](docs/CANDIDATE-20261016.md). The historical live-release manifest remains in `verification/release.json`; the new candidate has a separate manifest in `verification/candidate/release.json`. No upgrade or authority revocation has been performed.
+
 A permissionless, on-chain monetary mechanism that converts DUSD creator revenue into purchases and permanent token burns.
 
 | Mainnet identity | Address |
