@@ -2,8 +2,9 @@ import test from 'node:test';import assert from 'node:assert/strict';import fs f
 import {web3,token} from '../tools/deps.mjs';
 import {treasury,baseMint,baseAta,quoteAta,jupiterBuyBurnInstruction,burnDusdInstruction,buyBurnInstruction,pool,accumulator} from '../tools/client.mjs';
 import {callerFundedPreparation} from '../keeper/jupiter.mjs';
+import {feeInstructions,finalizeTestShares} from '../tools/claims.mjs';
 process.env.REVIEW_JUPITER_FIXTURES='1';
-const {AuditVM,ROOT,floor,bytes,amount,cleanSandbox}=await import('../tools/audit-vm.mjs');
+const {AuditVM,ROOT,floor,bytes,amount,cleanSandbox,key}=await import('../tools/audit-vm.mjs');
 const build=JSON.parse(fs.readFileSync(ROOT+'/fixtures/jupiter-canonical/pump.json'));
 const results={at:new Date().toISOString(),scope:'local copied Jupiter and Pump binaries only',receipts:[]};
 function edit(f){
@@ -12,7 +13,7 @@ function edit(f){
   if([baseAta.toBase58(),quoteAta.toBase58()].includes(v.pubkey)){const b=bytes(v.account);b.writeBigUInt64LE(0n,64);v.account.data[0]=b.toString('base64');if(v.pubkey===quoteAta.toBase58())v.account.lamports=Number(b.readBigUInt64LE(113));}
  }
 }
-async function fork(fn,extra=()=>{}){const vm=await AuditVM.start(f=>{edit(f);extra(f);});try{return await fn(vm);}finally{vm.close();}}
+async function fork(fn,extra=()=>{}){const vm=await AuditVM.start((f,caller)=>{edit(f);extra(f,caller);});try{return await fn(vm);}finally{vm.close();}}
 async function state(vm){const[t,m,b,q]=await vm.accounts([treasury,baseMint,baseAta,quoteAta]);return {native:BigInt(t?.lamports??0),supply:bytes(m).readBigUInt64LE(36),dusd:b?amount(b):0n,wsol:q?amount(q):0n};}
 function record(name,r){results.receipts.push({name,...r});return r;}
 async function rejected(vm,name,ix,options){const before=await vm.snapshot(),r=record(name,await vm.send([ix],vm.caller,options));assert.notEqual(r.error,null);assert.deepEqual(await vm.snapshot(),before);return r;}
@@ -34,6 +35,17 @@ test('canonical-only Jupiter CPI integration',async t=>{
  await t.test('five consecutive purchases by unrelated wallets',()=>fork(async vm=>{
   const ids=new Set();for(let i=0;i<5;i++){const k=web3.Keypair.generate();ids.add(k.publicKey.toBase58());assert.equal((await vm.ask('airdrop',{address:k.publicKey.toBase58(),lamports:100_000_000})).error,null);await vm.fund(10_000_000n);await purchase(vm,'unrelated Jupiter caller '+i,build,k);}assert.equal(ids.size,5);
  }));
+ await t.test('three full fee-generation, collection, native distribution and Jupiter burn cycles',()=>fork(async vm=>{
+  const finalization=record('LOCAL-ONLY fee-sharing setup',await vm.send(finalizeTestShares(vm.caller.publicKey,key('rewardWallet'))));assert.equal(finalization.error,null,JSON.stringify(finalization));
+  for(let i=0;i<3;i++){
+   const trade=await vm.direct(10_000_000_000n);assert.equal(trade.error,null);
+   const collector=web3.Keypair.generate();assert.equal((await vm.ask('airdrop',{address:collector.publicKey.toBase58(),lamports:100_000_000})).error,null);
+   const f=feeInstructions(collector.publicKey),before=await state(vm);
+   const collected=record('Jupiter lifecycle fee collection '+i,await vm.send([f.curveSweep,f.poolSweep,f.transfer,f.distribute],collector));assert.equal(collected.error,null,JSON.stringify(collected));
+   const funded=await state(vm);assert.ok(funded.native>before.native);const input=funded.native-floor;assert.ok(input>=10_000_000n);
+   await purchase(vm,'complete fee-to-Jupiter-burn cycle '+i,changedBytes(d=>d.writeBigUInt64LE(input,8)),collector);
+  }
+ },(f,caller)=>{const v=Object.values(f).find(v=>v.pubkey===key('sharingConfig').toBase58());const b=bytes(v.account);caller.toBuffer().copy(b,43);v.account.data[0]=b.toString('base64');}));
  await t.test('standalone real donation burn after Jupiter with no spendable SOL',()=>fork(async vm=>{
   await vm.fund(10_000_000n);await purchase(vm,'before standalone');
   const bought=await vm.direct(100_000_000n);assert.equal(bought.error,null,JSON.stringify(bought,(_,v)=>typeof v==='bigint'?v.toString():v));

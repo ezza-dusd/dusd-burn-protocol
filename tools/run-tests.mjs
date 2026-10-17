@@ -5,6 +5,7 @@ import {WebSocketServer} from 'ws';import bs58 from 'bs58';import {web3} from '.
 import {verifyArtifacts} from './artifacts.mjs';
 verifyArtifacts(); // Reject corrupted/mixed upstream snapshots before starting the VM.
 const root=fs.realpathSync(new URL('../',import.meta.url));
+fs.mkdirSync(root+'/research/lifecycle-2026-10-14',{recursive:true});
 const executable=process.platform==='win32'?root+'/harness/target/debug/dusd-svm-harness.exe':root+'/harness/target/debug/dusd-svm-harness';
 if(!fs.existsSync(executable))throw new Error('Build the local LiteSVM harness first.');
 const vm=spawn(executable,[root],{stdio:['pipe','pipe','inherit'],windowsHide:true});
