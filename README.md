@@ -70,3 +70,7 @@ The [canonical on-chain IDL](https://explorer.solana.com/address/AwcUwoCEP2fWBwt
 Trustless execution under today's deployed rules is distinct from permanently fixed rules. The same-program upgrade is complete with authority retained. Permanent revocation remains a separate explicit decision after live evidence, official verification and independent keeper operation are reviewed.
 
 Pump/PumpSwap availability, upgrades and platform-level fee-routing powers remain external dependencies. The one-unit minimum deliberately does not promise a fair execution price or protection from MEV. An upstream failure or transaction-limit violation rolls back the transaction; the caller still pays its network fee. Indexers must count only successful, finalized burns, not events emitted by a transaction that later fails. Detailed assumptions and recovery limits are in [SECURITY.md](docs/SECURITY.md).
+
+## Optional contributions
+
+Creator fees are the normal funding source. As an optional extra, native SOL sent to the treasury can fund an eligible purchase, and DUSD in its designated account can be burned separately. See the [contribution reference](docs/DONATIONS.md) for addresses and wallet handling. A transfer is not itself a burn.
