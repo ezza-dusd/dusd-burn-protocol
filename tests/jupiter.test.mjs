@@ -56,12 +56,15 @@ test('canonical-only Jupiter CPI integration',async t=>{
  for(const n of [0n,9_999_999n])await t.test('threshold rejects '+n,()=>fork(async vm=>{await vm.fund(n);await rejected(vm,'threshold '+n,jupiterBuyBurnInstruction(vm.caller.publicKey,build));}));
  for(const n of [10_000_001n,1_000_000_000n,1_000_000_000_000n])await t.test('exact current input '+n,()=>fork(async vm=>{await vm.fund(n);await purchase(vm,'input '+n,changedBytes(b=>b.writeBigUInt64LE(n,8)));}));
  for(const[name,fn]of [
-  ['wrong discriminator',b=>b[0]^=1],['stale input',b=>b.writeBigUInt64LE(9_999_999n,8)],
+  ['wrong discriminator',b=>b[0]^=1],
   ['platform fee',b=>b.writeUInt16LE(1,26)],['surplus fee',b=>b.writeUInt16LE(1,28)],
   ['multiple hops',b=>b.writeUInt32LE(2,30)],['partial allocation',b=>b.writeUInt16LE(9999,b.length-4)],
   ['wrong source index',b=>b[b.length-2]=1],['wrong destination index',b=>b[b.length-1]=0],
   ['unsupported adapter',b=>b[34]=255]
  ])await t.test('reject '+name,()=>fork(async vm=>{await vm.fund(10_000_000n);await rejected(vm,name,jupiterBuyBurnInstruction(vm.caller.publicKey,changedBytes(fn)));}));
+ await t.test('caller input cannot limit or increase spending; newly arrived native SOL is used',async()=>{
+  for(const requested of [0n,9_999_999n,(1n<<64n)-1n])await fork(async vm=>{await vm.fund(10_000_001n);await purchase(vm,'onchain input overrides '+requested,changedBytes(b=>b.writeBigUInt64LE(requested,8)));});
+ });
  for(const[index,name]of [[0,'trader'],[1,'source'],[2,'destination'],[3,'input mint'],[4,'output mint'],[8,'event authority'],[10,'external program'],[11,'pool'],[18,'base vault'],[19,'quote vault'],[25,'fee recipient']])await t.test('reject substituted '+name,()=>fork(async vm=>{await vm.fund(10_000_000n);await rejected(vm,name,jupiterBuyBurnInstruction(vm.caller.publicKey,changedAccount(index,web3.Keypair.generate().publicKey)));}));
  await t.test('reject using caller as route recipient',()=>fork(async vm=>{await vm.fund(10_000_000n);await rejected(vm,'caller recipient',jupiterBuyBurnInstruction(vm.caller.publicKey,changedAccount(25,vm.caller.publicKey)));}));
  await t.test('outdated quote does not impose a price cap',()=>fork(async vm=>{await vm.fund(10_000_000n);await purchase(vm,'huge quoted output normalized',changedBytes(b=>{b.writeBigUInt64LE((1n<<64n)-1n,16);b.writeUInt16LE(100,24);}));}));
@@ -84,6 +87,6 @@ test('canonical-only Jupiter CPI integration',async t=>{
  await t.test('40 truncated route payloads and 80 deterministic header mutations fail atomically',()=>fork(async vm=>{
   await vm.fund(10_000_000n);const original=Buffer.from(build.swapInstruction.data,'base64');
   for(let n=0;n<40;n++){const b=structuredClone(build);b.swapInstruction.data=original.subarray(0,n).toString('base64');await rejected(vm,'truncated route '+n,jupiterBuyBurnInstruction(vm.caller.publicKey,b));}
-  let seed=0x44555344;for(let n=0;n<80;n++){seed=(Math.imul(seed,1664525)+1013904223)>>>0;const at=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,26,27,28,29,30,31,32,33,36,37,38,39][seed%28];const b=changedBytes(d=>d[at]^=1+(seed%255));await rejected(vm,'mutated header '+n,jupiterBuyBurnInstruction(vm.caller.publicKey,b));}
+  let seed=0x44555344;const slots=[0,1,2,3,4,5,6,7,26,27,28,29,30,31,32,33,36,37,38,39];for(let n=0;n<80;n++){seed=(Math.imul(seed,1664525)+1013904223)>>>0;const at=slots[seed%slots.length];const b=changedBytes(d=>d[at]^=1+(seed%255));await rejected(vm,'mutated header '+n,jupiterBuyBurnInstruction(vm.caller.publicKey,b));}
  }));
 });

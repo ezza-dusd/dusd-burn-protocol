@@ -4,7 +4,7 @@ Nothing in this file authorizes signing, funding, upgrading, fee migration or re
 
 ## Candidate identity
 
-Use the exact reviewed commit of this PR, never a moving branch or an ELF chosen by filename alone. Verify all `verification/candidate/release.json` source hashes and the full ELF SHA256 `473d1abe34c5cfc300accb9570bd6a2d41a4d2d6615f161e98f96fa099d16ab2`. It is 230,728 bytes. The normalized Solana Verify hash is `c74bdec239b19931d81743455f91d62a27415d9cbd5bb5a2ccbfeaa1ec59a9a6`.
+Use the exact reviewed commit of this PR, never a moving branch or an ELF chosen by filename alone. Verify all `verification/candidate/release.json` source hashes and the full ELF SHA256 `b452de1ee17aa07c60d394b65f78b33554affd74dca32bc9efd39f62bd6e3d51`. It is 230,528 bytes. The normalized Solana Verify hash is `fc6b1323c4d18a70dcd1d22834fb50a3fe5da6fdd3182fe8aa277ce8da042d86`.
 
 The program, treasury, canonical pool and token accounts remain the addresses in the live manifest. The new artifact is a proposed same-program upgrade, not a different PDA or treasury migration. Keep the old reviewed source/binary available until all new tests pass; rollback is possible only while upgrade authority is retained and requires separate approved execution.
 
@@ -12,7 +12,7 @@ The program, treasury, canonical pool and token accounts remain the addresses in
 
 1. Independent Linux reproduction and complete VM tests pass on the exact candidate source. Review any dependency/route-parser concerns. Do not equate build matching with a security audit.
 2. Read finalized loader authority, current live ELF, treasury ownership, token authorities and fee shares. Stop on an unexpected difference. Preserve the ordinary fee-sharing revocation.
-3. Read-only preflight currently finds 196,664 bytes allocated for the live ELF, less than the 230,728-byte candidate. At the observed rent rate, allow about **0.17304512 SOL** additional permanent ProgramData rent, **1.17293644 SOL** temporary upload-buffer rent and transaction fees. A roughly 1.35 SOL payer float plus a fee/test margin is a conservative staging estimate, not a request to send funds. Recalculate immediately before approval. Buffer recovery does not make extra ProgramData rent refundable after immutability.
+3. Read-only preflight currently finds 196,664 bytes allocated for the live ELF, less than the 230,528-byte candidate. At the observed rent rate, allow about **0.17202912 SOL** additional permanent ProgramData rent, **1.17192044 SOL** temporary upload-buffer rent and transaction fees. A roughly 1.35 SOL payer float plus a fee/test margin is a conservative staging estimate, not a request to send funds. Recalculate immediately before approval. Buffer recovery does not make extra ProgramData rent refundable after immutability.
 4. Obtain approval naming the exact candidate hash, program ID, payer budget, extension/upgrade effects and controlled test transactions. Use an approved external payer, never creator-fee principal for deployment costs. Do not expose signing keys or change existing fee arrangements.
 5. Resolve any pending keeper signatures and coordinate independent operators. Old pinned keepers will intentionally reject the new executable; plan the reviewed keeper update and persistent-journal handover. The owner's intentionally disabled keeper must remain disabled unless reactivation is separately approved.
 

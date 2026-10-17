@@ -39,8 +39,9 @@ pub mod dusd_burn {
         // Stable route_v2 header; route-plan enum bytes remain opaque to us.
         // No local market-cap fees, AMM quote calculation, oracle or impact cap.
         require!(route_data.len() >= 34 && route_data[..8] == [187,100,250,204,49,196,175,20], BurnError::BadRoute);
-        let quoted_input = u64::from_le_bytes(route_data[8..16].try_into().map_err(|_| BurnError::BadRoute)?);
-        require!(quoted_input == input, BurnError::BadRoute);
+        // The protocol, never an offchain quote/caller, selects the full input.
+        // A new SOL donation cannot invalidate an otherwise valid route.
+        route_data[8..16].copy_from_slice(&input.to_le_bytes());
         require!(route_data[26..30] == [0,0,0,0], BurnError::BadRoute); // No platform or surplus fee.
         // Exactly one full-input hop, WSOL -> DUSD. No caller-selected
         // intermediate assets, split routes, repeated swaps or extra pools.
