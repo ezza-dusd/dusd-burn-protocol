@@ -10,10 +10,13 @@ export function validateBuild(b,input){
  const r=b.routePlan[0];assert.equal(r.swapInfo.ammKey,ids.pool);assert.equal(r.bps,10000);
  assert.equal(r.swapInfo.inputMint,token.NATIVE_MINT.toBase58());assert.equal(r.swapInfo.outputMint,ids.mint);
  const ix=b.swapInstruction;assert.equal(ix?.programId,ROUTER);assert.ok(Array.isArray(ix.accounts)&&ix.accounts.length<=64);
- const data=Buffer.from(ix.data,'base64');assert.ok(data.length>=39&&data.length<=256);
+ // Complete verified one-hop PumpSwap encoding, not a spoofable tail check.
+ // Unknown adapters/serialization require review; this is not fee/price math.
+ const data=Buffer.from(ix.data,'base64');assert.equal(data.length,40,'Unsupported Jupiter route length or trailing bytes');
  assert.ok(data.subarray(0,8).equals(disc('route_v2')));assert.equal(data.readBigUInt64LE(8),input);
  assert.equal(data.readUInt32LE(26),0,'Platform and surplus fees forbidden');assert.equal(data.readUInt32LE(30),1);
- assert.ok(data.subarray(-4).equals(Buffer.from([16,39,0,1])));
+ assert.equal(data[34],193,'Unsupported Jupiter adapter');assert.ok(data[35]<=1,'Invalid adapter bool');
+ assert.ok(data.subarray(36,40).equals(Buffer.from([16,39,0,1])));
  const fixed=[ids.treasury,ids.quote,ids.base,token.NATIVE_MINT.toBase58(),ids.mint,token.TOKEN_PROGRAM_ID.toBase58(),token.TOKEN_PROGRAM_ID.toBase58(),ids.base,pda(ROUTER,'__event_authority').toBase58(),ROUTER];
  for(let i=0;i<fixed.length;i++)assert.equal(ix.accounts[i]?.pubkey,fixed[i]);
  for(const a of ix.accounts){pk(a.pubkey);assert.ok(!a.isSigner||a.pubkey===ids.treasury,'Unexpected router signer');}

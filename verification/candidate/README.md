@@ -1,34 +1,31 @@
 # Candidate evidence, 17 October 2026
 
-This folder concerns an **undeployed review candidate**, not the current mainnet program. No transaction, upgrade, fee migration or authority revocation was performed during this work.
+This folder describes an **undeployed candidate**. These records authorize no transaction, upgrade, fee migration or authority revocation.
 
-Start with the [plain protocol changes](../../docs/CANDIDATE-20261016.md), [engineering security review](../../docs/CANDIDATE-SECURITY-REVIEW.md) and [release checklist](../../docs/UPGRADE-AND-FINALIZATION-CHECKLIST.md).
+Start with [protocol changes](../../docs/CANDIDATE-20261016.md), [adversarial corrections](../../docs/REVIEW-FIXES-20261017.md) and [release checklist](../../docs/UPGRADE-AND-FINALIZATION-CHECKLIST.md).
 
-| Evidence | What it establishes |
+| Evidence | Meaning |
 | --- | --- |
-| [release.json](release.json) | Four source fingerprints, selected official Linux ELF and separate Windows ELF. |
-| [LOCAL-VALIDATION.json](LOCAL-VALIDATION.json) | Actual local contract, coordinator, arithmetic and lifecycle results for the selected artifact. |
-| [WINDOWS-TEST-SUMMARY.json](WINDOWS-TEST-SUMMARY.json) | Local full regression result for the secondary Windows artifact. |
-| [INDEPENDENT-LINUX-BUILD.json](INDEPENDENT-LINUX-BUILD.json) | GitHub-hosted official-container build matches the selected ELF exactly. |
-| [INDEPENDENT-WINDOWS-BUILD.json](INDEPENDENT-WINDOWS-BUILD.json) | Fresh GitHub Windows build matches its separate expected fingerprint. |
-| [INDEPENDENT-TEST-SUMMARY.json](INDEPENDENT-TEST-SUMMARY.json) | Independent Linux execution: 227 tests passed, zero failed. |
-| [READONLY-PREFLIGHT.json](READONLY-PREFLIGHT.json) | Finalized unchanged live bytes/authority, upstream binaries, revoked ordinary fee admin, 100% PDA allocation and upgrade-rent estimate. |
-| [OLDER-PARTIAL-INPUT-PROOF.json](OLDER-PARTIAL-INPUT-PROOF.json) | Local mocked underspend accepted by an older artifact; not an alleged current Pump exploit. |
+| [release.json](release.json) | Current four compiler inputs, selected Linux ELF and separate Windows ELF. |
+| [LOCAL-VALIDATION.json](LOCAL-VALIDATION.json) | Actual local regressions, coordinator, arithmetic and lifecycle results. |
+| [WINDOWS-TEST-SUMMARY.json](WINDOWS-TEST-SUMMARY.json) | Local Windows-artifact tests or explicit pending status. |
+| [INDEPENDENT-LINUX-BUILD.json](INDEPENDENT-LINUX-BUILD.json) | Independent current-source build result or explicit pending status. |
+| [INDEPENDENT-WINDOWS-BUILD.json](INDEPENDENT-WINDOWS-BUILD.json) | Independent separate Windows fingerprint result or explicit pending status. |
+| [INDEPENDENT-TEST-SUMMARY.json](INDEPENDENT-TEST-SUMMARY.json) | Independent current-source regressions or explicit pending status. |
+| [READONLY-PREFLIGHT.json](READONLY-PREFLIGHT.json) | Finalized live identities, PDA fee allocation and rent estimate. |
+| [Historical pre-correction evidence](history/pre-review-fixes/release.json) | Old review/build fingerprints; these do not verify the new source. |
+| [Older partial-input proof](OLDER-PARTIAL-INPUT-PROOF.json) | Historical mocked underspend, not a current Pump exploit. |
 
-## Independent build runs
+## Current build
 
-The frozen monetary source is commit `8f0d0c8e3a347cc3317952beb1d9e49f1a3899a5`, Rust SHA256 `793f053cf1b0bf58168f5f906f67c3374340872709dc9ee92cfc262feaf8da48`. Later documentation/evidence commits must not change the four compiler inputs; their hashes are recorded in the manifest.
+Rust SHA256: `daa995ce3d84b5b5b8218c62a65ee60b46a52acc4031190acdb6b692656370b1`.
 
-- [Official Linux reproduction and complete VM regressions](https://github.com/ezza-dusd/dusd-burn-protocol/actions/runs/39011174013).
-- [Separate Windows source reproduction](https://github.com/ezza-dusd/dusd-burn-protocol/actions/runs/39011173824).
-- [Linux/Windows public keeper tests](https://github.com/ezza-dusd/dusd-burn-protocol/actions/runs/39011174047).
+Selected Linux ELF: `ca4c648b5bfe978f4ff65b22730fda501ded8c2231839a9803b327ee4432ac42`, 230,632 bytes. Normalized Solana Verify hash: `4a830d2199af7fb1b1d66fe2d8f2cda23d9f068c59e2ec9e383ce2dde1c28f9c`.
 
-All three frozen-source runs completed successfully. The independent Linux artifact is byte-for-byte identical to the locally tested selected ELF. Selected full hash: `b452de1ee17aa07c60d394b65f78b33554affd74dca32bc9efd39f62bd6e3d51`, 230,528 bytes. The Windows ELF is deliberately a separate hash, not a cross-platform match. Check the linked run conclusions and retained evidence directly.
+Separate Windows ELF: `1f978a1bfcc0afba78d20fdd751c2cdc52b12723040de7e7fa4b26772c468473`, 230,632 bytes. This is a separate host fingerprint of the same source, not cross-platform byte equality.
 
-The earlier clean Linux run reproduced the previous candidate but failed its report-writing hook because an output directory was absent. That test-runner issue was corrected before this frozen source run. Intermediate successful builds do not certify later source changes.
+Local tests after correction: **255 contract tests**, **104 keeper tests**, **11 bytecode-helper tests**, all passing; 25,000 arithmetic cases, 391 deterministic malformed-route probes and 17 direct exact-input feasibility probes. Independent build/test status must be read from the current records above; historical successful workflows do not verify changed source.
 
 ## Status boundary
 
-Build reproduction is not official onchain Verified Builds registration, and tests are not an independent audit certificate. Official registration and remote verification remain pending. The live program is still the old `0d91e31…` binary with upgrade authority retained. New mainnet upgrade and controlled smoke tests require approval; permanent revocation is a later, separate irreversible approval.
-
-The current Jupiter adapter still calls PumpSwap's native exact-input instruction. The alternative supplies a compatible-adapter opportunity, not a guarantee that any future Pump/Jupiter change will work. Both paths remain restricted to the same canonical pool.
+Build matching is not an independent security audit or official onchain verification. Official registration and remote verification remain pending. Mainnet still has the old `0d91e31…` binary and retained upgrade authority. An exact approved upgrade and controlled live smoke tests come before any separate irreversible revocation decision. Both purchase paths remain available in the candidate, through the same fixed canonical pool.

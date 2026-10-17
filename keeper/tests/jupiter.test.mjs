@@ -21,7 +21,9 @@ for(const mode of ['unsigned-rejection','network-error','pending-wire','raced-ba
   let alternatives=0;const calls=[],payer=web3.Keypair.generate();
   const k=new Keeper({connection:{getBalance:async()=>1000000},signer:payer,stateDirectory:dir,inspect:async()=>mode==='raced-balance'?{...s,native:s.rent}:s,feeRecipient:async()=>pk(ids.poolQuote),alternative:async()=>{alternatives++;return []}});
   k.submit=async(kind,_ixs,j)=>{calls.push(kind);if(kind==='buy-and-full-burn'){if(mode==='network-error')throw Error('Network timeout');if(mode==='pending-wire'){j.pending={signature:'unknown'};k.save(j);}throw new SimulationRejected('Simulation rejected');}if(mode==='fallback-rejected')throw new SimulationRejected('Alternative rejected');};
-  if(['unsigned-rejection','raced-balance'].includes(mode))await k.once({initialState:s});else await assert.rejects(k.once({initialState:s}));
+  if(['unsigned-rejection','raced-balance'].includes(mode))await k.once({initialState:s});
+  else if(mode==='fallback-rejected'){const r=await k.once({initialState:s});assert.equal(r.healthy,false);assert.equal(r.outcome,'blocked');}
+  else await assert.rejects(k.once({initialState:s}));
   assert.equal(alternatives,['unsigned-rejection','fallback-rejected'].includes(mode)?1:0);
   assert.equal(calls.length,['unsigned-rejection','fallback-rejected'].includes(mode)?2:1);
  }finally{assert.ok(path.basename(dir).startsWith('dusd-jupiter-keeper-test-'));fs.rmSync(dir,{recursive:true});}

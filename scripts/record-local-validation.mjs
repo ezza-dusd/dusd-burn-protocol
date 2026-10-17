@@ -8,7 +8,8 @@ const feasibility=spawnSync(process.execPath,['tools/verify-exact-input.mjs'],{c
 const keeper=tests(fs.readdirSync(root+'/keeper/tests').filter(x=>x.endsWith('.test.mjs')).map(x=>'tests/'+x),root+'/keeper');
 const helper=tests(['scripts/verify-bytecode.test.mjs']);
 const report={at:new Date().toISOString(),scope:'Local copied mainnet programs only; not new live transactions',sourceSha256:crypto.createHash('sha256').update(fs.readFileSync(root+'/programs/dusd_burn/src/lib.rs')).digest('hex'),binarySha256:manifest.binarySha256,
- contract:{tests:suite.tests,passed:suite.passed,failed:suite.failed,existingBaseline:suite.baseline.tests,stress:suite.stress.tests,fullLifecycle:suite.lifecycle.tests,newCandidate:suite.candidate.tests},arithmeticCases:25000,malformedRouteCases:120,
+ contract:{tests:suite.tests,passed:suite.passed,failed:suite.failed,existingBaseline:suite.baseline.tests,stress:suite.stress.tests,fullLifecycle:suite.lifecycle.tests,newCandidate:suite.candidate.tests},arithmeticCases:25000,
+ malformedRouteCases:jupiter.receipts.filter(r=>/^(?:truncated route |mutated header |forged trailing allocation |forged trailing indices |unsupported adapter \d|invalid adapter bool )/.test(r.name)).length,
  directFeasibilityChecks:read('research/lifecycle-2026-10-14/feasibility.json').cases.length,creatorFeeCyclesDirect:read('research/lifecycle-2026-10-14/lifecycle-results.json').cycles.length,creatorFeeCyclesJupiter:jupiter.receipts.filter(r=>r.name.startsWith('complete fee-to-Jupiter-burn cycle ')&&!r.error).length,
  keeper,bytecodeHelper:helper,jupiterExecution:jupiter.receipts.filter(r=>/canonical router purchase|fresh caller-funded complete setup/.test(r.name)).map(({name,error,computeUnits,bytes,fee})=>({name,error,computeUnits,bytes,fee})),mainnetTransactionsSubmitted:0};
 fs.writeFileSync(root+'/verification/candidate/LOCAL-VALIDATION.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));

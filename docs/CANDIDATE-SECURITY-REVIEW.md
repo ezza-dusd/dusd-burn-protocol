@@ -1,5 +1,7 @@
 # Candidate security and execution review
 
+Historical pre-correction engineering review. Its fingerprints and 227-test result describe the earlier candidate, not the current ELF. Continue with [the adversarial findings and corrections](REVIEW-FIXES-20261017.md) and the [current evidence index](../verification/candidate/README.md).
+
 17 October 2026. Engineering review, not an independent audit certificate.
 
 Reviewed Rust SHA256: `793f053cf1b0bf58168f5f906f67c3374340872709dc9ee92cfc262feaf8da48`.

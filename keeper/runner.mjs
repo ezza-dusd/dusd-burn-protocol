@@ -112,25 +112,49 @@ export class Keeper {
     if(!await this.recover(j))return {outcome:'awaiting-signature-review',healthy:false,pending:j.pending?.signature,reason:j.lastWait?.reason};
     if(hadPending){s=await this.inspect(this.c);assertMigrated(s.sharing);}
     assert.ok(![ids.treasury,'Ei8d6LZSjbzQ4v9EMBLJSpp2NfVUdckJ39sBXDmNRzSq','FzPw22y8fMnsFYBnXh2p6sfsFzTHYLtLMWybS9d2RS2q'].includes(this.signer.publicKey.toBase58()),'Privileged identities forbidden');
-    let sent=0;const run=async(kind,ixs)=>{
+    let sent=0;const rejections=[];const run=async(kind,ixs)=>{
       this.checkAbort();assert.ok(++sent<=3);assert.ok(await this.c.getBalance(this.signer.publicKey,'finalized')>=500000,'Gas-only keeper needs an external top-up; treasury is never used for gas');
       await this.submit(kind,ixs,j);s=await this.inspect(this.c);assertMigrated(s.sharing);
     };
-    if(s.wsol>=MIN)await run('unwrap',[unwrap(this.signer.publicKey)]);
-    const spendable=()=>s.native>s.rent?s.native-s.rent:0n;
-    if(s.fees>0n&&spendable()+s.fees>=MIN)await run('collect',collection(this.signer.publicKey));
-    if(spendable()>=MIN){
-      try{await run('buy-and-full-burn',[buyBurn(this.signer.publicKey,await this.feeRecipient(this.c,s))]);}
+    // Only this explicit pre-signing rejection can be isolated. Transport
+    // errors, signed wire and finalized failures still stop the entire cycle.
+    const attempt=async(kind,ixs)=>{
+      try{await run(kind,ixs);return true;}
       catch(e){
-        // Only a rejected UNSIGNED simulation permits a second path. A send,
-        // timeout, finalized failure or uncertain signature never enters here.
         if(!(e instanceof SimulationRejected)||j.pending||this.read().pending)throw e;
         sent--;s=await this.inspect(this.c);assertMigrated(s.sharing);this.checkAbort();
-        if(spendable()>=MIN)await run('jupiter-canonical-buy-and-full-burn',await this.alternative(this.c,s,this.signer.publicKey,{signal:this.signal}));
+        rejections.push({kind,reason:e.message.replace(/https?:\/\/\S+/g,'[URL REDACTED]').slice(0,300)});
+        return false;
+      }
+    };
+    if(s.wsol>=MIN)await attempt('unwrap',[unwrap(this.signer.publicKey)]);
+    const spendable=()=>s.native>s.rent?s.native-s.rent:0n;
+    if(s.fees>0n&&spendable()+s.fees>=MIN)await attempt('collect',collection(this.signer.publicKey));
+    if(spendable()>=MIN){
+      const bought=await attempt('buy-and-full-burn',[buyBurn(this.signer.publicKey,await this.feeRecipient(this.c,s))]);
+      if(!bought&&spendable()>=MIN){
+        let alternative;
+        // This builder receives only a public payer address, never a signer.
+        // An API/layout error cannot create signed wire. It must not block an
+        // independent donation burn, unlike uncertainty inside submit().
+        try{alternative=await this.alternative(this.c,s,this.signer.publicKey,{signal:this.signal});}
+        catch(e){
+          this.checkAbort();if(j.pending||this.read().pending)throw e;
+          s=await this.inspect(this.c);assertMigrated(s.sharing);
+          rejections.push({kind:'jupiter-build',reason:String(e.message).replace(/https?:\/\/\S+/g,'[URL REDACTED]').slice(0,300)});
+        }
+        if(alternative)await attempt('jupiter-canonical-buy-and-full-burn',alternative);
       }
     }
-    else if(s.dusd>0n)await run('standalone-full-burn',[burn(this.signer.publicKey)]);
-    delete j.lastWait;j.lastRun={at:new Date().toISOString(),slot:s.slot,transactions:sent,remainingCreatorFees:s.fees.toString(),nativeTreasury:s.native.toString(),dusd:s.dusd.toString()};
-    this.save(j);return {outcome:sent?'completed':'no-eligible-work',healthy:true,...j.lastRun};
+    // Independent phase: eligible SOL or a rejected collection/swap must not
+    // suppress burning existing donations. Never exceed three signed sends.
+    if(s.dusd>0n&&sent<3)await attempt('standalone-full-burn',[burn(this.signer.publicKey)]);
+    // Successful alternative execution resolves the direct rejection; report
+    // unhealthy only when rejected phases still have eligible work left.
+    const blocked=rejections.filter(({kind})=>kind==='unwrap'?s.wsol>=MIN:
+      kind==='collect'?s.fees>0n&&spendable()+s.fees>=MIN:
+      kind==='standalone-full-burn'?s.dusd>0n:spendable()>=MIN);
+    delete j.lastWait;j.lastRun={at:new Date().toISOString(),slot:s.slot,transactions:sent,remainingCreatorFees:s.fees.toString(),nativeTreasury:s.native.toString(),dusd:s.dusd.toString(),blocked,rejections};
+    this.save(j);return {outcome:blocked.length?(sent?'partial-completion':'blocked'):sent?'completed':'no-eligible-work',healthy:blocked.length===0,...j.lastRun};
   }
 }

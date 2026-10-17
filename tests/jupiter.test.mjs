@@ -84,6 +84,23 @@ test('canonical-only Jupiter CPI integration',async t=>{
  },f=>{const original=Object.values(f).find(x=>x.pubkey===pool.toBase58());f.alternatePool=structuredClone(original);f.alternatePool.pubkey=web3.Keypair.generate().publicKey.toBase58();}));
  await t.test('missing token ATAs are initialized using caller rent',()=>fork(async vm=>{await vm.fund(10_000_000n);await purchase(vm,'caller-funded ATA setup');},f=>{for(const[n,v]of Object.entries(f))if([baseAta.toBase58(),quoteAta.toBase58()].includes(v.pubkey))delete f[n];}));
  await t.test('empty pool rejects and restores native treasury',()=>fork(async vm=>{await vm.fund(10_000_000n);await rejected(vm,'empty canonical pool',jupiterBuyBurnInstruction(vm.caller.publicKey,build));},f=>{for(const v of Object.values(f))if(v.pubkey==='F65BeadRvnfMwfTK1f6VRfRagLvNVYXDBkDpRZvJVZ8u'){const b=bytes(v.account);b.writeBigUInt64LE(0n,64);v.account.data[0]=b.toString('base64');}}));
+ await t.test('forged route trailers are rejected before Jupiter executes',()=>fork(async vm=>{
+  await vm.fund(10_000_000n);const original=Buffer.from(build.swapInstruction.data,'base64');
+  for(const bps of [0,1,5000,9999,10000,10001,65535]){
+   const d=Buffer.from(original);d.writeUInt16LE(bps,36);const b=structuredClone(build);b.swapInstruction.data=Buffer.concat([d,original.subarray(-4)]).toString('base64');
+   const r=await rejected(vm,'forged trailing allocation '+bps,jupiterBuyBurnInstruction(vm.caller.publicKey,b));
+   assert.ok(r.logs.some(l=>l.includes('Error Code: BadRoute')));assert.ok(!r.logs.some(l=>l.startsWith('Program JUP6')&&l.includes(' invoke ')));
+  }
+  for(const [src,dst]of [[0,0],[1,0],[1,1],[2,1],[0,2],[255,255]]){
+   const d=Buffer.from(original);d[38]=src;d[39]=dst;const b=structuredClone(build);b.swapInstruction.data=Buffer.concat([d,original.subarray(-4)]).toString('base64');
+   const r=await rejected(vm,'forged trailing indices '+src+':'+dst,jupiterBuyBurnInstruction(vm.caller.publicKey,b));assert.ok(r.logs.some(l=>l.includes('Error Code: BadRoute')));
+  }
+ }));
+ await t.test('all unsupported adapter tags and invalid Borsh bools reject before CPI',()=>fork(async vm=>{
+  await vm.fund(10_000_000n);
+  for(let variant=0;variant<256;variant++)if(variant!==193){const b=changedBytes(d=>d[34]=variant);const r=await rejected(vm,'unsupported adapter '+variant,jupiterBuyBurnInstruction(vm.caller.publicKey,b));assert.ok(r.logs.some(l=>l.includes('Error Code: BadRoute')));}
+  for(const flag of [2,127,255]){const r=await rejected(vm,'invalid adapter bool '+flag,jupiterBuyBurnInstruction(vm.caller.publicKey,changedBytes(d=>d[35]=flag)));assert.ok(r.logs.some(l=>l.includes('Error Code: BadRoute')));}
+ }));
  await t.test('40 truncated route payloads and 80 deterministic header mutations fail atomically',()=>fork(async vm=>{
   await vm.fund(10_000_000n);const original=Buffer.from(build.swapInstruction.data,'base64');
   for(let n=0;n<40;n++){const b=structuredClone(build);b.swapInstruction.data=original.subarray(0,n).toString('base64');await rejected(vm,'truncated route '+n,jupiterBuyBurnInstruction(vm.caller.publicKey,b));}

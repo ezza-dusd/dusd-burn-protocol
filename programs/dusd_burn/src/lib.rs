@@ -36,17 +36,19 @@ pub mod dusd_burn {
         let treasury_before = a.treasury.lamports();
         let input = treasury_before.checked_sub(floor).ok_or(BurnError::BelowThreshold)?;
         require!(input >= MIN_SPEND, BurnError::BelowThreshold);
-        // Stable route_v2 header; route-plan enum bytes remain opaque to us.
-        // No local market-cap fees, AMM quote calculation, oracle or impact cap.
-        require!(route_data.len() >= 34 && route_data[..8] == [187,100,250,204,49,196,175,20], BurnError::BadRoute);
+        // Complete verified route_v2 encoding: one PumpSwap adapter (enum 193,
+        // one Borsh bool), then bps/input/output. Reject unknown layouts and
+        // trailing bytes: Jupiter itself can ignore a caller-appended suffix.
+        // This parses routing only, never Pump pricing or dynamic fees.
+        require!(route_data.len() == 40 && route_data[..8] == [187,100,250,204,49,196,175,20], BurnError::BadRoute);
         // The protocol, never an offchain quote/caller, selects the full input.
         // A new SOL donation cannot invalidate an otherwise valid route.
         route_data[8..16].copy_from_slice(&input.to_le_bytes());
         require!(route_data[26..30] == [0,0,0,0], BurnError::BadRoute); // No platform or surplus fee.
         // Exactly one full-input hop, WSOL -> DUSD. No caller-selected
         // intermediate assets, split routes, repeated swaps or extra pools.
-        require!(route_data.len() >= 39 && route_data[30..34] == [1,0,0,0]
-            && route_data[route_data.len()-4..] == [16,39,0,1], BurnError::BadRoute);
+        require!(route_data[30..34] == [1,0,0,0] && route_data[34] == 193
+            && route_data[35] <= 1 && route_data[36..40] == [16,39,0,1], BurnError::BadRoute);
         // Preserve the existing immutable one-raw-unit output floor. RTSE may
         // guide offchain route selection, but is not an onchain price oracle.
         route_data[16..24].copy_from_slice(&MIN_BASE_OUTPUT.to_le_bytes());
