@@ -1,6 +1,6 @@
 # Candidate evidence, 17 October 2026
 
-This folder describes an **undeployed candidate**. These records authorize no transaction, upgrade, fee migration or authority revocation.
+This folder preserves **build-time candidate evidence**. The selected Linux artifact was subsequently deployed in the approved 17 October upgrade; see [current live evidence](../live-20261017/README.md). The original build manifests retain their historical status labels. These records themselves authorize no transaction, fee migration or authority revocation.
 
 Start with [protocol changes](../../docs/CANDIDATE-20261016.md), [adversarial corrections](../../docs/REVIEW-FIXES-20261017.md) and [release checklist](../../docs/UPGRADE-AND-FINALIZATION-CHECKLIST.md).
 
@@ -38,4 +38,4 @@ The import helper checked both commits, all source fingerprints, both binary has
 
 ## Status boundary
 
-Build matching is not an independent security audit or official onchain verification. Official registration and remote verification remain pending. Mainnet still has the old `0d91e31…` binary and retained upgrade authority. An exact approved upgrade and controlled live smoke tests come before any separate irreversible revocation decision. Both purchase paths remain available in the candidate, through the same fixed canonical pool.
+Build matching is not an independent security audit or completed official onchain verification. The approved upgrade and controlled direct/Jupiter/donation mainnet smoke tests are now finalized with upgrade authority retained. Official registration and remote-job status are recorded in [live evidence](../live-20261017/README.md). Both purchase paths are deployed, through the same fixed canonical pool. Permanent revocation remains a separate decision.

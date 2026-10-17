@@ -1,0 +1,33 @@
+{
+  "programId": "6gEeY5c75itbSwtBVszzqnvvAi2vNScMf6fN5YETvAWm",
+  "programData": "DXvZfLSRRY5k71fWHWtqWLxJqXsPaBRefQrSoKuGRvqN",
+  "treasury": "HDwArc1qjz8AQt6J2fDcqoBc3MCxWh5whGYusnBxr3di",
+  "dusdAccount": "EycdnyeQjfoSvbTEhsA8oGNfDhAmMDg3KUSAGVgrLr89",
+  "wsolAccount": "EEqYCx4wcGtXEK2wJCtEPPFx7MS1D1SsgDWAUd5HoYVM",
+  "mint": "B8RHrVBxSjBGKqAbn1tXo6CWjvt5jFkkqjbCZtuDpump",
+  "pool": "2z2uBDXaAFishs6XRz2atV2Ro7jL8hfdUcKxTTfhjHDw",
+  "fullElfSha256": "0d91e31a4c5bdbeec0a664be7ce3c2cc8a6e50ac6c0d09eb3bd7409cafd92774",
+  "solanaVerifyExecutableHash": "a46632264d0fb2aa453db1b9573f0ec2f398a2112441ab34610252d82b9f4093",
+  "elfBytes": 196664,
+  "upgradeAuthority": "FzPw22y8fMnsFYBnXh2p6sfsFzTHYLtLMWybS9d2RS2q",
+  "upgradeAuthorityStatus": "retained; program NOT immutable",
+  "toolchain": {
+    "cargoBuildSbf": "4.3.0",
+    "platformTools": "v1.57",
+    "rustc": "1.95.0-dev (ae660768afd467d131776918a1627e18920b230c)",
+    "anchor": "0.32.1",
+    "architecture": "v0",
+    "features": [
+      "no-idl"
+    ],
+    "dependencyResolution": "Cargo.lock --locked",
+    "profile": "release, fat LTO, overflow checks, one codegen unit"
+  },
+  "sourceHashes": {
+    "Cargo.toml": "d70f36b77f1c63e13962d310c0ed76997f4b712aff3d0ac63eaadf039773beb0",
+    "Cargo.lock": "eeaf52a2aee06f3edda3d9b53365f2218ff76b8227279f83dc9c150b56cb244a",
+    "programs/dusd_burn/Cargo.toml": "5abae2b6ed4f0ce074cab43c86a00851c32b0e61ba9f83fd30ac6a3a3fc93065",
+    "programs/dusd_burn/src/lib.rs": "df4c254ccd9bffd8742cfc9c58bf375261ec4570824f49e8564bcea43b57fa66"
+  },
+  "verificationStatus": "On-chain bytes checked; Docker source rebuild and official metadata registration tracked separately; not claimed verified."
+}

@@ -1,0 +1,192 @@
+{
+  "upgrade": {
+    "at": "2026-10-17T08:19:16.287Z",
+    "slot": 457967698,
+    "hash": "ca4c648b5bfe978f4ff65b22730fda501ded8c2231839a9803b327ee4432ac42",
+    "bytes": 230632,
+    "authorityRetained": "FzPw22y8fMnsFYBnXh2p6sfsFzTHYLtLMWybS9d2RS2q",
+    "feeSharingUnchanged": true,
+    "bufferClosedByUpgrade": true,
+    "bufferRentReturned": 1172448760,
+    "payerBalanceAfter": 1202272520,
+    "programDataRentIncrease": 172557440,
+    "networkFeesLamports": 1300000,
+    "exactReconciliation": true,
+    "transactions": [
+      {
+        "name": "create-upload-buffer",
+        "signature": "3sFekg4dWGwabwZcZ1rXVQWG9dcn5jsMnF82CzdKNu2csJ5ZWpREbet8osgLsRYpzPa24QuGLeFg3DiXrK3grrbT",
+        "feeLamports": 5000
+      },
+      {
+        "name": "extend-program-storage",
+        "signature": "4iF4KHzCvUzLShEzsyKT4jZEoMTFiD2yCS3UAccwbTAsan6Gjsw8g6GHbpuZc4oLzm5JJ99cz5YzwgoNencqoobE",
+        "feeLamports": 5000
+      },
+      {
+        "name": "upgrade-retaining-authority",
+        "signature": "5JPky366Nf58hRZWNGy58aZZkcVviLH6kbZHV95F5i3eHNLm4deKX9onaZddAnyPu2uZb8tdD1EYa6SveypWUwGd",
+        "feeLamports": 5000
+      }
+    ],
+    "uploadTransactions": 257
+  },
+  "smoke": {
+    "passed": true,
+    "finishedAt": "2026-10-17T08:22:45.398Z",
+    "networkFeesLamports": 45000,
+    "transactions": [
+      {
+        "name": "donation-inventory-0.001-sol",
+        "signature": "5xvfn2qVY1ytdM3sTskabnALEeorEwTZmTj2cHzox2qFrGzXoqUuwuY6XkLu3qBvMj4QMvBBSvBxJkMGiKFkWc6A",
+        "slot": 457967988,
+        "feeLamports": 5000,
+        "computeUnits": 52620
+      },
+      {
+        "name": "one-raw-unit-donation-before-Jupiter",
+        "signature": "2FVsqxTx2uwNezVriSrXDXbpTTzmQk2tU5eVT9vCJtjyUbLtnWZwttW9w8iQUWh5m5L3fqBfEZdsbKv6sutvLoQj",
+        "slot": 457968072,
+        "feeLamports": 5000,
+        "computeUnits": 255
+      },
+      {
+        "name": "Jupiter-canonical-purchase-caller-A",
+        "signature": "2hNhMDu2T6UQ7VAhZpH9MiWGmbdKeyTxfjXcjrfY4t4kxASCKH5EV8ZKWmY2ttr9T8WfGdGt423nX6h1YeTyqh2f",
+        "slot": 457968150,
+        "feeLamports": 5000,
+        "computeUnits": 109462,
+        "verifiedBurn": {
+          "caller": "3e3RY8UepGJaZCAUeeLffNZ6iGBRX4KPUs2jFRPSct3n",
+          "inputLamports": "10000000",
+          "acquiredRaw": "5346641081",
+          "preExistingRaw": "1",
+          "burnedRaw": "5346641082",
+          "actualSplBurnRaw": "5346641082",
+          "path": "Jupiter canonical PumpSwap",
+          "callerPaysOnlyFee": true,
+          "treasuryRentPreserved": true
+        }
+      },
+      {
+        "name": "fund-second-path-0.01-sol",
+        "signature": "5TBJfnrAchNzFQThj8TvYMSkxS6u6pXq2JHzugK1ewsJB9iagFb8Lpsd6RNvNPxypavJ6gTNbSLHrPNh15zCsKQc",
+        "slot": 457968232,
+        "feeLamports": 5000,
+        "computeUnits": 300
+      },
+      {
+        "name": "one-raw-unit-donation-before-direct",
+        "signature": "4VbXW2qAWhZWN9WJJHGgCTexXqc45PoJyorMdvWaPXGJm5iFnc7wLxQLgVvbtTYHXpRTdqXDXiF8Jkye51tXCt2b",
+        "slot": 457968312,
+        "feeLamports": 5000,
+        "computeUnits": 255
+      },
+      {
+        "name": "direct-canonical-purchase-caller-B",
+        "signature": "2Cmy8zHfQMxnzXGgrkpZp1VWSXe7SM5fQyo845gokiSTLBQx3wF7K9GMVTeNiUAnd1d6wnBHuykDDmRjRR56HJV2",
+        "slot": 457968390,
+        "feeLamports": 5000,
+        "computeUnits": 88274,
+        "verifiedBurn": {
+          "caller": "5FYdXdQt9S86CaXDqdH1e7B81Qjj1QMgGX3n1udaM9tn",
+          "inputLamports": "10000000",
+          "acquiredRaw": "5346197927",
+          "preExistingRaw": "1",
+          "burnedRaw": "5346197928",
+          "actualSplBurnRaw": "5346197928",
+          "path": "direct PumpSwap",
+          "callerPaysOnlyFee": true,
+          "treasuryRentPreserved": true
+        }
+      },
+      {
+        "name": "donate-remainder-for-standalone-burn",
+        "signature": "2TSdq5Xo9Nfmay7cV54z9nQJTJ3RzTkz6Qr4MGUJVZcMrCXkR7JyVbxzmu8417rKeLjws8UdZUVYPbdP9EeEEfZy",
+        "slot": 457968473,
+        "feeLamports": 5000,
+        "computeUnits": 255
+      },
+      {
+        "name": "standalone-donation-burn-caller-A",
+        "signature": "5ZxeJALRfjmSwa23iWLfreZY22S4jmwkuC7u6PuBeawVy5FtckBsGo4qXDhAYhAVLKeC2aQRhsfwABZMHuAcTgtY",
+        "slot": 457968553,
+        "feeLamports": 5000,
+        "computeUnits": 11464,
+        "verifiedBurn": {
+          "burnedRaw": "534686784",
+          "worksWithoutSpendableSol": true
+        }
+      },
+      {
+        "name": "empty-standalone-caller-B",
+        "signature": "2uuTdLPqZ8wubJe4XfGtg12WYpQ9kotXhvjK3wYfCqvAZmfPCwn4nKNLpSoDNQjqV8RyYxT5yYkqRiH6S8X2Geo4",
+        "slot": 457968632,
+        "feeLamports": 5000,
+        "computeUnits": 9048
+      }
+    ],
+    "rollback": {
+      "simulationOnly": true,
+      "error": {
+        "InstructionError": [
+          2,
+          {
+            "Custom": 6004
+          }
+        ]
+      }
+    },
+    "finalTreasuryNative": "650240",
+    "finalDusd": "0",
+    "finalWsol": "0"
+  },
+  "interface": {
+    "at": "2026-10-17T08:24:56.063Z",
+    "slot": 457969276,
+    "completed": true,
+    "metadata": "AwcUwoCEP2fWBwtLZwfsU9FAQE15ZVA3zM3JG9G4bhUy",
+    "payloadMatches": true,
+    "payloadSha256": "44c12b262ac60e56308bec4afc5aefad38cfb8bd50439e3f067742de02f657a4",
+    "metadataBytes": 2280,
+    "metadataRent": 12232640,
+    "extraRentLamports": 1270000,
+    "networkFeesLamports": 25000,
+    "totalDebitLamports": 1295000,
+    "bufferRentRefunded": true,
+    "programAndSharingUnchanged": true,
+    "upgradeAuthorityRetained": "FzPw22y8fMnsFYBnXh2p6sfsFzTHYLtLMWybS9d2RS2q",
+    "signatures": [
+      "3CHK74ULkNv89KHTG4PJR8vQcFfgQ1Esnum3ZTkkPcez3nSQGCtc3fyPgVvTppqxsCKEkSxEgcqf31NEGPhNNUMT",
+      "2Sa6Z7WPxFnZxcu7NN6998u3UkdaR24QfdisGa4zqWKXMUV8n2gEmrj2AY2HKRYRy1Kr8wB1RQoewekLkR34DHXi",
+      "3XR2wCwSkzLt4VzQBWfB4zJHcu2kGzd1g2KkHzNhwMzxmnLdjWUcT3VEYQRDX31xpUuhUiaArMqtemScR3k8q2od",
+      "2XBooRUWKUeQFiEtwWEZ6edZYsAJrsYxDGhos2SZWJoNu8mNbcbusStght45AVeqsmH1tmW5pyGDM1RYWPcLnrA5"
+    ]
+  },
+  "officialRegistration": {
+    "at": "2026-10-17T08:23:42.025Z",
+    "signature": "2foyoiggdrVLL27vbJL2SxFpQy6bSRy8QD8APZSbh134iTNkttrG5fZjXMXL6DzwacxMUKLoRDumiKjs7X5BgJkt",
+    "slot": 457968916,
+    "registered": true,
+    "verificationPda": "CL7jADGtS7K5pHWgnt8YZ4J3aVpZsxQREA14QEtMKqhQ",
+    "sourceCommit": "141268054fd78d1e908f39891cc385ae680ade15",
+    "costLamports": 3022520,
+    "programAndSharingUnchanged": true,
+    "upgradeAuthorityRetained": "FzPw22y8fMnsFYBnXh2p6sfsFzTHYLtLMWybS9d2RS2q",
+    "officialRemoteVerification": "not yet submitted"
+  },
+  "remoteJob": {
+    "programId": "6gEeY5c75itbSwtBVszzqnvvAi2vNScMf6fN5YETvAWm",
+    "uploader": "FzPw22y8fMnsFYBnXh2p6sfsFzTHYLtLMWybS9d2RS2q",
+    "requestId": "b90bbd2c-f150-45c0-9fef-8bbf51d7ea84",
+    "jobUrl": "https://verify.osec.io/job/b90bbd2c-f150-45c0-9fef-8bbf51d7ea84",
+    "status": "completed; onchain and executable hashes match",
+    "registrationSignature": "2foyoiggdrVLL27vbJL2SxFpQy6bSRy8QD8APZSbh134iTNkttrG5fZjXMXL6DzwacxMUKLoRDumiKjs7X5BgJkt"
+  },
+  "currentRemoteVerification": {
+    "isVerified": true,
+    "completedAt": "2026-10-17T08:25:40.531700",
+    "evidence": "REMOTE-VERIFIED.json",
+    "sourceCommit": "141268054fd78d1e908f39891cc385ae680ade15"
+  }
+}

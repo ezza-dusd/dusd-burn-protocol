@@ -1,5 +1,5 @@
 {
-  "description": "Undeployed canonical-only Jupiter candidate; current public runtime hashes, not a live-release claim.",
+  "description": "Public runtime hashes for the 17 October 2026 upgraded mainnet program; preserve wallets and pending journals when updating.",
   "files": [
     {
       "file": "builders.mjs",

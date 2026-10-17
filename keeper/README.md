@@ -1,10 +1,10 @@
 # DUSD public keeper
 
-> Undeployed candidate branch. Its executable pin intentionally rejects the existing mainnet binary. Use the reviewed live commit/main branch for today's keeper; do not install this candidate until an exact program upgrade is approved and verified. See [candidate evidence](../verification/candidate/README.md).
+> Targets the upgraded mainnet release of 17 October 2026. Its executable pin matches the deployed program. Preserve your gas wallet and pending journal during updates. See [live evidence](../verification/live-20261017/README.md).
 
 **[Start here: complete agent and server runbook](../KEEPER.md)**
 
-Public JavaScript source for an independent gas paying caller. Execution is trustless with respect to the keeper: it can trigger the fixed rules, but cannot take treasury custody or choose a payout. This branch targets the reviewed candidate; use the pinned live release until its matching upgrade. No contract build or private infrastructure is required.
+Public JavaScript source for an independent gas paying caller. Execution is trustless with respect to the keeper: it can trigger the fixed rules, but cannot take treasury custody or choose a payout. This client targets the finalized upgraded program. No contract build or private infrastructure is required.
 
 ```sh
 npm ci --omit=dev --ignore-scripts

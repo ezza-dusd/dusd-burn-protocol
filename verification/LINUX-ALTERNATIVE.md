@@ -1,3 +1,5 @@
+> **Historical investigation of the superseded 15 October executable.** The approved 17 October upgrade uses a separately reviewed Linux-built candidate. See [current live evidence](live-20261017/README.md).
+
 # Standard Linux build: compatibility and approval gates
 
 This is a proposal only. No mainnet transaction, upgrade, creator-fee change or keeper change is authorised by build verification.

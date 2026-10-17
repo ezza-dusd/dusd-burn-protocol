@@ -1,0 +1,53 @@
+{
+  "at": "2026-10-17T08:29:39.465Z",
+  "slot": 457970577,
+  "allNewTransactionsFinalizedSuccessfully": 274,
+  "newFundingSignature": "25S1kwJyEsn3LAwgBedjxPKLjPTSB45jTEdJY1kbRtzvqYssinBZWN3Gs7jDsTY4w4vzYaYbreHgpYJ6SxSmECSj",
+  "newFundingLamports": 1370000000,
+  "unsolicitedDust": {
+    "signature": "3TzZtaYiZEGoedZkvRAwASNAqmcqQLwjqcWXJpf6RGFbLRRHKchWr5Be74fcsRTZuTBZoavVD4rrzUADqJXmCGLY",
+    "slot": 457963820,
+    "sender": "Dutd2tspmicm5Q42i7K5zizsMn6o3p8kvQ6TC7DxCdeU",
+    "receivedLamports": 1000
+  },
+  "dustCaution": "Tiny deposit from a similar-looking sender is not evidence of an authorized address. Never select refund recipients from transaction history.",
+  "allocation": {
+    "initialPayerLamports": 1376129960,
+    "programStorageIncrease": 172557440,
+    "uploadAndUpgradeFees": 1300000,
+    "additionalTestPurchasePrincipal": 11000000,
+    "testPayerNetworkFees": 25000,
+    "interfaceRentIncrease": 1270000,
+    "interfaceNetworkFees": 25000,
+    "verificationRent": 3017520,
+    "verificationNetworkFee": 5000,
+    "remainingPayer": 1186930000
+  },
+  "exactPayerReconciliation": true,
+  "callerA": 5651840,
+  "callerB": 9980000,
+  "treasury": 650240,
+  "treasurySpendable": "0",
+  "dusd": "0",
+  "wsol": "0",
+  "programDataRent": 1172489400,
+  "feeSharingUnchanged": true,
+  "sharing": {
+    "bump": 255,
+    "version": 2,
+    "status": "Active",
+    "mint": "B8RHrVBxSjBGKqAbn1tXo6CWjvt5jFkkqjbCZtuDpump",
+    "admin": "Ei8d6LZSjbzQ4v9EMBLJSpp2NfVUdckJ39sBXDmNRzSq",
+    "admin_revoked": true,
+    "shareholders": [
+      {
+        "address": "HDwArc1qjz8AQt6J2fDcqoBc3MCxWh5whGYusnBxr3di",
+        "share_bps": 10000
+      }
+    ]
+  },
+  "upgradeAuthorityRetained": "FzPw22y8fMnsFYBnXh2p6sfsFzTHYLtLMWybS9d2RS2q",
+  "officialVerified": true,
+  "programHash": "ca4c648b5bfe978f4ff65b22730fda501ded8c2231839a9803b327ee4432ac42",
+  "noSigningKeysLoaded": true
+}

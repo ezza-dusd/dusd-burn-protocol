@@ -1,6 +1,6 @@
 # Verification and explorer metadata
 
-Start with [VERIFY.md](../VERIFY.md) for clean public-source Windows compilation and direct finalized-mainnet comparison. Source-manifest checks alone are not source-to-bytecode verification. This page covers the distinct official registration and IDL metadata workflows.
+Start with [VERIFY.md](../VERIFY.md) for the current official Linux build and direct finalized-mainnet comparison. [17 October live evidence](../verification/live-20261017/README.md) records the upgraded executable, four-instruction IDL update, finalized official registration and successful remote verification. Source-manifest checks alone are not source-to-bytecode verification. The 15 October publication details below are historical, not current executable status.
 
 ## Distinct claims
 
@@ -10,7 +10,7 @@ Start with [VERIFY.md](../VERIFY.md) for clean public-source Windows compilation
 4. Official Verified Builds registration requires verification metadata and a successful remote build, not just a public repository or a local checksum.
 5. Explorer IDL metadata is a separate publication, not a program upgrade.
 
-The IDL publication is finalized; official Verified Builds registration is not complete. Do not infer explorer-specific decoding support from metadata publication alone. The public upgrade authority remains active; no revocation is part of this release. [Actual build results](../verification/BUILD-RESULTS.md): the fresh Windows rebuild matches, but the successful Linux Docker compilation does not match the existing executable. Official registration is blocked, not completed.
+The updated IDL publication and official verification registration are finalized. Official remote verification passed on 17 October 2026 with matching onchain/build hashes; consult [live service evidence](../verification/live-20261017/REMOTE-VERIFIED.json). Do not infer explorer-specific decoding support from metadata publication alone. Upgrade authority remains active; no revocation is part of this release. The earlier Windows/Linux mismatch in [historical build results](../verification/BUILD-RESULTS.md) concerns the superseded executable, not today's independently reproduced Linux build.
 
 ## Official Verified Builds
 

@@ -1,4 +1,6 @@
-# Source rebuild results — 15 October 2026
+# Historical source rebuild results: 15 October 2026
+
+> This report concerns the superseded Windows-built release. For the finalized 17 October Linux-built upgrade, use [live evidence](live-20261017/README.md) and [current build instructions](../BUILD.md). Historical mismatches below are not a claim about today's executable.
 
 **Public source is available. Official Solana Verified Builds registration is NOT complete. The program upgrade authority remains active.**
 
