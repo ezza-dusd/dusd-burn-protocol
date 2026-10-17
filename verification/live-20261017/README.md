@@ -1,6 +1,6 @@
 # Live mainnet release: 17 October 2026
 
-The approved same-program upgrade is finalized. **Upgrade authority is retained. The program is not yet immutable.** The treasury, token accounts, canonical pool and existing 100% creator-fee allocation are unchanged. The ordinary Pump fee-sharing administrator remains revoked. The owner's production keeper remains disabled.
+This record describes the finalized upgrade and smoke-test phase, when upgrade authority was retained. **The authority was subsequently permanently revoked:** see [current finalization evidence](../immutable-20261017/README.md). Historical receipts and snapshots below are preserved. The treasury, token accounts, canonical pool and existing 100% creator-fee allocation are unchanged. The ordinary Pump fee-sharing administrator remains revoked. The owner's production keeper remains disabled.
 
 Start with [machine-readable receipts and results](RESULTS.json). They contain only public addresses, signatures and verified outcomes, not wallets, credentials or signed pending transactions.
 
@@ -51,6 +51,6 @@ The temporary 1.17244876 SOL upload buffer was returned to the deployment payer.
 
 [Final independent reconciliation](FINAL-VERIFICATION.json), finalized slot 457970577, confirms all 274 submitted release/test/interface/registration transactions succeeded. The payer retains **1.186930000 SOL** after all these steps. The funding bridge includes the owner's 1.37 SOL transfer and a separate unsolicited 1,000-lamport dust transfer. Never choose a refund recipient by copying a sender from transaction history; the dust sender is not an authorized recipient.
 
-## Before any permanent revocation
+## Subsequent permanent revocation
 
-Review successful official remote verification, public source/interface alignment, an updated independent keeper operating with its own gas wallet, indexer behavior and accepted upstream dependencies. A separately approved authority revocation and finalized read-back are still required. Do not interpret this release or its retained-authority tests as authorization to revoke.
+After review of the build/interface evidence and a genuine independent creator-fee-to-burn cycle, the user separately approved permanent revocation. The finalized transaction and independent read-back are in [finalization evidence](../immutable-20261017/README.md). The retained-authority tests above preceded that action and should not be described as post-revocation live purchases.

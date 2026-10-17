@@ -9,8 +9,14 @@
   "fullElfSha256": "ca4c648b5bfe978f4ff65b22730fda501ded8c2231839a9803b327ee4432ac42",
   "solanaVerifyExecutableHash": "4a830d2199af7fb1b1d66fe2d8f2cda23d9f068c59e2ec9e383ce2dde1c28f9c",
   "elfBytes": 230632,
-  "upgradeAuthority": "FzPw22y8fMnsFYBnXh2p6sfsFzTHYLtLMWybS9d2RS2q",
-  "upgradeAuthorityStatus": "retained; program NOT immutable",
+  "upgradeAuthority": null,
+  "upgradeAuthorityStatus": "permanently revoked on 17 October 2026; program immutable",
+  "authorityRevocation": {
+    "signature": "2PMWZosJTakrZNrGRCcPdNTo39ijxegtv6FaaRgRUu69dNN1xzvWahgjQcNWpi1moj79xq95iSarM6ysJDgtFSKw",
+    "slot": 457985595,
+    "status": "finalized",
+    "evidence": "verification/immutable-20261017/README.md"
+  },
   "toolchain": {
     "cargoBuildSbf": "4.3.0",
     "platformTools": "v1.57",

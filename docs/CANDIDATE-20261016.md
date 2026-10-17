@@ -1,6 +1,6 @@
 # Canonical-pool Jupiter candidate
 
-Status: local review candidate, not deployed. No change to creator-fee allocation, PDA identity, production keeper or mainnet authority.
+Historical candidate design record. The corrected implementation was subsequently deployed, verified and permanently made immutable on 17 October 2026. See [current finalization evidence](../verification/immutable-20261017/README.md). The design discussion below preserves its original review context.
 
 ## Monetary rules
 

@@ -10,7 +10,7 @@ Start with [VERIFY.md](../VERIFY.md) for the current official Linux build and di
 4. Official Verified Builds registration requires verification metadata and a successful remote build, not just a public repository or a local checksum.
 5. Explorer IDL metadata is a separate publication, not a program upgrade.
 
-The updated IDL publication and official verification registration are finalized. Official remote verification passed on 17 October 2026 with matching onchain/build hashes; consult [live service evidence](../verification/live-20261017/REMOTE-VERIFIED.json). Do not infer explorer-specific decoding support from metadata publication alone. Upgrade authority remains active; no revocation is part of this release. The earlier Windows/Linux mismatch in [historical build results](../verification/BUILD-RESULTS.md) concerns the superseded executable, not today's independently reproduced Linux build.
+The updated IDL publication and official verification registration are finalized. Official remote verification passed on 17 October 2026 with matching onchain/build hashes; consult [live service evidence](../verification/live-20261017/REMOTE-VERIFIED.json). The program's upgrade authority was subsequently permanently revoked without changing its executable; see [finalized authority evidence](../verification/immutable-20261017/README.md). Do not infer explorer-specific decoding support from metadata publication alone. The earlier Windows/Linux mismatch in [historical build results](../verification/BUILD-RESULTS.md) concerns the superseded executable, not today's independently reproduced Linux build. Publication procedures below are historical reference, not instructions to repeat live writes.
 
 ## Official Verified Builds
 

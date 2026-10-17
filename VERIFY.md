@@ -1,6 +1,6 @@
 # Independently verify the live program
 
-The current mainnet executable is the approved 17 October 2026 Linux build. The program's upgrade authority remains retained. No instruction below signs a transaction, upgrades a program or changes creator fees.
+The current mainnet executable is the approved 17 October 2026 Linux build. The program's upgrade authority is permanently revoked; [finalized evidence](verification/immutable-20261017/README.md) confirms unchanged bytes and authority None. No instruction below signs a transaction, upgrades a program or changes creator fees.
 
 The current source includes a subsequent comment-only annotation. A fresh official-container build reproduced the exact same deployed bytes; [annotation evidence](verification/source-annotation-20261017/README.md) distinguishes the current source fingerprint from the original officially registered commit.
 
@@ -34,4 +34,4 @@ The former 196,664-byte release had matching public Windows builds but did not m
 
 ## Authority boundary
 
-Verification metadata and the public IDL are separate accounts; neither removes the burn program's upgrade authority. Permanent upgrade-authority revocation requires a separate explicit approval and finalized read-back. No command in this guide authorizes it.
+Verification metadata and the public IDL are separate accounts; neither alone removes an upgrade authority. The separately approved permanent revocation finalized at slot 457985595. Fresh reads from two public RPC providers confirmed authority None and unchanged executable bytes. The original official verification registration remains valid for the same binary; no upgrade or new registration was needed. No command in this guide authorizes a transaction.

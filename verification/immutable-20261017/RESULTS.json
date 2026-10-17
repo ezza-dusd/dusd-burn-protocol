@@ -1,0 +1,112 @@
+{
+  "revocation": {
+    "at": "2026-10-17T09:24:04.975Z",
+    "signature": "2PMWZosJTakrZNrGRCcPdNTo39ijxegtv6FaaRgRUu69dNN1xzvWahgjQcNWpi1moj79xq95iSarM6ysJDgtFSKw",
+    "transactionSlot": 457985595,
+    "finalized": true,
+    "verifiedAtSlot": 457985614,
+    "program": "6gEeY5c75itbSwtBVszzqnvvAi2vNScMf6fN5YETvAWm",
+    "programData": "DXvZfLSRRY5k71fWHWtqWLxJqXsPaBRefQrSoKuGRvqN",
+    "previousUpgradeAuthority": "FzPw22y8fMnsFYBnXh2p6sfsFzTHYLtLMWybS9d2RS2q",
+    "currentUpgradeAuthority": null,
+    "immutable": true,
+    "fullElfSha256": "ca4c648b5bfe978f4ff65b22730fda501ded8c2231839a9803b327ee4432ac42",
+    "executableUnchanged": true,
+    "programStillExecutable": true,
+    "feeSharingUnchanged": true,
+    "ordinaryFeeAdminRevoked": true,
+    "soleFeeRecipient": "HDwArc1qjz8AQt6J2fDcqoBc3MCxWh5whGYusnBxr3di",
+    "allocationBps": 10000,
+    "treasuryUsed": false,
+    "feeLamports": 5000,
+    "computeUnits": 2370,
+    "payerAfter": 995001,
+    "keeperChanged": false
+  },
+  "postChecks": {
+    "at": "2026-10-17T09:25:20.165Z",
+    "program": "6gEeY5c75itbSwtBVszzqnvvAi2vNScMf6fN5YETvAWm",
+    "independentRpc": "https://solana-rpc.publicnode.com",
+    "independentRpcFinalizedSlot": 457985947,
+    "primaryFinalizedSlot": 457985948,
+    "authorityOnBothProviders": null,
+    "fullElfSha256": "ca4c648b5bfe978f4ff65b22730fda501ded8c2231839a9803b327ee4432ac42",
+    "programExecutable": true,
+    "feeSharingAdminRevoked": true,
+    "soleRecipient": "HDwArc1qjz8AQt6J2fDcqoBc3MCxWh5whGYusnBxr3di",
+    "allocationBps": 10000,
+    "treasuryNativeLamports": "650240",
+    "rentLamports": "650240",
+    "spendableLamports": "0",
+    "dusdRaw": "0",
+    "wsolRaw": "0",
+    "postRevocationUnsignedStandaloneBurn": {
+      "err": null,
+      "units": 8898,
+      "logs": [
+        "Program 6gEeY5c75itbSwtBVszzqnvvAi2vNScMf6fN5YETvAWm invoke [1]",
+        "Program log: Instruction: BurnDusd",
+        "Program data: SY4gOkDhoF/yn34jy1zh6SXA9o9Zy2tMgLtm0OO50B/ahuwnENB2/QAAAAAAAAAA",
+        "Program 6gEeY5c75itbSwtBVszzqnvvAi2vNScMf6fN5YETvAWm consumed 8898 of 200000 compute units",
+        "Program 6gEeY5c75itbSwtBVszzqnvvAi2vNScMf6fN5YETvAWm success"
+      ]
+    },
+    "postRevocationUnsignedBelowThresholdPurchase": {
+      "err": {
+        "InstructionError": [
+          0,
+          {
+            "Custom": 6004
+          }
+        ]
+      },
+      "units": 22465,
+      "logs": [
+        "Program 6gEeY5c75itbSwtBVszzqnvvAi2vNScMf6fN5YETvAWm invoke [1]",
+        "Program log: Instruction: ExecuteBuyAndBurn",
+        "Program log: AnchorError thrown in programs/dusd_burn/src/lib.rs:141. Error Code: BelowThreshold. Error Number: 6004. Error Message: Less than 0.01 SOL spendable above rent.",
+        "Program 6gEeY5c75itbSwtBVszzqnvvAi2vNScMf6fN5YETvAWm consumed 22465 of 200000 compute units",
+        "Program 6gEeY5c75itbSwtBVszzqnvvAi2vNScMf6fN5YETvAWm failed: custom program error: 0x1774"
+      ]
+    },
+    "officialVerification": {
+      "is_verified": true,
+      "message": "On chain program verified",
+      "on_chain_hash": "4a830d2199af7fb1b1d66fe2d8f2cda23d9f068c59e2ec9e383ce2dde1c28f9c",
+      "executable_hash": "4a830d2199af7fb1b1d66fe2d8f2cda23d9f068c59e2ec9e383ce2dde1c28f9c",
+      "repo_url": "https://github.com/ezza-dusd/dusd-burn-protocol/tree/141268054fd78d1e908f39891cc385ae680ade15",
+      "commit": "141268054fd78d1e908f39891cc385ae680ade15",
+      "last_verified_at": "2026-10-17T08:25:40.531700",
+      "is_frozen": false,
+      "is_closed": false
+    },
+    "transactionsSigned": 0,
+    "transactionsSubmitted": 0,
+    "walletLoaded": false,
+    "livePurchaseAfterRevocationProven": false
+  },
+  "independentPreRevocationCycle": {
+    "checkedAt": "2026-10-17T09:03:50.723Z",
+    "finalized": true,
+    "independentGasWallet": "HL6ihrR1BKxLBioYRWg39AMU75ZiMzqYFE85bBCka3x8",
+    "collectionSignature": "2L2UY9veHT1jSJMe7bMvyP4P4hvc6AE7T5S7dN7RHvXUdDjkENQdqxDTttyUQ1w28aoK57mk2nFPCBcYfCfLhJCo",
+    "burnSignature": "3PjbABCRZYKXZM276NM7HTBCrBneDh3AR25bjM5bZF2yyfbrBzrnDJxkgUWyewMYZ6sVd6wMr9xMtQXERLu1Cx6o",
+    "nativeCreatorFeesReceived": 11086475,
+    "purchaseInputLamports": 11086475,
+    "minimumSatisfied": true,
+    "actualDusdBurnedRaw": "5898573873",
+    "dusdDecimals": 6,
+    "treasuryNativeAfter": 650240,
+    "treasuryWsolAfter": "0",
+    "treasuryDusdAfter": "0",
+    "callerPaidOnlyFees": true,
+    "totalFeesLamports": 10800,
+    "computeUnits": {
+      "collection": 128464,
+      "purchaseBurn": 88433
+    },
+    "independentFunctionalGatePassed": true,
+    "programUpgradeAuthorityStillRetained": true,
+    "reviewerSubmittedTransactions": 0
+  }
+}
