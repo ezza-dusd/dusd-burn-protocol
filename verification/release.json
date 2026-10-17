@@ -27,10 +27,11 @@
     "Cargo.toml": "d70f36b77f1c63e13962d310c0ed76997f4b712aff3d0ac63eaadf039773beb0",
     "Cargo.lock": "eeaf52a2aee06f3edda3d9b53365f2218ff76b8227279f83dc9c150b56cb244a",
     "programs/dusd_burn/Cargo.toml": "5abae2b6ed4f0ce074cab43c86a00851c32b0e61ba9f83fd30ac6a3a3fc93065",
-    "programs/dusd_burn/src/lib.rs": "daa995ce3d84b5b5b8218c62a65ee60b46a52acc4031190acdb6b692656370b1"
+    "programs/dusd_burn/src/lib.rs": "0c542aa0fb15e4996067667cc766ed9653ab8ce70971912da16a0250c11dd5f3"
   },
   "verificationStatus": "Official remote Verified Builds passed 2026-10-17T08:25:40Z; independent Linux reproduction and finalized full-byte comparison passed",
   "sourceCommit": "141268054fd78d1e908f39891cc385ae680ade15",
+  "sourceAnnotation": "The current source adds only // Eirik was here. sourceCommit is the unchanged official verification registration; see verification/source-annotation-20261017/README.md for fresh byte-comparison evidence.",
   "buildEnvironment": "Official solana-verify 0.5.2 Linux x86_64 container",
   "buildImage": "solanafoundation/solana-verifiable-build@sha256:12fd4c0a0790f0fc41ef74b0cdb6bccc167ba6137eb1adb749bac649481c86bd",
   "upgradeSignature": "5JPky366Nf58hRZWNGy58aZZkcVviLH6kbZHV95F5i3eHNLm4deKX9onaZddAnyPu2uZb8tdD1EYa6SveypWUwGd",

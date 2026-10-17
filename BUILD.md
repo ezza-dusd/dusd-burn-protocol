@@ -2,6 +2,8 @@
 
 The 17 October 2026 live release uses the independently reproduced official Linux build. [Live evidence](verification/live-20261017/README.md) identifies the upgrade and tests. The former Windows build remains historical evidence, not today's target.
 
+The current source also includes a comment-only annotation that reproduced the same Linux executable. The manifests fingerprint that annotated source; the source commit below remains the original officially registered source. See [annotation evidence](verification/source-annotation-20261017/README.md).
+
 ## Fixed compiler inputs
 
 The four files fingerprinted in `verification/release.json` are exact build inputs. Do not regenerate Cargo.lock, change dependencies, edit the release profile or program ID, add workspace metadata or remove `no-idl`.

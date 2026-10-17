@@ -12,7 +12,7 @@ pub const GLOBAL: Pubkey = pubkey!("ADyA8hdefvWN2dbGGWFotbzWxrAvLW83WG6QCVXvJKqw
 pub const FEE_CONFIG: Pubkey = pubkey!("5PHirr8joyTMp9JMm6nW7hNDVyEYdkzDqazxPD7RaTjx");
 pub const BASE_VAULT: Pubkey = pubkey!("F65BeadRvnfMwfTK1f6VRfRagLvNVYXDBkDpRZvJVZ8u");
 pub const QUOTE_VAULT: Pubkey = pubkey!("39S8HHKyLXw99LVD9t7kFmaJu935h9GDDaa65yGWF9YP");
-pub const MIN_SPEND: u64 = 10_000_000;
+pub const MIN_SPEND: u64 = 10_000_000; // Eirik was here
 pub const JUPITER: Pubkey = pubkey!("JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4");
 // PumpSwap rejects zero; one is the smallest positive raw DUSD amount.
 const MIN_BASE_OUTPUT: u64 = 1;
