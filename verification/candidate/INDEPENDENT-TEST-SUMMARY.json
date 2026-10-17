@@ -1,6 +1,20 @@
 {
-  "status": "PENDING for corrected source; historical success does not verify current candidate",
-  "sourceSha256": "daa995ce3d84b5b5b8218c62a65ee60b46a52acc4031190acdb6b692656370b1",
-  "historicalEvidence": "history/pre-review-fixes/INDEPENDENT-TEST-SUMMARY.json",
-  "transactionsSubmitted": 0
+  "at": "2026-10-17T07:32:06.783Z",
+  "commit": "141268054fd78d1e908f39891cc385ae680ade15",
+  "sourceHashes": {
+    "programs/dusd_burn/src/lib.rs": "daa995ce3d84b5b5b8218c62a65ee60b46a52acc4031190acdb6b692656370b1",
+    "programs/dusd_burn/Cargo.toml": "5abae2b6ed4f0ce074cab43c86a00851c32b0e61ba9f83fd30ac6a3a3fc93065",
+    "Cargo.toml": "d70f36b77f1c63e13962d310c0ed76997f4b712aff3d0ac63eaadf039773beb0",
+    "Cargo.lock": "eeaf52a2aee06f3edda3d9b53365f2218ff76b8227279f83dc9c150b56cb244a"
+  },
+  "binarySha256": "ca4c648b5bfe978f4ff65b22730fda501ded8c2231839a9803b327ee4432ac42",
+  "tests": 255,
+  "passed": 255,
+  "failed": 0,
+  "baseline": 40,
+  "stress": 92,
+  "lifecycle": 44,
+  "candidate": 79,
+  "run": "https://github.com/ezza-dusd/dusd-burn-protocol/actions/runs/39013571235",
+  "transactionsSubmittedToNetwork": 0
 }

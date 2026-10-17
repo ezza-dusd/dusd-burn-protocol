@@ -26,6 +26,16 @@ Separate Windows ELF: `1f978a1bfcc0afba78d20fdd751c2cdc52b12723040de7e7fa4b26772
 
 Local tests after correction: **255 contract tests**, **104 keeper tests**, **11 bytecode-helper tests**, all passing; 25,000 arithmetic cases, 391 deterministic malformed-route probes and 17 direct exact-input feasibility probes. Independent build/test status must be read from the current records above; historical successful workflows do not verify changed source.
 
+## Independent reproduction completed
+
+Exact source commit: `141268054fd78d1e908f39891cc385ae680ade15`. Subsequent evidence-only commits preserve the four compiler inputs and tested runtime source.
+
+- [Official Linux build and full regressions: passed](https://github.com/ezza-dusd/dusd-burn-protocol/actions/runs/39013571235). The downloaded ELF matches the locally tested selected bytes exactly; 255 contract tests passed with zero failures. Hosted keeper and verification-helper tests also passed.
+- [Independent Windows build: passed](https://github.com/ezza-dusd/dusd-burn-protocol/actions/runs/39013571215). Its separate expected fingerprint matches exactly. Local execution of this Windows-built artifact passed all 255 contract tests.
+- [Linux/Windows keeper tests: passed](https://github.com/ezza-dusd/dusd-burn-protocol/actions/runs/39013571219).
+
+The import helper checked both commits, all source fingerprints, both binary hashes, exact Linux bytes and agreement with the local test count before replacing pending records. No historical success was reused as evidence for the corrected source.
+
 ## Status boundary
 
 Build matching is not an independent security audit or official onchain verification. Official registration and remote verification remain pending. Mainnet still has the old `0d91e31…` binary and retained upgrade authority. An exact approved upgrade and controlled live smoke tests come before any separate irreversible revocation decision. Both purchase paths remain available in the candidate, through the same fixed canonical pool.
