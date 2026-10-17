@@ -1,6 +1,6 @@
 # Release checklist, not execution authority
 
-Nothing in this file authorizes signing, funding, upgrading, fee migration or revocation. The approved 17 October upgrade and live smoke tests are finalized; [actual evidence](../verification/live-20261017/README.md) distinguishes completed work from remaining gates below. Existing fee-sharing administration is already revoked with 100% allocated to the same treasury. No new fee-sharing migration is needed. The owner's keeper remains disabled; program upgrade authority remains retained.
+Nothing in this file authorizes signing, funding, upgrading, fee migration or revocation. **Finalization is complete:** the separately approved upgrade-authority revocation finalized on 17 October 2026; [actual evidence](../verification/immutable-20261017/README.md) records authority None and unchanged code. The checklist below preserves the historical release procedure, not a remaining upgrade path. No DUSD program upgrade or rollback is now possible. The owner's keeper remains disabled; fee allocation is unchanged.
 
 ## Candidate identity
 

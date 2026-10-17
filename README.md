@@ -1,6 +1,6 @@
 # DUSD Burn Protocol
 
-> **Live mainnet release, 17 October 2026.** The approved upgrade is finalized with authority retained. Both direct PumpSwap and canonical-pool Jupiter execution are available. See [live evidence](verification/live-20261017/README.md), [matching builds and tests](verification/candidate/README.md) and [remaining finalization gates](docs/UPGRADE-AND-FINALIZATION-CHECKLIST.md). The program is not yet immutable.
+> **Immutable mainnet program, 17 October 2026.** The burn program's upgrade authority is permanently revoked. Both direct PumpSwap and canonical-pool Jupiter execution remain available, with exactly the same verified executable. See [finalized revocation evidence](verification/immutable-20261017/README.md), [live tests](verification/live-20261017/README.md) and [matching builds](verification/candidate/README.md).
 
 A monetary protocol with trustless burn execution and decentralized creator fee custody. Creator fees become DUSD purchases and permanent burns, not private payouts. Anyone can trigger the rules without being trusted to hold the funds.
 
@@ -65,9 +65,9 @@ The [canonical on-chain IDL](https://explorer.solana.com/address/AwcUwoCEP2fWBwt
 
 ## Authority and execution boundaries
 
-**The burn program's upgrade authority remains active; the program is not yet immutable.** This authority can replace its code. It is separate from the revoked ordinary Pump fee-sharing administrator.
+**The burn program's upgrade authority is permanently revoked.** Its executable cannot be upgraded or rolled back. The ordinary Pump fee-sharing administrator was already revoked, with the treasury PDA as the sole 100% recipient.
 
-Trustless execution under today's deployed rules is distinct from permanently fixed rules. The same-program upgrade is complete with authority retained. Permanent revocation remains a separate explicit decision after live evidence, official verification and independent keeper operation are reviewed.
+The finalized loader transaction removed the upgrade authority without changing executable bytes, treasury addresses, fee allocation or keeper runtime. A separately operated keeper completed a genuine creator-fee collection and purchase/burn cycle before revocation. [Finalization evidence](verification/immutable-20261017/README.md) distinguishes that live cycle from the unsigned post-revocation execution checks.
 
 Pump/PumpSwap availability, upgrades and platform-level fee-routing powers remain external dependencies. The one-unit minimum deliberately does not promise a fair execution price or protection from MEV. An upstream failure or transaction-limit violation rolls back the transaction; the caller still pays its network fee. Indexers must count only successful, finalized burns, not events emitted by a transaction that later fails. Detailed assumptions and recovery limits are in [SECURITY.md](docs/SECURITY.md).
 

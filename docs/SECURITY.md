@@ -2,7 +2,7 @@
 
 This is source publication, not an independent audit certificate. Read every account constraint and the code before interacting.
 
-This branch is an undeployed candidate. The additional Jupiter router and post-CPI checks need review of their own; evidence for the old deployed binary does not certify this change. See [candidate rules, demonstrated limitations and release gates](CANDIDATE-20261016.md).
+The reviewed direct PumpSwap/Jupiter release is deployed and its upgrade authority is permanently revoked. [Finalization evidence](../verification/immutable-20261017/README.md) identifies the exact unchanged executable and transaction. The [candidate review record](CANDIDATE-20261016.md) remains historical engineering evidence, not an independent audit certificate.
 
 ## Enforced by the current program
 
@@ -18,7 +18,7 @@ This branch is an undeployed candidate. The additional Jupiter router and post-C
 
 ## Not guaranteed
 
-The retained Solana upgrade authority can replace this program until explicitly revoked. Pump's programs and platform controls are separate external authorities. Pool availability, compatible instruction ABI/account requirements, fees, Solana transaction limits, RPC access and willing callers are upstream/operational dependencies.
+No Solana upgrade authority remains for the DUSD burn program; its code cannot be replaced or rolled back. Pump's programs and platform controls are separate external authorities. Pool availability, compatible instruction ABI/account requirements, fees, Solana transaction limits, RPC access and willing callers remain upstream/operational dependencies.
 
 Minimum purchase output is one raw unit, intentionally without an external fair-price or slippage guarantee. Manipulation or unfavorable liquidity can produce poor execution. An amount too small to produce a valid purchase, exhausted liquidity, upstream rejection or transaction-limit failure may prevent a particular execution. They do not authorize bypassing validation or redirecting assets. Failed transactions may emit apparent burn logs before rollback: **index only successful finalized receipts** and verify actual SPL burns.
 

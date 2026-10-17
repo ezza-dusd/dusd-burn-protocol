@@ -1,6 +1,6 @@
 # Candidate evidence, 17 October 2026
 
-This folder preserves **build-time candidate evidence**. The selected Linux artifact was subsequently deployed in the approved 17 October upgrade; see [current live evidence](../live-20261017/README.md). The original build manifests retain their historical status labels. These records themselves authorize no transaction, fee migration or authority revocation.
+This folder preserves **build-time candidate evidence**. The selected Linux artifact was subsequently deployed, officially verified and permanently made immutable; see [finalization evidence](../immutable-20261017/README.md) and [live tests](../live-20261017/README.md). The original build manifests retain their historical status labels. These records themselves authorize no transaction, fee migration or authority revocation.
 
 Start with [protocol changes](../../docs/CANDIDATE-20261016.md), [adversarial corrections](../../docs/REVIEW-FIXES-20261017.md) and [release checklist](../../docs/UPGRADE-AND-FINALIZATION-CHECKLIST.md).
 
