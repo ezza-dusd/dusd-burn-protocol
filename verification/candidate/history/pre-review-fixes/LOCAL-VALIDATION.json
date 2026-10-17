@@ -1,0 +1,49 @@
+{
+  "at": "2026-10-17T06:49:38.704Z",
+  "scope": "Local copied mainnet programs only; not new live transactions",
+  "sourceSha256": "793f053cf1b0bf58168f5f906f67c3374340872709dc9ee92cfc262feaf8da48",
+  "binarySha256": "b452de1ee17aa07c60d394b65f78b33554affd74dca32bc9efd39f62bd6e3d51",
+  "contract": {
+    "tests": 227,
+    "passed": 227,
+    "failed": 0,
+    "existingBaseline": 40,
+    "stress": 92,
+    "fullLifecycle": 44,
+    "newCandidate": 51
+  },
+  "arithmeticCases": 25000,
+  "malformedRouteCases": 120,
+  "directFeasibilityChecks": 17,
+  "creatorFeeCyclesDirect": 5,
+  "creatorFeeCyclesJupiter": 3,
+  "keeper": {
+    "tests": 77,
+    "passed": 77,
+    "failed": 0,
+    "exitCode": 0
+  },
+  "bytecodeHelper": {
+    "tests": 11,
+    "passed": 11,
+    "failed": 0,
+    "exitCode": 0
+  },
+  "jupiterExecution": [
+    {
+      "name": "canonical router purchase",
+      "error": null,
+      "computeUnits": 105645,
+      "bytes": 909,
+      "fee": 5000
+    },
+    {
+      "name": "fresh caller-funded complete setup",
+      "error": null,
+      "computeUnits": 161873,
+      "bytes": 942,
+      "fee": 5000
+    }
+  ],
+  "mainnetTransactionsSubmitted": 0
+}

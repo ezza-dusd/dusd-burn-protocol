@@ -1,5 +1,9 @@
 # Run an independent DUSD keeper
 
+> **Targets the upgraded mainnet program, 17 October 2026.** The executable pin matches the finalized live release. Existing keepers pinned to the old executable must update deliberately, preserving their gas wallet and persistent pending journal. See [live deployment evidence](verification/live-20261017/README.md).
+
+The keeper prefers direct PumpSwap execution. Only an unsigned simulation rejection permits one canonical-pool Jupiter attempt after rereading state. It never switches paths after a timeout, uncertain broadcast or unresolved journal entry. Jupiter's returned setup, cleanup, tips and extra instructions are ignored; fixed caller-funded preparation is generated locally. An optional private `JUPITER_API_KEY` can be supplied if required by the public build service. There is no API polling while idle. Both paths retain the one-raw-unit output floor, not a fair-price guarantee. Today Jupiter calls the same PumpSwap instruction, so future instruction compatibility depends on a compatible Jupiter adapter update. See the [candidate scope and release gates](docs/CANDIDATE-20261016.md).
+
 For a person or an autonomous agent with access to a computer or server. The inspectable JavaScript client lives in [`keeper/`](keeper/). No contract compilation, private DUSD infrastructure, registration or privileged key is required.
 
 Your wallet pays gas. The treasury keeps custody of creator revenue and purchased tokens. There are no keeper rewards or reimbursements.
@@ -27,7 +31,7 @@ node cli.mjs --check
 
 Inspect `cli.mjs`, `lock.mjs`, `runner.mjs`, `builders.mjs`, `state.mjs`, `codec.mjs`, the lockfile and tests. The [copy manifest](keeper/UPSTREAM-COPY-MANIFEST.json) records baseline provenance and the current coordinator hash. No wallets or state are shipped. Dependency lifecycle scripts are disabled, but pinned dependencies have known transitive npm advisories. Review `npm audit --omit=dev` independently; do not force major upgrades without regression testing.
 
-The check reads public mainnet state without opening a wallet. Expect `keyAccessed: false`, matching executable bytes, fixed mint and canonical pool, and revoked ordinary fee-sharing administration with 100% allocated to the treasury. A failed check is a stop condition. See [addresses](README.md#fixed-accounts) and [verification](VERIFY.md). Official Verified Builds remains pending; executable pinning is separate from that service.
+The check reads public mainnet state without opening a wallet. Expect `keyAccessed: false`, matching executable bytes, fixed mint and canonical pool, and revoked ordinary fee-sharing administration with 100% allocated to the treasury. A failed check is a stop condition. See [addresses](README.md#fixed-accounts) and [verification](VERIFY.md). Official remote Verified Builds passed for this release; see [the actual service evidence](verification/live-20261017/REMOTE-VERIFIED.json). Executable pinning remains a separate local safety check.
 
 Default RPC: `https://api.mainnet-beta.solana.com`. `SOLANA_RPC_URL` selects another HTTPS mainnet endpoint. Free endpoints can throttle or fail. Provider credentials belong in a private environment file, never Git or shared logs.
 
@@ -75,6 +79,8 @@ sudo -u dusd-keeper env \
 This submits real mainnet transactions only when eligible work exists. `no-eligible-work` is healthy and sends nothing. Do not force a purchase to demonstrate activity. Each invocation submits at most three transactions, re-reading finalized state between operations. Unrelated keepers can act without coordination.
 
 The client can unwrap qualifying WSOL, collect and distribute fees, execute the purchase/full burn, or burn DUSD donations without treasury SOL. To avoid dust claims, it collects when pending fees plus native spendable treasury SOL reach 0.01 SOL. Purchase eligibility excludes required treasury rent. These scheduling choices are offchain; the contract has no cooldown.
+
+Unsigned simulation rejections are isolated by phase. After rereading finalized state, donation burning may still run when collection or both swap paths reject. An unavailable or invalid unsigned Jupiter build also cannot suppress a donation burn. A successfully completed alternative resolves the direct rejection; eligible work that remains blocked is reported as `blocked` or `partial-completion`, with `healthy: false` and exit code 2. No phase switches or further spending occur after a transport error inside submission, a finalized failed submission, shutdown or an unresolved signed transaction. The three-signed-transactions-per-cycle limit remains unchanged.
 
 Only successful finalized receipts count. Simulation receives unsigned wire. After successful simulation the client signs and durably records the pending transaction before sending it anywhere. Failed onchain transactions roll back account changes but still cost gas. The client refuses submissions below 0.0005 SOL of caller gas, which is not a guaranteed rent allowance. No automatic top-ups occur.
 

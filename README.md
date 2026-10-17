@@ -1,30 +1,32 @@
 # DUSD Burn Protocol
 
-A permissionless, on-chain monetary mechanism that converts DUSD creator revenue into purchases and permanent token burns.
+> **Live mainnet release, 17 October 2026.** The approved upgrade is finalized with authority retained. Both direct PumpSwap and canonical-pool Jupiter execution are available. See [live evidence](verification/live-20261017/README.md), [matching builds and tests](verification/candidate/README.md) and [remaining finalization gates](docs/UPGRADE-AND-FINALIZATION-CHECKLIST.md). The program is not yet immutable.
+
+A monetary protocol with trustless burn execution and decentralized creator fee custody. Creator fees become DUSD purchases and permanent burns, not private payouts. Anyone can trigger the rules without being trusted to hold the funds.
 
 | Mainnet identity | Address |
 | --- | --- |
 | [Burn program](https://explorer.solana.com/address/6gEeY5c75itbSwtBVszzqnvvAi2vNScMf6fN5YETvAWm) | `6gEeY5c75itbSwtBVszzqnvvAi2vNScMf6fN5YETvAWm` |
 | [Treasury PDA](https://explorer.solana.com/address/HDwArc1qjz8AQt6J2fDcqoBc3MCxWh5whGYusnBxr3di) | `HDwArc1qjz8AQt6J2fDcqoBc3MCxWh5whGYusnBxr3di` |
 
-**[Read the Rust contract](programs/dusd_burn/src/lib.rs)** · **[Verify the deployed code](VERIFY.md)** · [Instruction interface](idl/dusd_burn.json) · [Security model](docs/SECURITY.md)
+**[Read the live contract](programs/dusd_burn/src/lib.rs)** · **[Live verification evidence](verification/live-20261017/README.md)** · [Reproduce the build](VERIFY.md) · [Instruction interface](idl/dusd_burn.json)
 
 ## Choose your starting point
 
-- **[Run a keeper](KEEPER.md):** give your agent one public guide to inspect the client, prepare a server and use only its own gas wallet.
-- [Understand the protocol](https://dusd.fun/docs/burn-protocol): monetary policy and decentralized custody.
-- [Browse verification evidence](verification/README.md): a short index of build records and current limitations.
+- **[Run a keeper](KEEPER.md):** an inspectable public guide for an agent, its own server and gas wallet. Preserve existing wallets and pending journals when updating.
+- [Understand the protocol](https://dusd.fun/docs/burn-protocol): trustless execution and decentralized custody.
+- [Browse live mainnet evidence](verification/live-20261017/README.md) and [independent build/test records](verification/candidate/README.md).
 
 The public keeper source lives in [`keeper/`](keeper/), separate from contract and verification material. No website archive or Rust compilation is needed to run it.
 
 ## How it works
 
 1. Public Pump and PumpSwap instructions collect DUSD creator fees and distribute native SOL to the treasury. DUSD's V2 fee-sharing configuration allocates 100% to that PDA; its ordinary fee-sharing administrator is revoked.
-2. Anyone calls `execute_buy_and_burn`. When the treasury has at least **0.01 SOL above required rent**, it spends the available native SOL through DUSD's fixed canonical PumpSwap pool.
+2. Anyone calls `execute_buy_and_burn`, or `execute_jupiter_buy_and_burn`. At **0.01 SOL above required rent**, the program spends the available native SOL through DUSD's fixed canonical PumpSwap pool.
 3. PumpSwap's native `buy_exact_quote_in_v2` instruction calculates the purchase and trading fees. The protocol specifies a minimum output of one raw DUSD unit, without an independent pricing formula or oracle.
-4. The program burns **the entire balance** of its designated DUSD account in the same atomic transaction—including purchased tokens, pre-existing balances and direct donations.
+4. The program burns **the entire balance** of its designated DUSD account in the same atomic transaction, including purchased tokens, earlier balances and direct donations.
 
-The treasury signs through program-derived seeds, not a private key. The external caller pays network fees and any required first-use account setup; purchase principal and purchased DUSD never pass into the caller's custody.
+The significance: the program enforces the movement from revenue to burn. A keeper cannot take the money, choose a payout or retain purchased DUSD. Treasury signatures use program-derived seeds, not a private key; callers pay gas and setup. Independent keepers can replace one another without team permission.
 
 There are no keeper rewards, privileged execution roles, administrative withdrawals, mutable monetary settings or on-chain cooldowns in the contract.
 
@@ -35,6 +37,7 @@ Any gas-funded Solana wallet can submit these instructions using the [published 
 | Instruction | Effect |
 | --- | --- |
 | `execute_buy_and_burn` | Spend eligible treasury SOL through the fixed pool, then burn all designated DUSD. |
+| `execute_jupiter_buy_and_burn` | The same policy through Jupiter's verified single canonical pool route encoding. |
 | `burn_dusd` | Burn all designated DUSD without a SOL threshold or a PumpSwap purchase. Zero balance is a successful no-op. |
 | `unwrap_quote` | Recover at least 0.01 WSOL from the designated account into the same treasury. It cannot pay the caller. |
 
@@ -44,7 +47,7 @@ Before a purchase, anyone may invoke Pump `sweep_creator_fee`, canonical PumpSwa
 
 | Account | Mainnet address |
 | --- | --- |
-| DUSD mint — legacy SPL Token, 6 decimals | `B8RHrVBxSjBGKqAbn1tXo6CWjvt5jFkkqjbCZtuDpump` |
+| DUSD mint, legacy SPL Token, 6 decimals | `B8RHrVBxSjBGKqAbn1tXo6CWjvt5jFkkqjbCZtuDpump` |
 | Canonical DUSD/SOL pool | `2z2uBDXaAFishs6XRz2atV2Ro7jL8hfdUcKxTTfhjHDw` |
 | Designated DUSD account | `EycdnyeQjfoSvbTEhsA8oGNfDhAmMDg3KUSAGVgrLr89` |
 | Designated WSOL account | `EEqYCx4wcGtXEK2wJCtEPPFx7MS1D1SsgDWAUd5HoYVM` |
@@ -54,12 +57,16 @@ Do not send unrelated tokens to protocol accounts: there is no general-purpose w
 
 ## Source and verification
 
-The Rust source, manifests and lockfile are preserved byte-for-byte from the mainnet release. A [fresh GitHub-hosted Windows build](https://github.com/ezza-dusd/dusd-burn-protocol/actions/runs/38791076864) compiled the public source and matched the deployed mainnet executable exactly. [VERIFY.md](VERIFY.md) explains how to reproduce that comparison and distinguishes it from the separate official verification process. [BUILD.md](BUILD.md) pins compiler inputs; [release fingerprints](verification/release.json) identify the intended artifact.
+This source matches the upgraded release. Its selected Linux executable and separate Windows fingerprint were independently reproduced on GitHub; 255 contract tests, 104 keeper tests and 11 verification helpers passed. The [build evidence index](verification/candidate/README.md) identifies exact source, binaries and successful runs. It includes 25,000 arithmetic cases and eight local creator fee cycles. The separate mainnet smoke tests are recorded in [live evidence](verification/live-20261017/README.md). Build reproduction is not an independent security audit or completed official verification.
 
-The [canonical on-chain IDL](https://explorer.solana.com/address/AwcUwoCEP2fWBwtLZwfsU9FAQE15ZVA3zM3JG9G4bhUy) describes the three-instruction interface. IDL publication is distinct from executable verification.
+The current 230,632-byte Linux executable was independently reproduced from public source commit `141268054fd78d1e908f39891cc385ae680ade15` in the [GitHub-hosted Linux build and regression run](https://github.com/ezza-dusd/dusd-burn-protocol/actions/runs/39013571235). Its full SHA-256 is `ca4c648b5bfe978f4ff65b22730fda501ded8c2231839a9803b327ee4432ac42`. Finalized mainnet bytes match. Official Verified Builds registration is finalized and the remote verification job passed with identical onchain/build hashes, as recorded in [live evidence](verification/live-20261017/README.md). Neither verification nor build matching is a security audit or authority revocation.
+
+The [canonical on-chain IDL](https://explorer.solana.com/address/AwcUwoCEP2fWBwtLZwfsU9FAQE15ZVA3zM3JG9G4bhUy) publication status and payload fingerprint are recorded in [live interface evidence](verification/live-20261017/README.md). Both checked public IDLs describe the four-instruction release. Interface publication is distinct from executable verification.
 
 ## Authority and execution boundaries
 
 **The burn program's upgrade authority remains active; the program is not yet immutable.** This authority can replace its code. It is separate from the revoked ordinary Pump fee-sharing administrator.
+
+Trustless execution under today's deployed rules is distinct from permanently fixed rules. The same-program upgrade is complete with authority retained. Permanent revocation remains a separate explicit decision after live evidence, official verification and independent keeper operation are reviewed.
 
 Pump/PumpSwap availability, upgrades and platform-level fee-routing powers remain external dependencies. The one-unit minimum deliberately does not promise a fair execution price or protection from MEV. An upstream failure or transaction-limit violation rolls back the transaction; the caller still pays its network fee. Indexers must count only successful, finalized burns, not events emitted by a transaction that later fails. Detailed assumptions and recovery limits are in [SECURITY.md](docs/SECURITY.md).

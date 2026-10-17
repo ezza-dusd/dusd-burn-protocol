@@ -1,0 +1,19 @@
+{
+  "context": {
+    "apiVersion": "4.3.0",
+    "slot": 456915969
+  },
+  "value": [
+    {
+      "data": [
+        "2BMAAAAAAAAAAAAAAADwPzI=",
+        "base64"
+      ],
+      "executable": false,
+      "lamports": 1009200,
+      "owner": "Sysvar1111111111111111111111111111111111111",
+      "rentEpoch": 18446744073709552000,
+      "space": 17
+    }
+  ]
+}

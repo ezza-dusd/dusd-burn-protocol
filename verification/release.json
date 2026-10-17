@@ -6,9 +6,9 @@
   "wsolAccount": "EEqYCx4wcGtXEK2wJCtEPPFx7MS1D1SsgDWAUd5HoYVM",
   "mint": "B8RHrVBxSjBGKqAbn1tXo6CWjvt5jFkkqjbCZtuDpump",
   "pool": "2z2uBDXaAFishs6XRz2atV2Ro7jL8hfdUcKxTTfhjHDw",
-  "fullElfSha256": "0d91e31a4c5bdbeec0a664be7ce3c2cc8a6e50ac6c0d09eb3bd7409cafd92774",
-  "solanaVerifyExecutableHash": "a46632264d0fb2aa453db1b9573f0ec2f398a2112441ab34610252d82b9f4093",
-  "elfBytes": 196664,
+  "fullElfSha256": "ca4c648b5bfe978f4ff65b22730fda501ded8c2231839a9803b327ee4432ac42",
+  "solanaVerifyExecutableHash": "4a830d2199af7fb1b1d66fe2d8f2cda23d9f068c59e2ec9e383ce2dde1c28f9c",
+  "elfBytes": 230632,
   "upgradeAuthority": "FzPw22y8fMnsFYBnXh2p6sfsFzTHYLtLMWybS9d2RS2q",
   "upgradeAuthorityStatus": "retained; program NOT immutable",
   "toolchain": {
@@ -27,7 +27,17 @@
     "Cargo.toml": "d70f36b77f1c63e13962d310c0ed76997f4b712aff3d0ac63eaadf039773beb0",
     "Cargo.lock": "eeaf52a2aee06f3edda3d9b53365f2218ff76b8227279f83dc9c150b56cb244a",
     "programs/dusd_burn/Cargo.toml": "5abae2b6ed4f0ce074cab43c86a00851c32b0e61ba9f83fd30ac6a3a3fc93065",
-    "programs/dusd_burn/src/lib.rs": "df4c254ccd9bffd8742cfc9c58bf375261ec4570824f49e8564bcea43b57fa66"
+    "programs/dusd_burn/src/lib.rs": "daa995ce3d84b5b5b8218c62a65ee60b46a52acc4031190acdb6b692656370b1"
   },
-  "verificationStatus": "On-chain bytes checked; Docker source rebuild and official metadata registration tracked separately; not claimed verified."
+  "verificationStatus": "Official remote Verified Builds passed 2026-10-17T08:25:40Z; independent Linux reproduction and finalized full-byte comparison passed",
+  "sourceCommit": "141268054fd78d1e908f39891cc385ae680ade15",
+  "buildEnvironment": "Official solana-verify 0.5.2 Linux x86_64 container",
+  "buildImage": "solanafoundation/solana-verifiable-build@sha256:12fd4c0a0790f0fc41ef74b0cdb6bccc167ba6137eb1adb749bac649481c86bd",
+  "upgradeSignature": "5JPky366Nf58hRZWNGy58aZZkcVviLH6kbZHV95F5i3eHNLm4deKX9onaZddAnyPu2uZb8tdD1EYa6SveypWUwGd",
+  "evidence": "verification/live-20261017/RESULTS.json",
+  "officialVerification": {
+    "status": "verified",
+    "job": "b90bbd2c-f150-45c0-9fef-8bbf51d7ea84",
+    "response": "verification/live-20261017/REMOTE-VERIFIED.json"
+  }
 }

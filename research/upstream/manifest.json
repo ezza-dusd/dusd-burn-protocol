@@ -1,0 +1,46 @@
+{
+  "commit": "639b87fb45c3adeffa6f7c4a1bf0cb85e392bf22",
+  "downloadedAt": "2026-10-14T16:13:00.312Z",
+  "sources": [
+    {
+      "path": "docs/instructions/CREATOR_FEE_SHARING.md",
+      "url": "https://raw.githubusercontent.com/pump-fun/pump-public-docs/639b87fb45c3adeffa6f7c4a1bf0cb85e392bf22/docs/instructions/CREATOR_FEE_SHARING.md",
+      "sha256": "6e2d914b46b5c084fabb3c3bcdcdf695509f71762f0e8b6c567567a9aeffa62b"
+    },
+    {
+      "path": "docs/instructions/SWEEP_FEES.md",
+      "url": "https://raw.githubusercontent.com/pump-fun/pump-public-docs/639b87fb45c3adeffa6f7c4a1bf0cb85e392bf22/docs/instructions/SWEEP_FEES.md",
+      "sha256": "5d090c7a1a3ca3f2503d0824f089fdcee5ba84a783da4bfeac9fdde2476d6f7f"
+    },
+    {
+      "path": "docs/instructions/PUMP_SWAP_TRADE_V2.md",
+      "url": "https://raw.githubusercontent.com/pump-fun/pump-public-docs/639b87fb45c3adeffa6f7c4a1bf0cb85e392bf22/docs/instructions/PUMP_SWAP_TRADE_V2.md",
+      "sha256": "37a3d42e0e47ed065344b2be7c1194b7a5bc52dc56a18ba2237c1c2d535a932a"
+    },
+    {
+      "path": "docs/instructions/COLLECT_CREATOR_FEE.md",
+      "url": "https://raw.githubusercontent.com/pump-fun/pump-public-docs/639b87fb45c3adeffa6f7c4a1bf0cb85e392bf22/docs/instructions/COLLECT_CREATOR_FEE.md",
+      "sha256": "1c76f03a2b82385c2bf9fd4f46b012c3534a1cb063d671d697ec8b6b08e88683"
+    },
+    {
+      "path": "docs/VIRTUAL_QUOTE_RESERVES_FEE_ADJUSTMENT.md",
+      "url": "https://raw.githubusercontent.com/pump-fun/pump-public-docs/639b87fb45c3adeffa6f7c4a1bf0cb85e392bf22/docs/VIRTUAL_QUOTE_RESERVES_FEE_ADJUSTMENT.md",
+      "sha256": "76fd3c72d644ee4ce2ba201279beb7e326f71f3954451874e44abfd16812901a"
+    },
+    {
+      "path": "idl/pump.json",
+      "url": "https://raw.githubusercontent.com/pump-fun/pump-public-docs/639b87fb45c3adeffa6f7c4a1bf0cb85e392bf22/idl/pump.json",
+      "sha256": "7616681ea557975f9f623ac211080f22a93060781eaf4765b0a488d980997207"
+    },
+    {
+      "path": "idl/pump_amm.json",
+      "url": "https://raw.githubusercontent.com/pump-fun/pump-public-docs/639b87fb45c3adeffa6f7c4a1bf0cb85e392bf22/idl/pump_amm.json",
+      "sha256": "b7d8c57a4d9c4dd0109a9ab893052352333252d4eedced10ac091d4d66cab89b"
+    },
+    {
+      "path": "idl/pump_fees.json",
+      "url": "https://raw.githubusercontent.com/pump-fun/pump-public-docs/639b87fb45c3adeffa6f7c4a1bf0cb85e392bf22/idl/pump_fees.json",
+      "sha256": "6b9fa3eccc6e06273076a47b581f9fcb9e531bb7c3c88acbcd44db55a4002b29"
+    }
+  ]
+}

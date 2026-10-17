@@ -1,0 +1,70 @@
+{
+  "at": "2026-10-17T07:22:36.035Z",
+  "slot": 457952042,
+  "commitment": "finalized",
+  "programs": [
+    {
+      "id": "6gEeY5c75itbSwtBVszzqnvvAi2vNScMf6fN5YETvAWm",
+      "programData": "DXvZfLSRRY5k71fWHWtqWLxJqXsPaBRefQrSoKuGRvqN",
+      "upgradeAuthority": "FzPw22y8fMnsFYBnXh2p6sfsFzTHYLtLMWybS9d2RS2q",
+      "dataBytes": 196709,
+      "elfCapacity": 196664,
+      "lamports": 999931960,
+      "fullElfSha256": "0d91e31a4c5bdbeec0a664be7ce3c2cc8a6e50ac6c0d09eb3bd7409cafd92774"
+    },
+    {
+      "id": "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+      "programData": "6naEzKeUuFh1Jeeu51NXQgr5qkXgXtc9WKNct4xynVJc",
+      "upgradeAuthority": "7gZufwwAo17y5kg8FMyJy2phgpvv9RSdzWtdXiWHjFr8",
+      "dataBytes": 10485760,
+      "elfCapacity": 10485715,
+      "lamports": 53268311040,
+      "fullElfSha256": "a8d05e6927cc6e861d3052a9bf2258ce3a4588f47307d53d0c20ecbe0b86697e"
+    },
+    {
+      "id": "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P",
+      "programData": "B5MvUwXdiW1NMM6QFFD3ssPKBujD4zMohncbM73Z2BQu",
+      "upgradeAuthority": "7gZufwwAo17y5kg8FMyJy2phgpvv9RSdzWtdXiWHjFr8",
+      "dataBytes": 10485760,
+      "elfCapacity": 10485715,
+      "lamports": 53268311040,
+      "fullElfSha256": "a8bc61552f2854e327189f623ae63e8855c3b673f9587993448f5fd167182cf1"
+    },
+    {
+      "id": "pfeeUxB6jkeY1Hxd7CsFCAjcbHA9rWtchMGdZ6VojVZ",
+      "programData": "75Uu23mqWBb8LM8vDppqC1mQAnCcBuLXhVaDezVMQLRw",
+      "upgradeAuthority": "7gZufwwAo17y5kg8FMyJy2phgpvv9RSdzWtdXiWHjFr8",
+      "dataBytes": 948989,
+      "elfCapacity": 948944,
+      "lamports": 4821514360,
+      "fullElfSha256": "4f2955d0f6b40cc9ff7daa18ccad7d19119ba1249759f4e7e3bb691beee6b35e"
+    },
+    {
+      "id": "JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4",
+      "programData": "4Ec7ZxZS6Sbdg5UGSLHbAnM7GQHp2eFd4KYWRexAipQT",
+      "upgradeAuthority": "CvQZZ23qYDWF2RUpxYJ8y9K4skmuvYEEjH7fK58jtipQ",
+      "dataBytes": 2892269,
+      "elfCapacity": 2892224,
+      "lamports": 14693376760,
+      "fullElfSha256": "099da3a26d336aa7174960f057546f192fc1ccda8e3e9d1b4aa5c69fa8a79a5f"
+    }
+  ],
+  "liveReleaseUnchanged": true,
+  "candidateDiffersFromLive": true,
+  "candidateFitsExistingAllocation": false,
+  "possibleProgramDataRentTopup": 172557440,
+  "additionalTemporaryUploadBufferRent": 1172448760,
+  "transactionsSubmitted": 0,
+  "feeSharing": {
+    "address": "HSwzSiZGoLN8g2jKsxjGHMpkRbuUxVc2Mybjd1VRbqZ5",
+    "mint": "B8RHrVBxSjBGKqAbn1tXo6CWjvt5jFkkqjbCZtuDpump",
+    "version": 2,
+    "adminRevoked": true,
+    "shareholders": [
+      {
+        "address": "HDwArc1qjz8AQt6J2fDcqoBc3MCxWh5whGYusnBxr3di",
+        "share_bps": 10000
+      }
+    ]
+  }
+}

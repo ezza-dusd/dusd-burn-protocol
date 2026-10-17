@@ -7,7 +7,9 @@ import assert from 'node:assert/strict';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { compareMainnet } from './verify-bytecode.mjs';
 
-const commit = '72f34f97b8540066f1c84aa91d776e49a86b7479';
+const candidate = process.env.DUSD_VERIFY_CANDIDATE === '1';
+const commit = candidate ? process.env.DUSD_CANDIDATE_COMMIT : '72f34f97b8540066f1c84aa91d776e49a86b7479';
+assert.match(commit ?? '', /^[a-f0-9]{40}$/, 'Exact public commit required');
 const sha = b => crypto.createHash('sha256').update(b).digest('hex');
 const run = (exe, args, opts = {}) => execFileSync(exe, args, { windowsHide: true, stdio: 'inherit', ...opts });
 assert.equal(process.platform, 'win32', 'Requires Windows x64 and Node.js 22+');
@@ -54,7 +56,7 @@ try {
   run('git', ['-C', checkout, '-c', 'core.autocrlf=false', 'checkout', '--detach', commit]);
   const actual = execFileSync('git', ['-C', checkout, 'rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
   assert.equal(actual, commit);
-  const release = JSON.parse(fs.readFileSync(path.join(checkout, 'verification/release.json')));
+  const release = JSON.parse(fs.readFileSync(path.join(checkout, candidate ? 'verification/candidate/release.json' : 'verification/release.json')));
   for (const [p, expected] of Object.entries(release.sourceHashes)) {
     const bytes = fs.readFileSync(path.join(checkout, p));
     assert.equal(sha(bytes), expected, 'Source bytes changed: ' + p);
@@ -115,7 +117,12 @@ try {
   const result = spawnSync(tool, report.buildArgs, { cwd: source, env, windowsHide: true, stdio: ['ignore', log, log] }); fs.closeSync(log);
   report.buildExitCode = result.status;
   assert.equal(result.status, 0, 'Compilation failed; see build.log');
-  report.comparison = await compareMainnet(fs.readFileSync(path.join(deploy, 'dusd_burn.so')), release);
+  const built = fs.readFileSync(path.join(deploy, 'dusd_burn.so'));
+  report.comparison = candidate
+    ? { match: sha(built) === (release.windowsSha256 ?? release.binarySha256) && built.length === (release.windowsBytes ?? release.binaryBytes),
+        binarySha256: sha(built), binaryBytes: built.length, expected: release.windowsSha256 ?? release.binarySha256,
+        scope: 'Independent source-to-CANDIDATE comparison; NOT mainnet verification' }
+    : await compareMainnet(built, release);
   report.result = report.comparison.match ? 'MATCH' : 'MISMATCH'; save();
   console.log(JSON.stringify(report.comparison, null, 2)); console.log(report.result);
   if (!report.comparison.match) process.exitCode = 1;

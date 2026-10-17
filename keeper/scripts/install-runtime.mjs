@@ -5,7 +5,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import {execFileSync} from 'node:child_process';
-export const runtimeFiles=['package.json','package-lock.json','cli.mjs','lock.mjs','builders.mjs','codec.mjs','deps.mjs','state.mjs','runner.mjs','UPSTREAM-COPY-MANIFEST.json','idl/pump.json','idl/pump_amm.json','idl/pump_fees.json','service/dusd-keeper.service','service/dusd-keeper.timer'];
+export const runtimeFiles=['package.json','package-lock.json','cli.mjs','lock.mjs','builders.mjs','codec.mjs','deps.mjs','state.mjs','runner.mjs','jupiter.mjs','UPSTREAM-COPY-MANIFEST.json','idl/pump.json','idl/pump_amm.json','idl/pump_fees.json','service/dusd-keeper.service','service/dusd-keeper.timer'];
 export function installRuntime(source,destination,{requireRoot=true}={}){
   if(requireRoot)assert.equal(process.getuid?.(),0,'Run the installer with administrative approval on Linux');
   assert.ok(path.isAbsolute(destination),'Destination must be absolute');

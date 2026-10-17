@@ -2,10 +2,12 @@
 
 This is source publication, not an independent audit certificate. Read every account constraint and the code before interacting.
 
+This branch is an undeployed candidate. The additional Jupiter router and post-CPI checks need review of their own; evidence for the old deployed binary does not certify this change. See [candidate rules, demonstrated limitations and release gates](CANDIDATE-20261016.md).
+
 ## Enforced by the current program
 
 - Fixed DUSD mint, canonical pool/vaults and external program identities; legacy SPL Token only.
-- Treasury PDA seeds checked on every instruction; no arbitrary recipient or remaining accounts.
+- Treasury PDA seeds checked on every instruction; no arbitrary recipient. Direct instructions reject remaining accounts; the Jupiter alternative validates a restricted route account list.
 - Token mint, account authority, delegate/close-authority safety and canonical designated ATAs checked as specified in each instruction.
 - Caller-funded account initialization and native rent preservation; no caller reimbursement.
 - Treasury signs canonical WSOL preparation, exact-input CPI and designated DUSD burns through PDA seeds only.

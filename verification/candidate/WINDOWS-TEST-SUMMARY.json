@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-17T07:27:49.356Z",
+  "scope": "Local Windows-built artifact on LiteSVM; no network transactions",
+  "sourceCommit": "141268054fd78d1e908f39891cc385ae680ade15",
+  "sourceSha256": "daa995ce3d84b5b5b8218c62a65ee60b46a52acc4031190acdb6b692656370b1",
+  "binarySha256": "1f978a1bfcc0afba78d20fdd751c2cdc52b12723040de7e7fa4b26772c468473",
+  "tests": 255,
+  "passed": 255,
+  "failed": 0,
+  "baseline": 40,
+  "stress": 92,
+  "lifecycle": 44,
+  "candidate": 79,
+  "transactionsSubmitted": 0
+}

@@ -1,9 +1,9 @@
 {
-  "description": "Baseline provenance and current public hashes; runner has reviewed offchain hardening changes. Contract source is unchanged.",
+  "description": "Public runtime hashes for the 17 October 2026 upgraded mainnet program; preserve wallets and pending journals when updating.",
   "files": [
     {
       "file": "builders.mjs",
-      "sha256": "de82ad90ccb0615d805176639b12548f9f3da31e14993e130c823c88bc08536a"
+      "sha256": "beb1048151a75a76c46476493709b3e445394494fb60d2765be0c42c58733232"
     },
     {
       "file": "codec.mjs",
@@ -19,7 +19,7 @@
     },
     {
       "file": "runner.mjs",
-      "sha256": "00530d95edd2f434f316716a4195cd18898e89fc06d6043df670eee231be8709",
+      "sha256": "577fbbe237c4411ea6ab02a3af2e3e749988cae274a00f2447ab08cee185384b",
       "upstreamSha256": "44e4c7cb5f68cd3ff1a3b6b89f51c41b7389ea1da777cba4c89a6b86559f97b2"
     },
     {
@@ -41,6 +41,10 @@
     {
       "file": "idl/pump_fees.json",
       "sha256": "6b9fa3eccc6e06273076a47b581f9fcb9e531bb7c3c88acbcd44db55a4002b29"
+    },
+    {
+      "file": "jupiter.mjs",
+      "sha256": "9740bd372ae4d613849211610bf7ad688320d216235673f1d5e2896f29c39c34"
     }
   ]
 }
