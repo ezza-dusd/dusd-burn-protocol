@@ -2,6 +2,24 @@ name: Candidate official Linux build and full VM regressions
 on:
   push:
     branches: ['codex/canonical-jupiter-candidate-20261016']
+    paths:
+      - 'programs/**'
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - 'harness/**'
+      - 'fixtures/**'
+      - 'tools/**'
+      - 'tests/**'
+      - 'keeper/*.mjs'
+      - 'keeper/package*.json'
+      - 'keeper/UPSTREAM-COPY-MANIFEST.json'
+      - 'keeper/tests/**'
+      - 'keeper/idl/**'
+      - 'keeper/scripts/**'
+      - 'package*.json'
+      - 'scripts/verify-linux-candidate.mjs'
+      - 'scripts/check-source.mjs'
+      - 'verification/candidate/release.json'
   workflow_dispatch:
 permissions:
   contents: read

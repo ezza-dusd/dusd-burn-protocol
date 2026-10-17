@@ -1,5 +1,7 @@
 # Verification evidence
 
+For this undeployed review branch, start with the **[candidate evidence index](candidate/README.md)**. The table below concerns the unchanged historical live release.
+
 You do not need build records to set up a keeper. Use the [keeper runbook](../KEEPER.md) for that.
 
 Start with **[VERIFY.md](../VERIFY.md)** for the plain explanation and reproduction commands.

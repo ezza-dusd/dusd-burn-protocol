@@ -1,13 +1,13 @@
 {
-  "finishedAt": "2026-10-16T21:07:26.437Z",
+  "finishedAt": "2026-10-17T06:47:04.419Z",
   "exitCode": 0,
-  "tests": 226,
-  "passed": 226,
+  "tests": 227,
+  "passed": 227,
   "failed": 0,
   "skipped": 0,
   "baseline": {
-    "startedAt": "2026-10-16T21:05:54.824Z",
-    "finishedAt": "2026-10-16T21:06:00.952Z",
+    "startedAt": "2026-10-17T06:45:31.341Z",
+    "finishedAt": "2026-10-17T06:45:37.592Z",
     "exitCode": 0,
     "tests": 40,
     "passed": 40,
@@ -17,7 +17,7 @@
     "engine": "LiteSVM 0.18.0",
     "network": "loopback only",
     "artifacts": {
-      "verifiedAt": "2026-10-16T21:06:01.000Z",
+      "verifiedAt": "2026-10-17T06:45:37.632Z",
       "node": "v24.18.0",
       "upstreamCommit": "639b87fb45c3adeffa6f7c4a1bf0cb85e392bf22",
       "snapshotObservedAt": "2026-10-14T16:15:23.462Z",
@@ -72,25 +72,25 @@
         "research/upstream/pump.json": "7616681ea557975f9f623ac211080f22a93060781eaf4765b0a488d980997207",
         "research/upstream/pump_amm.json": "b7d8c57a4d9c4dd0109a9ab893052352333252d4eedced10ac091d4d66cab89b",
         "research/upstream/pump_fees.json": "6b9fa3eccc6e06273076a47b581f9fcb9e531bb7c3c88acbcd44db55a4002b29",
-        "programs/dusd_burn/src/lib.rs": "c6e65691559918cc29819c73206824006bc804256ca3a2d5c750fce6f6295ab9",
+        "programs/dusd_burn/src/lib.rs": "793f053cf1b0bf58168f5f906f67c3374340872709dc9ee92cfc262feaf8da48",
         "tools/client.mjs": "67ae30322dbd82d48de75e990faf831ab8779490ee514ee6aa09c03f4a9fdc65",
         "tools/claims.mjs": "8f20e2dc83e7bc2ca00c50c02c916287e275250a1ec7aa709d5c3470314c3a38",
         "harness/src/main.rs": "f447fdf2522d42736e5a206d3f88ea1192839e5c81b3a4dbbf5125f649dc1f6a",
         "tests/local-validator.test.mjs": "bd76e640230afbc7895888978eeb51ad41ce805f00e05010377cdecf6f9b0b1e",
         "tests/policy.test.mjs": "cd0d1bf439690145c90b45c0b9cfc4439c1639bb47f21587dd11680125ab0ebd",
-        "tools/run-tests.mjs": "a4a3b45d73b178ae3ac73d5e504edafda06f4622949eeab6cc67004e7ca7a033",
+        "tools/run-tests.mjs": "0f718d983dbe3edba35eb1963dbe42c85f1e655c060f1b8c685b6e7d4fdccab1",
         "tools/artifacts.mjs": "4f0eed876bd91255ee5b800a6e64b013db6506f3cc6b1ba7713a2e070a00500e",
         "Cargo.lock": "eeaf52a2aee06f3edda3d9b53365f2218ff76b8227279f83dc9c150b56cb244a",
         "harness/Cargo.lock": "35015f38b99909e348492f2de08e15410e5f36a0a88bebb13c20e6438cc12dfa",
         "package-lock.json": "ed704ed74fdb18284cbe6da052f42fd0a11193a6b3dc5c114fdac6d2cb2918f4",
-        "target/deploy/dusd_burn.so": "1893442b53f868f8044d8968470fded5719bb2bb369e7dd6e16c5e505fca46eb",
+        "target/deploy/dusd_burn.so": "38fc7983053efec23efaada9cd743ab6cbc7d94b1d55eef33e0d9a4574f1a073",
         "research/onchain-inventory.json": "81fac152ab6a7645aa4d8f08ed83ff56dd9c67d9b138fd8578f8c3959f7fbf6c",
         "research/rent-sysvar.json": "25051c0a5be21b646f60a3927a7bb4c08fc7795cffc9dca44df568d59ecf8b84"
       }
     }
   },
   "stress": {
-    "finishedAt": "2026-10-16T21:06:49.806Z",
+    "finishedAt": "2026-10-17T06:46:26.134Z",
     "exitCode": 0,
     "tests": 92,
     "passed": 92,
@@ -98,7 +98,7 @@
     "skipped": 0
   },
   "lifecycle": {
-    "finishedAt": "2026-10-16T21:07:06.649Z",
+    "finishedAt": "2026-10-17T06:46:43.004Z",
     "exitCode": 0,
     "tests": 44,
     "passed": 44,
@@ -106,10 +106,10 @@
     "skipped": 0
   },
   "candidate": {
-    "at": "2026-10-16T21:07:26.427Z",
+    "at": "2026-10-17T06:47:04.408Z",
     "exitCode": 0,
-    "tests": 50,
-    "passed": 50,
+    "tests": 51,
+    "passed": 51,
     "failed": 0,
     "skipped": 0
   }

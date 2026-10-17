@@ -1,5 +1,7 @@
 # DUSD public keeper
 
+> Undeployed candidate branch. Its executable pin intentionally rejects the existing mainnet binary. Use the reviewed live commit/main branch for today's keeper; do not install this candidate until an exact program upgrade is approved and verified. See [candidate evidence](../verification/candidate/README.md).
+
 **[Start here: complete agent and server runbook](../KEEPER.md)**
 
 Public JavaScript source for an independent keeper of the existing mainnet program. No contract build or private infrastructure required. Only the operator's dedicated gas wallet signs; treasury custody stays with the program.

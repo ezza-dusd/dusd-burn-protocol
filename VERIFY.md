@@ -1,5 +1,7 @@
 # Independently verify the deployed program
 
+> Historical/live verification remains valid for the unchanged mainnet binary. This branch additionally contains an undeployed Linux-built candidate with different bytes. Its evidence is [indexed separately](verification/candidate/README.md); do not describe candidate reproduction as verification of the current onchain code.
+
 ## Status
 
 **Independent-host Windows reproduction succeeded.** On 15 October 2026, a fresh GitHub-hosted `windows-2022` runner compiled the fixed public Rust source using checksum-pinned public tools, a fresh Cargo registry and a fresh target directory. The [successful public run](https://github.com/ezza-dusd/dusd-burn-protocol/actions/runs/38791076864) matched independently fetched finalized mainnet ProgramData at slot `457348665`: all 196,664 bytes, full-file SHA-256 and normalized Solana executable hash. No original developer files, precompiled final ELF, private toolchain, cache, wallet or signing secrets were supplied. See the [recorded result](verification/windows-ci-result.json) and the run's `windows-verification-evidence` artifact for the raw result and compiler log.

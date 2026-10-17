@@ -1,5 +1,7 @@
 # Reproduce the production executable
 
+> This page describes the **existing live release**, not this undeployed candidate branch. Use the historical live commit `cc3dc662c5952ec2731b2c2eefb416892712a9d1` for its compiler inputs. For the candidate's official Linux build, fingerprints and tests, use the [candidate evidence index](verification/candidate/README.md). The candidate source must not be compared against the old live hash below.
+
 For a clean Windows setup from public downloads and a direct compiled-bytecode comparison with mainnet, follow [VERIFY.md](VERIFY.md). The command is `node scripts/verify-windows.mjs`; no private developer toolchain or dependency cache is required. Its observed result must be checked before claiming a match.
 
 The four files fingerprinted in `verification/release.json` are the **exact production build inputs**. Do not regenerate `Cargo.lock`, update dependencies, change the release profile, change the program ID, add Cargo workspace metadata, or remove `no-idl` when attempting to reproduce them.

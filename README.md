@@ -58,7 +58,7 @@ Do not send unrelated tokens to protocol accounts: there is no general-purpose w
 
 The Rust source, manifests and lockfile are preserved byte-for-byte from the mainnet release. A [fresh GitHub-hosted Windows build](https://github.com/ezza-dusd/dusd-burn-protocol/actions/runs/38791076864) compiled the public source and matched the deployed mainnet executable exactly. [VERIFY.md](VERIFY.md) explains how to reproduce that comparison and distinguishes it from the separate official verification process. [BUILD.md](BUILD.md) pins compiler inputs; [release fingerprints](verification/release.json) identify the intended artifact.
 
-The [canonical on-chain IDL](https://explorer.solana.com/address/AwcUwoCEP2fWBwtLZwfsU9FAQE15ZVA3zM3JG9G4bhUy) describes the three-instruction interface. IDL publication is distinct from executable verification.
+The [canonical on-chain IDL](https://explorer.solana.com/address/AwcUwoCEP2fWBwtLZwfsU9FAQE15ZVA3zM3JG9G4bhUy) still describes the live three-instruction interface. This branch's four-instruction candidate IDL has not been published onchain. IDL publication is distinct from executable verification.
 
 ## Authority and execution boundaries
 

@@ -2,6 +2,12 @@ name: Candidate independent Windows reproduction
 on:
   push:
     branches: ['codex/canonical-jupiter-candidate-20261016']
+    paths:
+      - 'programs/**'
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - 'scripts/verify-windows.mjs'
+      - 'verification/candidate/release.json'
   workflow_dispatch:
 permissions:
   contents: read

@@ -1,6 +1,6 @@
 {
-  "at": "2026-10-17T06:36:11.433Z",
-  "slot": 457939135,
+  "at": "2026-10-17T06:49:51.003Z",
+  "slot": 457942930,
   "commitment": "finalized",
   "programs": [
     {
@@ -52,8 +52,8 @@
   "liveReleaseUnchanged": true,
   "candidateDiffersFromLive": true,
   "candidateFitsExistingAllocation": false,
-  "possibleProgramDataRentTopup": 173045120,
-  "additionalTemporaryUploadBufferRent": 1172936440,
+  "possibleProgramDataRentTopup": 172029120,
+  "additionalTemporaryUploadBufferRent": 1171920440,
   "transactionsSubmitted": 0,
   "feeSharing": {
     "address": "HSwzSiZGoLN8g2jKsxjGHMpkRbuUxVc2Mybjd1VRbqZ5",
