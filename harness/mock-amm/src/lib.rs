@@ -9,7 +9,7 @@ pub fn process_instruction(_id:&Pubkey,a:&[AccountInfo],d:&[u8])->ProgramResult{
     let mode=a[0].try_borrow_data()?[8];
     let input=u64::from_le_bytes(d[8..16].try_into().unwrap());
     if mode==0{return Ok(());} // falsely claim success without positive output
-    let spent=input.checked_add(if mode==2 {1}else{0}).ok_or(ProgramError::ArithmeticOverflow)?;
+    let spent=if mode==7 {input.checked_sub(1)}else{input.checked_add(if mode==2 {1}else{0})}.ok_or(ProgramError::ArithmeticOverflow)?;
     invoke(&spl_token::instruction::transfer(a[9].key,a[6].key,a[14].key,a[1].key,&[],spent)?,&[a[6].clone(),a[14].clone(),a[1].clone(),a[9].clone()])?;
     if mode==1{return Err(ProgramError::Custom(991));} // spend followed by failure
     let creator=pubkey!("985J5XuyxVR9Rqyc8RFoyQZxgCQ3mNMLUo1z2sVFczsg");

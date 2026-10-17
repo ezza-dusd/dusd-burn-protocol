@@ -1,0 +1,21 @@
+// Finalized public RPC reads only. No signer, transaction or credential access.
+import fs from 'node:fs';import crypto from 'node:crypto';import assert from 'node:assert/strict';
+import {web3} from '../tools/deps.mjs';
+import {decodeAccount} from '../keeper/codec.mjs';import {loadIdl,ids as protocol} from '../keeper/builders.mjs';
+const root=new URL('../',import.meta.url),live=JSON.parse(fs.readFileSync(new URL('verification/release.json',root))),candidate=JSON.parse(fs.readFileSync(new URL('verification/candidate/release.json',root)));
+const c=new web3.Connection('https://api.mainnet-beta.solana.com','finalized');
+assert.equal(await c.getGenesisHash(),'5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d');
+const ids=[live.programId,'pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA','6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P','pfeeUxB6jkeY1Hxd7CsFCAjcbHA9rWtchMGdZ6VojVZ','JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4'];
+const p=await c.getMultipleAccountsInfoAndContext(ids.map(x=>new web3.PublicKey(x)),{commitment:'finalized'});
+const pd=p.value.map(a=>{assert.ok(a?.executable);return new web3.PublicKey(a.data.subarray(4,36));});
+const d=await c.getMultipleAccountsInfoAndContext(pd,{commitment:'finalized'});
+const programs=ids.map((id,i)=>{const a=d.value[i];assert.equal(a.owner.toBase58(),'BPFLoaderUpgradeab1e11111111111111111111111');assert.equal(a.data.readUInt32LE(),3);return {id,programData:pd[i].toBase58(),upgradeAuthority:a.data[12]?new web3.PublicKey(a.data.subarray(13,45)).toBase58():null,dataBytes:a.data.length,elfCapacity:a.data.length-45,lamports:a.lamports,fullElfSha256:crypto.createHash('sha256').update(a.data.subarray(45)).digest('hex')};});
+const main=programs[0],newLength=45+candidate.binaryBytes;
+const minimum=await c.getMinimumBalanceForRentExemption(Math.max(newLength,main.dataBytes),'finalized');
+const sharingAccount=await c.getAccountInfo(new web3.PublicKey(protocol.sharing),'finalized');
+assert.equal(sharingAccount.owner.toBase58(),protocol.fees);
+const sharing=decodeAccount(loadIdl('pump_fees'),'SharingConfig',sharingAccount.data).value;
+assert.equal(sharing.mint,protocol.mint);assert.equal(sharing.admin_revoked,true);assert.deepEqual(sharing.shareholders,[{address:protocol.treasury,share_bps:10000}]);
+const report={at:new Date().toISOString(),slot:d.context.slot,commitment:'finalized',programs,liveReleaseUnchanged:main.fullElfSha256===live.fullElfSha256,candidateDiffersFromLive:main.fullElfSha256!==candidate.binarySha256,candidateFitsExistingAllocation:candidate.binaryBytes<=main.elfCapacity,possibleProgramDataRentTopup:Math.max(0,minimum-main.lamports),additionalTemporaryUploadBufferRent:await c.getMinimumBalanceForRentExemption(37+candidate.binaryBytes,'finalized'),transactionsSubmitted:0};
+report.feeSharing={address:protocol.sharing,mint:sharing.mint,version:sharing.version,adminRevoked:sharing.admin_revoked,shareholders:sharing.shareholders};
+fs.writeFileSync(new URL('verification/candidate/READONLY-PREFLIGHT.json',root),JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));

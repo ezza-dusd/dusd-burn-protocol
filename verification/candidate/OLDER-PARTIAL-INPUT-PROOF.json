@@ -1,0 +1,11 @@
+{
+  "scope": "local hostile-upstream test double, not a demonstrated current Pump exploit",
+  "at": "2026-10-16T21:05:51.336Z",
+  "acceptedPartialInput": true,
+  "inputLamports": "10000000",
+  "spentLamports": "9999999",
+  "leftUnspentLamports": "1",
+  "error": null,
+  "computeUnits": 62657,
+  "transactionsSubmittedToNetwork": 0
+}

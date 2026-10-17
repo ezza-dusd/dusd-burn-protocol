@@ -17,7 +17,7 @@ const buyback=pk('HjQjngTDqoHE6aaGhUqfz9aQ7WZcBRjy5xB8PScLSr8i');
 test('copied tested modules and IDLs retain their hashes',()=>{
  const manifest=JSON.parse(fs.readFileSync(new URL('../UPSTREAM-COPY-MANIFEST.json',import.meta.url)));
  for(const {file,sha256}of manifest.files)assert.equal(crypto.createHash('sha256').update(fs.readFileSync(new URL('../'+file,import.meta.url))).digest('hex'),sha256,file);
- assert.equal(APPROVED_HASH,'39cccb5c353c4b519aec1f2397c7dc068b3e492c83a3cdfc5a309cddaf8f9659');
+ assert.equal(APPROVED_HASH,'473d1abe34c5cfc300accb9570bd6a2d41a4d2d6615f161e98f96fa099d16ab2');
 });
 test('wallet generation is local, refuses overwrite and prints no key material',()=>{
  const dir=fixture();try{const file=path.join(dir,'gas.json'),address=newGasWallet(file);assert.equal(readGasSigner(file).publicKey.toBase58(),address);assert.throws(()=>newGasWallet(file),/EEXIST/);if(process.platform!=='win32')assert.equal(fs.statSync(file).mode&0o077,0);}finally{finish(dir);}

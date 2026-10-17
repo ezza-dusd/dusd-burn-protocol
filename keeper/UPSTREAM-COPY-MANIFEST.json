@@ -3,7 +3,7 @@
   "files": [
     {
       "file": "builders.mjs",
-      "sha256": "7a09cc7e3cc0f296e639522c5d1850fcaf1fd84f2c9a0a528c254c4fddbc33d5"
+      "sha256": "4fbfa7f83464d67a6e0be78e9731349d5abc9904b27fdb3d0c58db912e0bf4ca"
     },
     {
       "file": "codec.mjs",

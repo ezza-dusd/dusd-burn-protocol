@@ -2,13 +2,25 @@
   "status": "UNDEPLOYED CANDIDATE; not the live mainnet release",
   "programId": "6gEeY5c75itbSwtBVszzqnvvAi2vNScMf6fN5YETvAWm",
   "sourceHashes": {
-    "programs/dusd_burn/src/lib.rs": "e8bf25b626a490d8dd89fdb8e76feea12b295e05cae9189a2b79c1422a579ea7",
+    "programs/dusd_burn/src/lib.rs": "c6e65691559918cc29819c73206824006bc804256ca3a2d5c750fce6f6295ab9",
     "programs/dusd_burn/Cargo.toml": "5abae2b6ed4f0ce074cab43c86a00851c32b0e61ba9f83fd30ac6a3a3fc93065",
     "Cargo.toml": "d70f36b77f1c63e13962d310c0ed76997f4b712aff3d0ac63eaadf039773beb0",
     "Cargo.lock": "eeaf52a2aee06f3edda3d9b53365f2218ff76b8227279f83dc9c150b56cb244a"
   },
-  "binarySha256": "39cccb5c353c4b519aec1f2397c7dc068b3e492c83a3cdfc5a309cddaf8f9659",
-  "binaryBytes": 230456,
+  "selectedEnvironment": "Official solana-verify 0.5.2 Linux Docker build; independent reproduction required",
+  "binarySha256": "473d1abe34c5cfc300accb9570bd6a2d41a4d2d6615f161e98f96fa099d16ab2",
+  "binaryBytes": 230728,
+  "solanaVerifyExecutableHash": "c74bdec239b19931d81743455f91d62a27415d9cbd5bb5a2ccbfeaa1ec59a9a6",
+  "windowsSha256": "1893442b53f868f8044d8968470fded5719bb2bb369e7dd6e16c5e505fca46eb",
+  "windowsBytes": 230728,
+  "windowsExecutableHash": "71c7561d2f131ff69a16aad82bba0903e0596f56dd87d1e3bb698761dabf66de",
+  "image": "solanafoundation/solana-verifiable-build@sha256:12fd4c0a0790f0fc41ef74b0cdb6bccc167ba6137eb1adb749bac649481c86bd",
+  "solanaVerifyCliSha256": "b9d5ccce9634dc14269cab3e7a58649bc141b3306e7735a94478c936341f211f",
+  "architecture": "v0",
+  "platformTools": "v1.57",
+  "features": [
+    "no-idl"
+  ],
   "authorityChanges": 0,
   "mainnetTransactions": 0
 }

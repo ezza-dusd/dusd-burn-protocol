@@ -1,0 +1,116 @@
+{
+  "finishedAt": "2026-10-16T21:07:26.437Z",
+  "exitCode": 0,
+  "tests": 226,
+  "passed": 226,
+  "failed": 0,
+  "skipped": 0,
+  "baseline": {
+    "startedAt": "2026-10-16T21:05:54.824Z",
+    "finishedAt": "2026-10-16T21:06:00.952Z",
+    "exitCode": 0,
+    "tests": 40,
+    "passed": 40,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "engine": "LiteSVM 0.18.0",
+    "network": "loopback only",
+    "artifacts": {
+      "verifiedAt": "2026-10-16T21:06:01.000Z",
+      "node": "v24.18.0",
+      "upstreamCommit": "639b87fb45c3adeffa6f7c4a1bf0cb85e392bf22",
+      "snapshotObservedAt": "2026-10-14T16:15:23.462Z",
+      "snapshotSlot": 456901176,
+      "binaryReadSlot": 456903189,
+      "externalPrograms": [
+        {
+          "name": "pumpProgram",
+          "address": "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P",
+          "slot": "456494698",
+          "upgradeAuthority": "7gZufwwAo17y5kg8FMyJy2phgpvv9RSdzWtdXiWHjFr8",
+          "sha256": "a8bc61552f2854e327189f623ae63e8855c3b673f9587993448f5fd167182cf1"
+        },
+        {
+          "name": "ammProgram",
+          "address": "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+          "slot": "454596406",
+          "upgradeAuthority": "7gZufwwAo17y5kg8FMyJy2phgpvv9RSdzWtdXiWHjFr8",
+          "sha256": "a8d05e6927cc6e861d3052a9bf2258ce3a4588f47307d53d0c20ecbe0b86697e"
+        },
+        {
+          "name": "feesProgram",
+          "address": "pfeeUxB6jkeY1Hxd7CsFCAjcbHA9rWtchMGdZ6VojVZ",
+          "slot": "456132171",
+          "upgradeAuthority": "7gZufwwAo17y5kg8FMyJy2phgpvv9RSdzWtdXiWHjFr8",
+          "sha256": "4f2955d0f6b40cc9ff7daa18ccad7d19119ba1249759f4e7e3bb691beee6b35e"
+        }
+      ],
+      "sha256": {
+        "fixtures/accounts/ammCreatorWsol.json": "5258c677f93ea550d5fb47ef0e9a478e11e8b06352797c14cd14953f8745a9d4",
+        "fixtures/accounts/bondingCurve.json": "d1c585928fead3a5e56a72dcf98f7410d7a0c2a43901ab9a0be67b5cd486fb6d",
+        "fixtures/accounts/buybackAta.json": "04af855def74b15ac8c51bbb8ef30ba0220d71f5a4ab48e91770e51558de76e9",
+        "fixtures/accounts/feeConfig.json": "08235ced10d98deea7379af139df7cbd10933791147eaebbeb0aa64f74614a88",
+        "fixtures/accounts/global.json": "e425659fa865ab99a10bc36dd12896b6d9aba9b18eb68afdc30dc026e5fe958f",
+        "fixtures/accounts/globalConfig.json": "bffd40e8f05e7012afbfe955de7a47b42a774c0962f18b9119c62526cc49d188",
+        "fixtures/accounts/mint.json": "d88d3ef39db5fe6634cb3582ac102fc7865c8dedbb6eb7914ecbef1ac484f95c",
+        "fixtures/accounts/pool.json": "3e34c9480c426647e6a8aa7a535880cff91e513f57c01fdcaced538ebf27b408",
+        "fixtures/accounts/poolBase.json": "db629287c10de27a7db72a2471a43f0e09401ccebab780ab6a9e3ff9a7cb769e",
+        "fixtures/accounts/poolQuote.json": "099c95f1e5fefa93f702b5c317bcab9eb16d6582d22a29a55aaf055c1142ee3a",
+        "fixtures/accounts/pumpCreatorVault.json": "2df00003805ecc0d2242190e7df514fa503546ff13363539dcaec206037b4a6f",
+        "fixtures/accounts/rewardWallet.json": "8957cc01f6ea495646151c02a5d9e588727b05dfc6a415740c8a4ab48913d1fe",
+        "fixtures/accounts/sharingConfig.json": "f9a5eea86df16b96ddaa03be93698bb3336b9e4b434bb327099a1149e0ab999e",
+        "fixtures/accounts/wsolMint.json": "f6d5ee03cd9873861100177191ab39657a2fe8b9e2281be1659d50f8307baef0",
+        "fixtures/programs/pumpProgram.so": "a8bc61552f2854e327189f623ae63e8855c3b673f9587993448f5fd167182cf1",
+        "fixtures/programs/ammProgram.so": "a8d05e6927cc6e861d3052a9bf2258ce3a4588f47307d53d0c20ecbe0b86697e",
+        "fixtures/programs/feesProgram.so": "4f2955d0f6b40cc9ff7daa18ccad7d19119ba1249759f4e7e3bb691beee6b35e",
+        "research/upstream/CREATOR_FEE_SHARING.md": "6e2d914b46b5c084fabb3c3bcdcdf695509f71762f0e8b6c567567a9aeffa62b",
+        "research/upstream/SWEEP_FEES.md": "5d090c7a1a3ca3f2503d0824f089fdcee5ba84a783da4bfeac9fdde2476d6f7f",
+        "research/upstream/PUMP_SWAP_TRADE_V2.md": "37a3d42e0e47ed065344b2be7c1194b7a5bc52dc56a18ba2237c1c2d535a932a",
+        "research/upstream/COLLECT_CREATOR_FEE.md": "1c76f03a2b82385c2bf9fd4f46b012c3534a1cb063d671d697ec8b6b08e88683",
+        "research/upstream/VIRTUAL_QUOTE_RESERVES_FEE_ADJUSTMENT.md": "76fd3c72d644ee4ce2ba201279beb7e326f71f3954451874e44abfd16812901a",
+        "research/upstream/pump.json": "7616681ea557975f9f623ac211080f22a93060781eaf4765b0a488d980997207",
+        "research/upstream/pump_amm.json": "b7d8c57a4d9c4dd0109a9ab893052352333252d4eedced10ac091d4d66cab89b",
+        "research/upstream/pump_fees.json": "6b9fa3eccc6e06273076a47b581f9fcb9e531bb7c3c88acbcd44db55a4002b29",
+        "programs/dusd_burn/src/lib.rs": "c6e65691559918cc29819c73206824006bc804256ca3a2d5c750fce6f6295ab9",
+        "tools/client.mjs": "67ae30322dbd82d48de75e990faf831ab8779490ee514ee6aa09c03f4a9fdc65",
+        "tools/claims.mjs": "8f20e2dc83e7bc2ca00c50c02c916287e275250a1ec7aa709d5c3470314c3a38",
+        "harness/src/main.rs": "f447fdf2522d42736e5a206d3f88ea1192839e5c81b3a4dbbf5125f649dc1f6a",
+        "tests/local-validator.test.mjs": "bd76e640230afbc7895888978eeb51ad41ce805f00e05010377cdecf6f9b0b1e",
+        "tests/policy.test.mjs": "cd0d1bf439690145c90b45c0b9cfc4439c1639bb47f21587dd11680125ab0ebd",
+        "tools/run-tests.mjs": "a4a3b45d73b178ae3ac73d5e504edafda06f4622949eeab6cc67004e7ca7a033",
+        "tools/artifacts.mjs": "4f0eed876bd91255ee5b800a6e64b013db6506f3cc6b1ba7713a2e070a00500e",
+        "Cargo.lock": "eeaf52a2aee06f3edda3d9b53365f2218ff76b8227279f83dc9c150b56cb244a",
+        "harness/Cargo.lock": "35015f38b99909e348492f2de08e15410e5f36a0a88bebb13c20e6438cc12dfa",
+        "package-lock.json": "ed704ed74fdb18284cbe6da052f42fd0a11193a6b3dc5c114fdac6d2cb2918f4",
+        "target/deploy/dusd_burn.so": "1893442b53f868f8044d8968470fded5719bb2bb369e7dd6e16c5e505fca46eb",
+        "research/onchain-inventory.json": "81fac152ab6a7645aa4d8f08ed83ff56dd9c67d9b138fd8578f8c3959f7fbf6c",
+        "research/rent-sysvar.json": "25051c0a5be21b646f60a3927a7bb4c08fc7795cffc9dca44df568d59ecf8b84"
+      }
+    }
+  },
+  "stress": {
+    "finishedAt": "2026-10-16T21:06:49.806Z",
+    "exitCode": 0,
+    "tests": 92,
+    "passed": 92,
+    "failed": 0,
+    "skipped": 0
+  },
+  "lifecycle": {
+    "finishedAt": "2026-10-16T21:07:06.649Z",
+    "exitCode": 0,
+    "tests": 44,
+    "passed": 44,
+    "failed": 0,
+    "skipped": 0
+  },
+  "candidate": {
+    "at": "2026-10-16T21:07:26.427Z",
+    "exitCode": 0,
+    "tests": 50,
+    "passed": 50,
+    "failed": 0,
+    "skipped": 0
+  }
+}

@@ -93,6 +93,10 @@ pub mod dusd_burn {
         invoke_signed(&system_instruction::transfer(&a.treasury.key(), &a.quote_ata.key(), input),
             &[a.treasury.to_account_info(), a.quote_ata.to_account_info(), a.system_program.to_account_info()], &[seeds])?;
         token::sync_native(CpiContext::new(a.token_program.to_account_info(), SyncNative { account: a.quote_ata.to_account_info() }))?;
+        a.quote_ata.reload()?;
+        // Preserve existing WSOL and any rent surplus released by SyncNative,
+        // while requiring the AMM/router to consume exactly today's input.
+        let expected_quote = a.quote_ata.amount.checked_sub(input).ok_or(BurnError::OutputInvariant)?;
         let metas = remaining.iter().map(|info| {
             let signer = *info.key == a.treasury.key();
             if info.is_writable { AccountMeta::new(*info.key, signer) }
@@ -107,7 +111,8 @@ pub mod dusd_burn {
         check_protocol_token(&a.base_ata, a.treasury.key())?;
         check_protocol_token(&a.quote_ata, a.treasury.key())?;
         let acquired = a.base_ata.amount.checked_sub(before_base).ok_or(BurnError::OutputInvariant)?;
-        require!(acquired >= MIN_BASE_OUTPUT && a.quote_ata.amount >= before_quote, BurnError::OutputInvariant);
+        require!(acquired >= MIN_BASE_OUTPUT && a.quote_ata.amount == expected_quote
+            && expected_quote >= before_quote, BurnError::OutputInvariant);
         let burned = burn_entire_dusd(&mut a.base_mint, &mut a.base_ata,
             a.treasury.to_account_info(), a.token_program.to_account_info(), ctx.bumps.treasury)?;
         require!(a.treasury.lamports() == treasury_before-input && a.treasury.lamports() >= floor, BurnError::ReserveInvariant);
@@ -161,6 +166,8 @@ pub mod dusd_burn {
         invoke_signed(&system_instruction::transfer(&a.treasury.key(), &a.quote_ata.key(), input),
             &[a.treasury.to_account_info(), a.quote_ata.to_account_info(), a.system_program.to_account_info()], &[seeds])?;
         token::sync_native(CpiContext::new(a.token_program.to_account_info(), SyncNative { account: a.quote_ata.to_account_info() }))?;
+        a.quote_ata.reload()?;
+        let expected_quote = a.quote_ata.amount.checked_sub(input).ok_or(BurnError::OutputInvariant)?;
         let infos = vec![a.pool.to_account_info(), a.treasury.to_account_info(), a.global_config.to_account_info(),
             a.base_mint.to_account_info(), a.quote_mint.to_account_info(), a.base_ata.to_account_info(), a.quote_ata.to_account_info(),
             a.base_vault.to_account_info(), a.quote_vault.to_account_info(), a.token_program.to_account_info(), a.token_program.to_account_info(),
@@ -179,7 +186,8 @@ pub mod dusd_burn {
         require!(a.base_ata.delegate.is_none() && a.base_ata.close_authority.is_none()
             && a.quote_ata.delegate.is_none() && a.quote_ata.close_authority.is_none(), BurnError::BadVault);
         let acquired=a.base_ata.amount.checked_sub(before_base).ok_or(BurnError::OutputInvariant)?;
-        require!(acquired >= MIN_BASE_OUTPUT && a.quote_ata.amount >= before_quote, BurnError::OutputInvariant);
+        require!(acquired >= MIN_BASE_OUTPUT && a.quote_ata.amount == expected_quote
+            && expected_quote >= before_quote, BurnError::OutputInvariant);
         // All DUSD in this designated account is protocol burn inventory,
         // including pre-existing balances and voluntary donations.
         let burn_amount=burn_entire_dusd(&mut a.base_mint, &mut a.base_ata,

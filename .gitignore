@@ -21,3 +21,7 @@
 /research/lifecycle-2026-10-14/*results.json
 /research/lifecycle-2026-10-14/*summary.json
 /research/lifecycle-2026-10-14/*.tap
+/research/latest-test-output.tap
+/research/jupiter-results.json
+/research/post-cpi-results.json
+/verification/candidate/LINUX-CI-RESULT.json

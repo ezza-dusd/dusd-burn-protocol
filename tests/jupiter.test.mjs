@@ -1,6 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';
 import {web3,token} from '../tools/deps.mjs';
 import {treasury,baseMint,baseAta,quoteAta,jupiterBuyBurnInstruction,burnDusdInstruction,buyBurnInstruction,pool,accumulator} from '../tools/client.mjs';
+import {callerFundedPreparation} from '../keeper/jupiter.mjs';
 process.env.REVIEW_JUPITER_FIXTURES='1';
 const {AuditVM,ROOT,floor,bytes,amount,cleanSandbox}=await import('../tools/audit-vm.mjs');
 const build=JSON.parse(fs.readFileSync(ROOT+'/fixtures/jupiter-canonical/pump.json'));
@@ -58,6 +59,19 @@ test('canonical-only Jupiter CPI integration',async t=>{
  }));
  await t.test('preserves previously held WSOL principal',()=>fork(async vm=>{await vm.fund(10_000_000n);const {after}=await purchase(vm,'WSOL donation preserved');assert.equal(after.wsol,11_000_000n);},f=>{for(const v of Object.values(f))if(v.pubkey===quoteAta.toBase58()){const b=bytes(v.account);b.writeBigUInt64LE(11_000_000n,64);v.account.data[0]=b.toString('base64');v.account.lamports=Number(b.readBigUInt64LE(113)+11_000_000n);}}));
  await t.test('missing accumulator fails safely rather than spending treasury rent',()=>fork(async vm=>{await vm.fund(10_000_000n);await rejected(vm,'missing AMM setup',jupiterBuyBurnInstruction(vm.caller.publicKey,build));},f=>{for(const[n,v]of Object.entries(f))if(v.pubkey===accumulator.toBase58())delete f[n];}));
+ await t.test('fresh caller funds accumulator and ATA setup atomically with Jupiter purchase',()=>fork(async vm=>{
+  await vm.fund(10_000_000n);const before=await state(vm);
+  const r=record('fresh caller-funded complete setup',await vm.send([...callerFundedPreparation(vm.caller.publicKey,{missingAccumulator:true}),jupiterBuyBurnInstruction(vm.caller.publicKey,build)]));assert.equal(r.error,null,JSON.stringify(r));const after=await state(vm);assert.equal(after.native,floor);assert.equal(after.dusd,0n);assert.equal(after.wsol,0n);assert.ok(before.supply>after.supply);assert.ok(r.bytes<=1232);
+ },f=>{for(const[n,v]of Object.entries(f))if([accumulator,baseAta,quoteAta].some(p=>v.pubkey===p.toBase58()))delete f[n];}));
+ await t.test('well-formed alternate pool is rejected even with canonical decoy appended',()=>fork(async vm=>{
+  await vm.fund(10_000_000n);const b=structuredClone(build),fake=new web3.PublicKey(vm.fixtures.alternatePool.pubkey);b.swapInstruction.accounts[11].pubkey=fake.toBase58();b.swapInstruction.accounts.push({pubkey:pool.toBase58(),isSigner:false,isWritable:true});
+  const r=await rejected(vm,'real alternate pool plus decoy',jupiterBuyBurnInstruction(vm.caller.publicKey,b));assert.ok(r.logs.some(l=>l.includes('UnapprovedPool')));
+ },f=>{const original=Object.values(f).find(x=>x.pubkey===pool.toBase58());f.alternatePool=structuredClone(original);f.alternatePool.pubkey=web3.Keypair.generate().publicKey.toBase58();}));
  await t.test('missing token ATAs are initialized using caller rent',()=>fork(async vm=>{await vm.fund(10_000_000n);await purchase(vm,'caller-funded ATA setup');},f=>{for(const[n,v]of Object.entries(f))if([baseAta.toBase58(),quoteAta.toBase58()].includes(v.pubkey))delete f[n];}));
  await t.test('empty pool rejects and restores native treasury',()=>fork(async vm=>{await vm.fund(10_000_000n);await rejected(vm,'empty canonical pool',jupiterBuyBurnInstruction(vm.caller.publicKey,build));},f=>{for(const v of Object.values(f))if(v.pubkey==='F65BeadRvnfMwfTK1f6VRfRagLvNVYXDBkDpRZvJVZ8u'){const b=bytes(v.account);b.writeBigUInt64LE(0n,64);v.account.data[0]=b.toString('base64');}}));
+ await t.test('40 truncated route payloads and 80 deterministic header mutations fail atomically',()=>fork(async vm=>{
+  await vm.fund(10_000_000n);const original=Buffer.from(build.swapInstruction.data,'base64');
+  for(let n=0;n<40;n++){const b=structuredClone(build);b.swapInstruction.data=original.subarray(0,n).toString('base64');await rejected(vm,'truncated route '+n,jupiterBuyBurnInstruction(vm.caller.publicKey,b));}
+  let seed=0x44555344;for(let n=0;n<80;n++){seed=(Math.imul(seed,1664525)+1013904223)>>>0;const at=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,26,27,28,29,30,31,32,33,36,37,38,39][seed%28];const b=changedBytes(d=>d[at]^=1+(seed%255));await rejected(vm,'mutated header '+n,jupiterBuyBurnInstruction(vm.caller.publicKey,b));}
+ }));
 });

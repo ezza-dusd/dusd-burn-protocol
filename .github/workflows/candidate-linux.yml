@@ -1,0 +1,49 @@
+name: Candidate official Linux build and full VM regressions
+on:
+  push:
+    branches: ['codex/canonical-jupiter-candidate-20261016']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  reproduce-and-test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.18.0'
+      - name: Build the exact candidate in the official pinned container
+        run: node scripts/verify-linux-candidate.mjs
+      - name: Install pinned validation dependencies without lifecycle scripts
+        run: |
+          npm ci --ignore-scripts
+          npm ci --omit=optional --ignore-scripts --prefix keeper
+      - name: Build local execution harness
+        env:
+          CARGO_BUILD_JOBS: '2'
+        run: |
+          rustup toolchain install 1.99.0 --profile minimal
+          cargo +1.99.0 build --locked --manifest-path harness/Cargo.toml
+      - name: Run full monetary and adversarial regression suite
+        run: |
+          node scripts/check-source.mjs
+          npm run prepare:local
+          npm test
+          npm test --prefix keeper
+          node --test scripts/verify-bytecode.test.mjs
+      - name: Public candidate evidence only, never generated identities
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: candidate-linux-evidence
+          path: |
+            verification/candidate/LINUX-CI-RESULT.json
+            verification/candidate/linux-build.log
+            research/lifecycle-2026-10-14/all-summary.json
+            research/candidate-test-summary.json
+            target/deploy/dusd_burn.so
+          if-no-files-found: error

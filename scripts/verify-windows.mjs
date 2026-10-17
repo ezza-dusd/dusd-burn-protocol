@@ -119,8 +119,8 @@ try {
   assert.equal(result.status, 0, 'Compilation failed; see build.log');
   const built = fs.readFileSync(path.join(deploy, 'dusd_burn.so'));
   report.comparison = candidate
-    ? { match: sha(built) === release.binarySha256 && built.length === release.binaryBytes,
-        binarySha256: sha(built), binaryBytes: built.length, expected: release.binarySha256,
+    ? { match: sha(built) === (release.windowsSha256 ?? release.binarySha256) && built.length === (release.windowsBytes ?? release.binaryBytes),
+        binarySha256: sha(built), binaryBytes: built.length, expected: release.windowsSha256 ?? release.binarySha256,
         scope: 'Independent source-to-CANDIDATE comparison; NOT mainnet verification' }
     : await compareMainnet(built, release);
   report.result = report.comparison.match ? 'MATCH' : 'MISMATCH'; save();

@@ -7,7 +7,7 @@ const {treasury,baseAta,quoteAta,accumulator}=await import('../tools/client.mjs'
 const evidence=[];
 test('post-CPI custody invariants against hostile upstream mock',async t=>{
  t.after(()=>{fs.writeFileSync(root+'/research/post-cpi-results.json',JSON.stringify(evidence,null,2));cleanSandbox();});
- for(const mode of [0,1,2,3,4,5,6])await t.test(['fake success without output','upstream spends then fails','upstream overspends','honest minimal trade','WSOL delegate takeover','treasury owner takeover','WSOL authority takeover'][mode],async()=>{
+ for(const mode of [0,1,2,3,4,5,6,7])await t.test(['fake success without output','upstream spends then fails','upstream overspends','honest minimal trade','WSOL delegate takeover','treasury owner takeover','WSOL authority takeover','upstream leaves input unspent'][mode],async()=>{
   const vm=await AuditVM.start(f=>{
    modify(f,'pool',b=>b[8]=mode);treasuryAtaFixture(f,'quote');modify(f,'quoteAta',(b,a)=>{b.writeBigUInt64LE(10_000_000n,64);a.lamports=b.readBigUInt64LE(113)+10_000_000n;});
    const d=Buffer.alloc(137);Buffer.from([86,255,112,14,102,53,154,250]).copy(d);treasury.toBuffer().copy(d,8);
