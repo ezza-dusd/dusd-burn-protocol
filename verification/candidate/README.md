@@ -18,7 +18,7 @@ Start with [protocol changes](../../docs/CANDIDATE-20261016.md), [adversarial co
 
 ## Current build
 
-Rust SHA256: `daa995ce3d84b5b5b8218c62a65ee60b46a52acc4031190acdb6b692656370b1`.
+Current annotated Rust SHA256: `0c542aa0fb15e4996067667cc766ed9653ab8ce70971912da16a0250c11dd5f3`. The original reviewed source hash was `daa995ce3d84b5b5b8218c62a65ee60b46a52acc4031190acdb6b692656370b1`. A subsequent inline comment reproduced the exact same Linux executable; see [annotation build evidence](../source-annotation-20261017/README.md). Historical test/build records below retain their original source identity.
 
 Selected Linux ELF: `ca4c648b5bfe978f4ff65b22730fda501ded8c2231839a9803b327ee4432ac42`, 230,632 bytes. Normalized Solana Verify hash: `4a830d2199af7fb1b1d66fe2d8f2cda23d9f068c59e2ec9e383ce2dde1c28f9c`.
 
@@ -28,7 +28,7 @@ Local tests after correction: **255 contract tests**, **104 keeper tests**, **11
 
 ## Independent reproduction completed
 
-Exact source commit: `141268054fd78d1e908f39891cc385ae680ade15`. Subsequent evidence-only commits preserve the four compiler inputs and tested runtime source.
+Original reviewed source commit: `141268054fd78d1e908f39891cc385ae680ade15`. The later comment-only annotation changes the Rust source fingerprint but not the executable bytes. Keeper runtime source is unchanged.
 
 - [Official Linux build and full regressions: passed](https://github.com/ezza-dusd/dusd-burn-protocol/actions/runs/39013571235). The downloaded ELF matches the locally tested selected bytes exactly; 255 contract tests passed with zero failures. Hosted keeper and verification-helper tests also passed.
 - [Independent Windows build: passed](https://github.com/ezza-dusd/dusd-burn-protocol/actions/runs/39013571215). Its separate expected fingerprint matches exactly. Local execution of this Windows-built artifact passed all 255 contract tests.

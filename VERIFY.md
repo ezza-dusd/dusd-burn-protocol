@@ -2,6 +2,8 @@
 
 The current mainnet executable is the approved 17 October 2026 Linux build. The program's upgrade authority remains retained. No instruction below signs a transaction, upgrades a program or changes creator fees.
 
+The current source includes a subsequent comment-only annotation. A fresh official-container build reproduced the exact same deployed bytes; [annotation evidence](verification/source-annotation-20261017/README.md) distinguishes the current source fingerprint from the original officially registered commit.
+
 ## Independent reproduction
 
 Public source commit `141268054fd78d1e908f39891cc385ae680ade15` was compiled on an unrelated GitHub Linux runner using the digest-pinned official container. [The build and full regression run passed](https://github.com/ezza-dusd/dusd-burn-protocol/actions/runs/39013571235). The resulting executable matches the finalized deployed bytes.

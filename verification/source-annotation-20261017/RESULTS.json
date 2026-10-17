@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-17T08:51:30.697Z",
+  "annotation": "Eirik was here",
+  "sourceSha256": "0c542aa0fb15e4996067667cc766ed9653ab8ce70971912da16a0250c11dd5f3",
+  "registeredSourceCommit": "141268054fd78d1e908f39891cc385ae680ade15",
+  "sourceChange": "One inline Rust comment after MIN_SPEND; no executable statement or existing line number changed",
+  "buildEnvironment": "Official solana-verify 0.5.2 Linux x86_64 container",
+  "image": "solanafoundation/solana-verifiable-build@sha256:12fd4c0a0790f0fc41ef74b0cdb6bccc167ba6137eb1adb749bac649481c86bd",
+  "command": "solana-verify build --base-image solanafoundation/solana-verifiable-build@sha256:12fd4c0a0790f0fc41ef74b0cdb6bccc167ba6137eb1adb749bac649481c86bd --library-name dusd_burn --arch v0 --cargo-build-sbf-args=\"--tools-version v1.57 --features no-idl --jobs 2\"",
+  "buildExitCode": 0,
+  "slot": 457976635,
+  "programId": "6gEeY5c75itbSwtBVszzqnvvAi2vNScMf6fN5YETvAWm",
+  "programData": "DXvZfLSRRY5k71fWHWtqWLxJqXsPaBRefQrSoKuGRvqN",
+  "commitment": "finalized",
+  "built": {
+    "bytes": 230632,
+    "fullSha256": "ca4c648b5bfe978f4ff65b22730fda501ded8c2231839a9803b327ee4432ac42",
+    "executableHash": "4a830d2199af7fb1b1d66fe2d8f2cda23d9f068c59e2ec9e383ce2dde1c28f9c"
+  },
+  "deployed": {
+    "bytes": 230632,
+    "fullSha256": "ca4c648b5bfe978f4ff65b22730fda501ded8c2231839a9803b327ee4432ac42",
+    "executableHash": "4a830d2199af7fb1b1d66fe2d8f2cda23d9f068c59e2ec9e383ce2dde1c28f9c"
+  },
+  "match": true,
+  "releaseReferenceUnchanged": true,
+  "currentUpgradeAuthority": "FzPw22y8fMnsFYBnXh2p6sfsFzTHYLtLMWybS9d2RS2q",
+  "walletLoaded": false,
+  "transactionsSubmitted": 0,
+  "registrationChanged": false
+}
